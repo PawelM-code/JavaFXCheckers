@@ -375,7 +375,7 @@ public class Board {
     }
 
     public void computerMove() {
-        if (areColorsEqual(nextFigureColor(), "black")) {
+        while (areColorsEqual(nextFigureColor(), "black")) {
             move(minimax());
         }
         displayOnGrid();

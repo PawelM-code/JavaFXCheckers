@@ -1,19 +1,45 @@
+@font-face
+{
+    -fx-font-family: 'Voltage';
+    src: url("/main/resources/font/voltage/Voltage-Regular.otf");
+}
+
 .root {
-    /*-fx-background-image: url("/main/resources/texture.jpg");*/
-    -fx-background-color: grey;
+    -fx-background-color: white;
     -fx-background-repeat: stretch;
-    -fx-background-size: 900 506;
     -fx-background-position: center center;
+    -fx-background-size: cover;
     -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
     -fx-box-border: red;
+    -fx-min-width: 640;
+    -fx-min-height: 640;
+    -fx-font-family: Voltage;
 }
 
-.grid {
-    -fx-background-color: blue, -fx-background;
-    -fx-background-insets: 0, 1;
-    -fx-padding: 1;
-}
-
-.titleGame {
+Text {
     -fx-alignment: center center;
+    -fx-font-size: 20px;
+}
+
+.button {
+    /*-fx-background-image: url("/main/resources/board/button.jpg");*/
+    -fx-background-color: white;
+    /*linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),*/
+    /*linear-gradient(#20262b, #191d22),*/
+    /*radial-gradient(center 50% 0%, radius 100%, rgba(114, 131, 148, 0.9), rgba(255, 255, 255, 0));*/
+    /*-fx-background-radius: 15px;*/
+    /*-fx-background-insets: 0, 1, 2, 0;*/
+    -fx-border-width: 1;
+    -fx-border-color: black;
+    -fx-border-radius: 5;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+    -fx-font-family: Voltage;
+    -fx-font-size: 16px;
+    -fx-padding: 5 10 5 10;
+}
+
+StackPane {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+
 }

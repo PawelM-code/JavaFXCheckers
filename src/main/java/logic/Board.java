@@ -26,7 +26,7 @@ public class Board {
     private ArrayList<Point> currentWhiteFigures = new ArrayList<>();
     private ArrayList<Point> currentBlackFigures = new ArrayList<>();
     private ArrayList<Move> availableMovesWhite = new ArrayList<>();
-    private List<Move> availableMovesBlack = new ArrayList<>();
+    private ArrayList<Move> availableMovesBlack = new ArrayList<>();
     private ArrayList<FigurePoint> saveBoard = new ArrayList<>();
     private Move saveLastMove;
     private boolean addStatus = false;
@@ -52,17 +52,22 @@ public class Board {
     }
 
     private void createGridColorFields(int row, int col) {
+
         Rectangle rectBlack = new Rectangle(FIELD_SIZE, FIELD_SIZE);
         Rectangle rectWhite = new Rectangle(FIELD_SIZE, FIELD_SIZE);
-        rectBlack.setFill(Color.GRAY);
+        rectBlack.setFill(Color.color(0.1, 0.1, 0.1));
         rectBlack.setStroke(Color.BLACK);
         rectBlack.setStrokeWidth(1);
-        rectWhite.setFill(Color.WHITE);
+        rectWhite.setFill(Color.TRANSPARENT);
         rectWhite.setStroke(Color.BLACK);
         rectWhite.setStrokeWidth(1);
 
         if ((row + col) % 2 == 0) grid.add(rectWhite, col, row);
         else grid.add(rectBlack, col, row);
+
+        ImageView lightBoard = new ImageView("/main/resources/board/blackMat.jpg");
+        lightBoard.setFitHeight(FIELD_SIZE);
+        lightBoard.setFitWidth(FIELD_SIZE);
     }
 
     private void initBoard() {
@@ -222,33 +227,33 @@ public class Board {
         return (ArrayList<Move>) temp.stream().distinct().collect(Collectors.toList());
     }
 
-    private Node treeBuilding() {
+    private Node getTree(ArrayList<Move> availableMovesWhite, ArrayList<String> checkBeatingWhite, ArrayList<String> checkBeatingBlack, ArrayList<Move> availableMovesBlack) {
         clearAvailableMoves();
         getAvailableMove();
         clearBeatingList();
         checkIfFigureIsBeatingAllBoard();
         ArrayList<FigurePoint> boardState = new ArrayList<>(saveBoardFigurePoints());
         Map<Move, ArrayList<Move>> treeMap = new HashMap<>();
-        List<Move> copyAvailableMovesBlack = new ArrayList<>(availableMovesBlack);
-        List<Move> copyCheckBeatingBlack = new ArrayList<>(convertStringListToMove(checkBeatingBlack));
-        if (copyCheckBeatingBlack.size() == 0) {
-            return getNodeAndSimulateMove(boardState, treeMap, copyAvailableMovesBlack);
+        List<Move> copyAvailableMovesWhite = new ArrayList<>(availableMovesWhite);
+        List<Move> copyCheckBeatingWhite = new ArrayList<>(convertStringListToMove(checkBeatingWhite));
+        if (copyCheckBeatingWhite.size() == 0) {
+            return getNode(boardState, treeMap, copyAvailableMovesWhite, checkBeatingBlack, availableMovesBlack);
         } else {
-            return getNodeAndSimulateMove(boardState, treeMap, copyCheckBeatingBlack);
+            return getNode(boardState, treeMap, copyCheckBeatingWhite, checkBeatingBlack, availableMovesBlack);
         }
     }
 
-    private Node getNodeAndSimulateMove(ArrayList<FigurePoint> boardState, Map<Move, ArrayList<Move>> treeMap, List<Move> movesOrBeatingList) {
+    private Node getNode(ArrayList<FigurePoint> boardState, Map<Move, ArrayList<Move>> treeMap, List<Move> movesOrBeatingList, ArrayList<String> checkBeatingBlackOrWhite, ArrayList<Move> availableMovesBlackOrWhite) {
         for (Move move : movesOrBeatingList) {
             simulateMove(move);
             clearBeatingList();
             checkIfFigureIsBeatingAllBoard();
-            if(checkBeatingWhite.size() == 0) {
+            if (checkBeatingBlackOrWhite.size() == 0) {
                 clearAvailableMoves();
                 getAvailableMove();
-                treeMap.put(move, availableMovesWhite);
-            }else {
-                treeMap.put(move, convertStringListToMove(checkBeatingWhite));
+                treeMap.put(move, availableMovesBlackOrWhite);
+            } else {
+                treeMap.put(move, convertStringListToMove(checkBeatingBlackOrWhite));
             }
             setBoard(boardState);
         }
@@ -261,7 +266,7 @@ public class Board {
     }
 
     private Move minimax() {
-        Node tree = treeBuilding();
+       /* Node tree = getTree(availableMovesBlack, checkBeatingBlack, checkBeatingWhite, availableMovesWhite);
         Map<Move, ArrayList<MoveScore>> scoresMap = new HashMap<>();
         ArrayList<MoveScore> minimizing = new ArrayList<>();
         Move maximizingMove;
@@ -294,21 +299,126 @@ public class Board {
         Random rand = new Random();
         int max = Integer.MIN_VALUE;
         for(int i=0; i<minimizing.size();i++){
-                if(minimizing.get(i).getScore() >= max){
-                    max = minimizing.get(i).getScore();
-                }
-        }
-        if(minimizing.size() > 1){
-        for(int i=0;i<minimizing.size();i++){
-            if(minimizing.get(i).getScore() != max){
-                minimizing.remove(i);
+            if(minimizing.get(i).getScore() >= max){
+                max = minimizing.get(i).getScore();
             }
         }
+        if(minimizing.size() > 1){
+            for(int i=0;i<minimizing.size();i++){
+                if(minimizing.get(i).getScore() != max){
+                    minimizing.remove(i);
+                }
+            }
             int random = rand.nextInt(minimizing.size());
             maximizingMove = minimizing.get(random).getMove();
         }else {
             maximizingMove = minimizing.get(0).getMove();
         }
+        return maximizingMove;*/
+
+        //komentarz
+
+        Node tree = getTree(availableMovesBlack, checkBeatingBlack, checkBeatingWhite, availableMovesWhite);
+        Map<Move, Node> tree2 = new HashMap<>();
+        for (Map.Entry<Move, ArrayList<Move>> entry : tree.getTreeMoves().entrySet()) {
+            simulateMove(entry.getKey());
+            tree2.put(entry.getKey(), getTree(availableMovesWhite, checkBeatingWhite, checkBeatingBlack, availableMovesBlack));
+            setBoard(tree.getSaveBoard());
+        }
+
+        Map<Move, ArrayList<MoveScore>> scoresMap = new HashMap<>();
+        Map<Move, MoveScore> maximizing = new HashMap<>();
+        ArrayList<MoveScore> minimizing = new ArrayList<>();
+        Move maximizingMove = null;
+
+
+        for (Map.Entry<Move, Node> entry : tree2.entrySet()) {
+            for (Map.Entry<Move, ArrayList<Move>> entry1 : entry.getValue().getTreeMoves().entrySet()) {
+                scoresMap.put(entry1.getKey(), getAIScoreList(entry1.getValue()));
+            }
+        }
+
+        for (Map.Entry<Move, ArrayList<MoveScore>> entry : scoresMap.entrySet()) {
+            Random rand = new Random();
+            int max = Integer.MIN_VALUE;
+            for (int i = 0; i < entry.getValue().size(); i++) {
+                if (entry.getValue().get(i).getScore() >= max) {
+                    max = entry.getValue().get(i).getScore();
+                }
+            }
+            for (int i = 0; i < entry.getValue().size(); i++) {
+                if (entry.getValue().get(i).getScore() < max) {
+                    entry.getValue().remove(i);
+                }
+            }
+            if (entry.getValue().size() > 1) {
+                int random = rand.nextInt(entry.getValue().size());
+                maximizing.put(entry.getKey(), new MoveScore(entry.getKey(), entry.getValue().get(random).getScore()));
+            } else if (entry.getValue().size() == 1) {
+                maximizing.put(entry.getKey(), new MoveScore(entry.getKey(), entry.getValue().get(0).getScore()));
+            }
+        }
+
+        if (maximizing.size() > 0) {
+            Map<Move, ArrayList<MoveScore>> minTree = new HashMap<>();
+            for (Map.Entry<Move, ArrayList<Move>> move2 : tree.getTreeMoves().entrySet()) {
+                for (Move move2value : move2.getValue()) {
+                    ArrayList<MoveScore> temp = new ArrayList<>();
+                    for (Map.Entry<Move, MoveScore> move3 : maximizing.entrySet()) {
+                        if (move2value.getRow1() == move3.getKey().getRow1() && move2value.getCol1() == move3.getKey().getCol1() &&
+                                move2value.getRow2() == move3.getKey().getRow2() && move2value.getCol2() == move3.getKey().getCol2()) {
+                            temp.add(new MoveScore(move3.getKey(), move3.getValue().getScore()));
+                        }
+                    }
+                    minTree.put(move2.getKey(), temp);
+                }
+            }
+
+            for (Map.Entry<Move, ArrayList<MoveScore>> entry : minTree.entrySet()) {
+                Random rand = new Random();
+                int min = Integer.MAX_VALUE;
+
+                for (int i = 0; i < entry.getValue().size(); i++) {
+                    if (entry.getValue().get(i).getScore() <= min) {
+                        min = entry.getValue().get(i).getScore();
+                    }
+                }
+                for (int i = 0; i < entry.getValue().size(); i++) {
+                    if (entry.getValue().get(i).getScore() > min) {
+                        entry.getValue().remove(i);
+                    }
+                }
+
+                if (entry.getValue().size() > 1) {
+                    int random = rand.nextInt(entry.getValue().size());
+                    minimizing.add(new MoveScore(entry.getKey(), entry.getValue().get(random).getScore()));
+                } else if (entry.getValue().size() == 1) {
+                    minimizing.add(new MoveScore(entry.getKey(), entry.getValue().get(0).getScore()));
+                }
+            }
+        }
+
+        Random rand = new Random();
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < minimizing.size(); i++) {
+            if (minimizing.get(i).getScore() >= max) {
+                max = minimizing.get(i).getScore();
+            }
+        }
+        if (minimizing.size() > 1) {
+            for (int i = 0; i < minimizing.size(); i++) {
+                if (minimizing.get(i).getScore() < max) {
+                    minimizing.remove(i);
+                }
+            }
+            int random = rand.nextInt(minimizing.size());
+            maximizingMove = minimizing.get(random).getMove();
+        } else if(minimizing.size() == 1) {
+            maximizingMove = minimizing.get(0).getMove();
+        }else {
+            return tree.getTreeMoves().entrySet().stream().findFirst().map(Map.Entry::getKey).orElse(maximizingMove);
+        }
+
         return maximizingMove;
     }
 
@@ -319,19 +429,14 @@ public class Board {
             int col1 = move.getCol1();
             int row2 = move.getRow2();
             if (isFigurePawn(getFigure(row1, col1))) {
-                if (isFigureBlack(row1, col1)) {
-                    if (row2 > 4) moveScores.add(new MoveScore(move, 5));
-                    else moveScores.add(new MoveScore(move, 1));
-                } else {
-                    if (row2 < 4) moveScores.add(new MoveScore(move, 5));
-                    else moveScores.add(new MoveScore(move, 1));
-                }
+                moveScores.add(new MoveScore(move, 5 + row2));
             } else {
-                moveScores.add(new MoveScore(move, 5));
+                moveScores.add(new MoveScore(move, 7 + row2));
             }
         }
         return moveScores;
     }
+
 
 
     private boolean isPlayerPresent(String colors) {
@@ -342,7 +447,7 @@ public class Board {
                         .anyMatch(col -> colors.contains(getFigure(row, col).getColor())));
     }
 
-    public void simulateMove(Move move){
+    public void simulateMove(Move move) {
         checkIfMoveIsOnTheBoardIfTrueTryMove(move);
     }
 

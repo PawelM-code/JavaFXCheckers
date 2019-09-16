@@ -11,10 +11,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ApplicationTestSuite {
-    private Figure figure1 = new Pawn("b"); //black
-    private Figure figure2 = new Pawn("w"); //white
-    private Figure figure3 = new Queen("d"); //white
-    private Figure figure4 = new Queen("e"); //black
+    private Figure figure1 = new Pawn(FigureColor.BLACK_PAWN); //black
+    private Figure figure2 = new Pawn(FigureColor.WHITE_PAWN); //white
+    private Figure figure3 = new Queen(FigureColor.WHITE_QUEEN); //white
+    private Figure figure4 = new Queen(FigureColor.BLACK_QUEEN); //black
     private Board board;
 
     @Before
@@ -32,10 +32,10 @@ public class ApplicationTestSuite {
 
     @Test
     public void testGetFigureColor() {
-        Assert.assertEquals(figure1.getColor(), "b");
-        Assert.assertEquals(figure2.getColor(), "w");
-        Assert.assertEquals(figure3.getColor(), "d");
-        Assert.assertEquals(figure4.getColor(), "e");
+        Assert.assertEquals(figure1.getColor(), FigureColor.BLACK_PAWN);
+        Assert.assertEquals(figure2.getColor(), FigureColor.WHITE_PAWN);
+        Assert.assertEquals(figure3.getColor(), FigureColor.WHITE_QUEEN);
+        Assert.assertEquals(figure4.getColor(), FigureColor.BLACK_QUEEN);
     }
 
     @Test
@@ -43,9 +43,9 @@ public class ApplicationTestSuite {
         board.initWhiteOrBlackMove();
         board.setFigure(1, 2, figure1);
 
-        String result1 = board.getFigure(1, 2).getColor();
+        FigureColor result1 = board.getFigure(1, 2).getColor();
 
-        Assert.assertEquals(result1, "b");
+        Assert.assertEquals(result1, FigureColor.BLACK_PAWN);
     }
 
     @Test
@@ -60,15 +60,15 @@ public class ApplicationTestSuite {
         testMove(move1);
         testMove(move2);
 
-        String result1 = board.getFigure(8, 1).getColor();
-        String result2 = board.getFigure(7, 2).getColor();
-        String result3 = board.getFigure(1, 1).getColor();
-        String result4 = board.getFigure(2, 2).getColor();
+        FigureColor result1 = board.getFigure(8, 1).getColor();
+        FigureColor result2 = board.getFigure(7, 2).getColor();
+        FigureColor result3 = board.getFigure(1, 1).getColor();
+        FigureColor result4 = board.getFigure(2, 2).getColor();
 
-        Assert.assertEquals(result1, " ");
-        Assert.assertEquals(result2, "w");
-        Assert.assertEquals(result3, " ");
-        Assert.assertEquals(result4, "b");
+        Assert.assertEquals(result1, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result2, FigureColor.WHITE_PAWN);
+        Assert.assertEquals(result3, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result4, FigureColor.BLACK_PAWN);
     }
 
     @Test
@@ -82,23 +82,23 @@ public class ApplicationTestSuite {
         board.setFigure(1, 1, figure4);
 
         testMove(move1);
-        String result1 = board.getFigure(8, 1).getColor();
-        String result2 = board.getFigure(1, 8).getColor();
+        FigureColor result1 = board.getFigure(8, 1).getColor();
+        FigureColor result2 = board.getFigure(1, 8).getColor();
 
         testMove(move2);
-        String result3 = board.getFigure(1, 1).getColor();
-        String result4 = board.getFigure(8, 8).getColor();
+        FigureColor result3 = board.getFigure(1, 1).getColor();
+        FigureColor result4 = board.getFigure(8, 8).getColor();
 
         testMove(move3);
-        String result5 = board.getFigure(1, 1).getColor();
-        String result6 = board.getFigure(8, 8).getColor();
+        FigureColor result5 = board.getFigure(1, 1).getColor();
+        FigureColor result6 = board.getFigure(8, 8).getColor();
 
-        Assert.assertEquals(result1, " ");
-        Assert.assertEquals(result2, "d");
-        Assert.assertEquals(result3, " ");
-        Assert.assertEquals(result4, "e");
-        Assert.assertEquals(result5, " ");
-        Assert.assertEquals(result6, "e");
+        Assert.assertEquals(result1, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result2, FigureColor.WHITE_QUEEN);
+        Assert.assertEquals(result3, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result4, FigureColor.BLACK_QUEEN);
+        Assert.assertEquals(result5, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result6, FigureColor.BLACK_QUEEN);
     }
 
     @Test
@@ -113,15 +113,15 @@ public class ApplicationTestSuite {
         testMove(move1);
         testMove(move2);
 
-        String result1 = board.getFigure(2, 3).getColor();
-        String result2 = board.getFigure(1, 4).getColor();
-        String result3 = board.getFigure(7, 2).getColor();
-        String result4 = board.getFigure(8, 1).getColor();
+        FigureColor result1 = board.getFigure(2, 3).getColor();
+        FigureColor result2 = board.getFigure(1, 4).getColor();
+        FigureColor result3 = board.getFigure(7, 2).getColor();
+        FigureColor result4 = board.getFigure(8, 1).getColor();
 
-        Assert.assertEquals(result1, " ");
-        Assert.assertEquals(result2, "d");
-        Assert.assertEquals(result3, " ");
-        Assert.assertEquals(result4, "e");
+        Assert.assertEquals(result1, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result2, FigureColor.WHITE_QUEEN);
+        Assert.assertEquals(result3, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result4, FigureColor.BLACK_QUEEN);
     }
 
     @Test
@@ -146,32 +146,32 @@ public class ApplicationTestSuite {
         testMove(move3);
         testMove(move4);
 
-        String result1 = board.getFigure(8, 1).getColor();
-        String result2 = board.getFigure(7, 2).getColor();
-        String result3 = board.getFigure(6, 3).getColor();
-        String result4 = board.getFigure(1, 3).getColor();
-        String result5 = board.getFigure(2, 2).getColor();
-        String result6 = board.getFigure(3, 1).getColor();
-        String result7 = board.getFigure(8, 7).getColor();
-        String result8 = board.getFigure(7, 6).getColor();
-        String result9 = board.getFigure(6, 5).getColor();
-        String result10 = board.getFigure(1, 6).getColor();
-        String result11 = board.getFigure(2, 7).getColor();
-        String result12 = board.getFigure(3, 8).getColor();
+        FigureColor result1 = board.getFigure(8, 1).getColor();
+        FigureColor result2 = board.getFigure(7, 2).getColor();
+        FigureColor result3 = board.getFigure(6, 3).getColor();
+        FigureColor result4 = board.getFigure(1, 3).getColor();
+        FigureColor result5 = board.getFigure(2, 2).getColor();
+        FigureColor result6 = board.getFigure(3, 1).getColor();
+        FigureColor result7 = board.getFigure(8, 7).getColor();
+        FigureColor result8 = board.getFigure(7, 6).getColor();
+        FigureColor result9 = board.getFigure(6, 5).getColor();
+        FigureColor result10 = board.getFigure(1, 6).getColor();
+        FigureColor result11 = board.getFigure(2, 7).getColor();
+        FigureColor result12 = board.getFigure(3, 8).getColor();
 
 
-        Assert.assertEquals(result1, " ");
-        Assert.assertEquals(result2, " ");
-        Assert.assertEquals(result3, "w");
-        Assert.assertEquals(result4, " ");
-        Assert.assertEquals(result5, " ");
-        Assert.assertEquals(result6, "b");
-        Assert.assertEquals(result7, " ");
-        Assert.assertEquals(result8, " ");
-        Assert.assertEquals(result9, "w");
-        Assert.assertEquals(result10, " ");
-        Assert.assertEquals(result11, " ");
-        Assert.assertEquals(result12, "b");
+        Assert.assertEquals(result1, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result2, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result3, FigureColor.WHITE_PAWN);
+        Assert.assertEquals(result4, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result5, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result6, FigureColor.BLACK_PAWN);
+        Assert.assertEquals(result7, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result8, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result9, FigureColor.WHITE_PAWN);
+        Assert.assertEquals(result10, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result11, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result12, FigureColor.BLACK_PAWN);
     }
 
     @Test
@@ -194,27 +194,27 @@ public class ApplicationTestSuite {
         testMove(move3);
         testMove(move4);
 
-        String result1 = board.getFigure(8, 1).getColor();
-        String result2 = board.getFigure(7, 2).getColor();
-        String result3 = board.getFigure(6, 3).getColor();
-        String result4 = board.getFigure(7, 4).getColor();
-        String result5 = board.getFigure(8, 5).getColor();
-        String result6 = board.getFigure(1, 6).getColor();
-        String result7 = board.getFigure(2, 7).getColor();
-        String result8 = board.getFigure(3, 8).getColor();
-        String result9 = board.getFigure(4, 7).getColor();
-        String result10 = board.getFigure(5, 6).getColor();
+        FigureColor result1 = board.getFigure(8, 1).getColor();
+        FigureColor result2 = board.getFigure(7, 2).getColor();
+        FigureColor result3 = board.getFigure(6, 3).getColor();
+        FigureColor result4 = board.getFigure(7, 4).getColor();
+        FigureColor result5 = board.getFigure(8, 5).getColor();
+        FigureColor result6 = board.getFigure(1, 6).getColor();
+        FigureColor result7 = board.getFigure(2, 7).getColor();
+        FigureColor result8 = board.getFigure(3, 8).getColor();
+        FigureColor result9 = board.getFigure(4, 7).getColor();
+        FigureColor result10 = board.getFigure(5, 6).getColor();
 
-        Assert.assertEquals(result1, " ");
-        Assert.assertEquals(result2, " ");
-        Assert.assertEquals(result3, " ");
-        Assert.assertEquals(result4, " ");
-        Assert.assertEquals(result5, "w");
-        Assert.assertEquals(result6, " ");
-        Assert.assertEquals(result7, " ");
-        Assert.assertEquals(result8, " ");
-        Assert.assertEquals(result9, " ");
-        Assert.assertEquals(result10, "b");
+        Assert.assertEquals(result1, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result2, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result3, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result4, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result5, FigureColor.WHITE_PAWN);
+        Assert.assertEquals(result6, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result7, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result8, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result9, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result10, FigureColor.BLACK_PAWN);
     }
 
     @Test
@@ -235,25 +235,25 @@ public class ApplicationTestSuite {
         testMove(move2);
         testMove(move3);
 
-        String result1 = board.getFigure(8, 1).getColor();
-        String result2 = board.getFigure(6, 3).getColor();
-        String result3 = board.getFigure(1, 8).getColor();
-        String result4 = board.getFigure(1, 2).getColor();
-        String result5 = board.getFigure(2, 3).getColor();
-        String result6 = board.getFigure(6, 7).getColor();
-        String result7 = board.getFigure(3, 3).getColor();
-        String result8 = board.getFigure(4, 4).getColor();
-        String result9 = board.getFigure(5, 5).getColor();
+        FigureColor result1 = board.getFigure(8, 1).getColor();
+        FigureColor result2 = board.getFigure(6, 3).getColor();
+        FigureColor result3 = board.getFigure(1, 8).getColor();
+        FigureColor result4 = board.getFigure(1, 2).getColor();
+        FigureColor result5 = board.getFigure(2, 3).getColor();
+        FigureColor result6 = board.getFigure(6, 7).getColor();
+        FigureColor result7 = board.getFigure(3, 3).getColor();
+        FigureColor result8 = board.getFigure(4, 4).getColor();
+        FigureColor result9 = board.getFigure(5, 5).getColor();
 
-        Assert.assertEquals(result1, " ");
-        Assert.assertEquals(result2, " ");
-        Assert.assertEquals(result3, "d");
-        Assert.assertEquals(result4, " ");
-        Assert.assertEquals(result5, " ");
-        Assert.assertEquals(result6, "e");
-        Assert.assertEquals(result7, " ");
-        Assert.assertEquals(result8, " ");
-        Assert.assertEquals(result9, "d");
+        Assert.assertEquals(result1, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result2, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result3, FigureColor.WHITE_QUEEN);
+        Assert.assertEquals(result4, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result5, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result6, FigureColor.BLACK_QUEEN);
+        Assert.assertEquals(result7, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result8, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result9, FigureColor.WHITE_QUEEN);
     }
 
     @Test
@@ -273,25 +273,25 @@ public class ApplicationTestSuite {
         testMove(move1);
         testMove(move2);
 
-        String result1 = board.getFigure(8, 1).getColor();
-        String result2 = board.getFigure(7, 2).getColor();
-        String result3 = board.getFigure(5, 4).getColor();
-        String result4 = board.getFigure(3, 6).getColor();
-        String result5 = board.getFigure(1, 8).getColor();
-        String result6 = board.getFigure(3, 3).getColor();
-        String result7 = board.getFigure(4, 4).getColor();
-        String result8 = board.getFigure(6, 6).getColor();
-        String result9 = board.getFigure(8, 8).getColor();
+        FigureColor result1 = board.getFigure(8, 1).getColor();
+        FigureColor result2 = board.getFigure(7, 2).getColor();
+        FigureColor result3 = board.getFigure(5, 4).getColor();
+        FigureColor result4 = board.getFigure(3, 6).getColor();
+        FigureColor result5 = board.getFigure(1, 8).getColor();
+        FigureColor result6 = board.getFigure(3, 3).getColor();
+        FigureColor result7 = board.getFigure(4, 4).getColor();
+        FigureColor result8 = board.getFigure(6, 6).getColor();
+        FigureColor result9 = board.getFigure(8, 8).getColor();
 
-        Assert.assertEquals(result1, " ");
-        Assert.assertEquals(result2, " ");
-        Assert.assertEquals(result3, " ");
-        Assert.assertEquals(result4, " ");
-        Assert.assertEquals(result5, "d");
-        Assert.assertEquals(result6, " ");
-        Assert.assertEquals(result7, " ");
-        Assert.assertEquals(result8, " ");
-        Assert.assertEquals(result9, "e");
+        Assert.assertEquals(result1, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result2, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result3, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result4, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result5, FigureColor.WHITE_QUEEN);
+        Assert.assertEquals(result6, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result7, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result8, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result9, FigureColor.BLACK_QUEEN);
     }
 
     @Test
@@ -309,17 +309,17 @@ public class ApplicationTestSuite {
         testMove(move1);
         testMove(move2);
 
-        String result1 = board.getFigure(8, 1).getColor();
-        String result2 = board.getFigure(7, 2).getColor();
-        String result3 = board.getFigure(5, 4).getColor();
-        String result4 = board.getFigure(3, 2).getColor();
-        String result5 = board.getFigure(2, 1).getColor();
+        FigureColor result1 = board.getFigure(8, 1).getColor();
+        FigureColor result2 = board.getFigure(7, 2).getColor();
+        FigureColor result3 = board.getFigure(5, 4).getColor();
+        FigureColor result4 = board.getFigure(3, 2).getColor();
+        FigureColor result5 = board.getFigure(2, 1).getColor();
 
-        Assert.assertEquals(result1, " ");
-        Assert.assertEquals(result2, " ");
-        Assert.assertEquals(result3, " ");
-        Assert.assertEquals(result4, " ");
-        Assert.assertEquals(result5, "d");
+        Assert.assertEquals(result1, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result2, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result3, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result4, FigureColor.EMPTY_FIELD);
+        Assert.assertEquals(result5, FigureColor.WHITE_QUEEN);
     }
 
     @Test
@@ -333,15 +333,15 @@ public class ApplicationTestSuite {
 
         testMove(move1);
 
-        String result1 = board.getFigure(5, 4).getColor();
-        String result2 = board.getFigure(7, 2).getColor();
-        String result3 = board.getFigure(6, 3).getColor();
-        String result5 = board.getFigure(8, 1).getColor();
+        FigureColor result1 = board.getFigure(5, 4).getColor();
+        FigureColor result2 = board.getFigure(7, 2).getColor();
+        FigureColor result3 = board.getFigure(6, 3).getColor();
+        FigureColor result5 = board.getFigure(8, 1).getColor();
 
-        Assert.assertEquals(result1, "d");
-        Assert.assertEquals(result2, "b");
-        Assert.assertEquals(result3, "b");
-        Assert.assertEquals(result5, " ");
+        Assert.assertEquals(result1, FigureColor.WHITE_QUEEN);
+        Assert.assertEquals(result2, FigureColor.BLACK_PAWN);
+        Assert.assertEquals(result3, FigureColor.BLACK_PAWN);
+        Assert.assertEquals(result5, FigureColor.EMPTY_FIELD);
     }
 
     @Test
@@ -356,17 +356,17 @@ public class ApplicationTestSuite {
 
         testMove(move2);
 
-        String result6 = board.getFigure(3, 3).getColor();
-        String result7 = board.getFigure(4, 4).getColor();
-        String result4 = board.getFigure(5, 5).getColor();
-        String result8 = board.getFigure(6, 6).getColor();
-        String result9 = board.getFigure(8, 8).getColor();
+        FigureColor result6 = board.getFigure(3, 3).getColor();
+        FigureColor result7 = board.getFigure(4, 4).getColor();
+        FigureColor result4 = board.getFigure(5, 5).getColor();
+        FigureColor result8 = board.getFigure(6, 6).getColor();
+        FigureColor result9 = board.getFigure(8, 8).getColor();
 
-        Assert.assertEquals(result6, "e");
-        Assert.assertEquals(result7, "w");
-        Assert.assertEquals(result4, "w");
-        Assert.assertEquals(result8, "w");
-        Assert.assertEquals(result9, " ");
+        Assert.assertEquals(result6, FigureColor.BLACK_QUEEN);
+        Assert.assertEquals(result7, FigureColor.WHITE_PAWN);
+        Assert.assertEquals(result4, FigureColor.WHITE_PAWN);
+        Assert.assertEquals(result8, FigureColor.WHITE_PAWN);
+        Assert.assertEquals(result9, FigureColor.EMPTY_FIELD);
     }
 
     @Test
@@ -383,11 +383,11 @@ public class ApplicationTestSuite {
         testMove(move1);
         board.computerMove();
 
-        String result1 = board.getFigure(5, 6).getColor();
-        String result2 = board.getFigure(5, 8).getColor();
+        FigureColor result1 = board.getFigure(5, 6).getColor();
+        FigureColor result2 = board.getFigure(5, 8).getColor();
 
-        Assert.assertTrue(result1.equals(" ") || result1.equals("b"));
-        Assert.assertTrue(result2.equals(" ") || result2.equals("b"));
+        Assert.assertTrue(result1.equals(FigureColor.EMPTY_FIELD) || result1.equals(FigureColor.BLACK_PAWN));
+        Assert.assertTrue(result2.equals(FigureColor.EMPTY_FIELD) || result2.equals(FigureColor.BLACK_PAWN));
     }
 
 

@@ -23,8 +23,8 @@ public class UserDialogs {
         textUserDialogs.setText("End of the game.");
     }
 
-    public  void showMoveColor(ArrayDeque<String> whiteOrBlackMove) {
-        if (whiteOrBlackMove.peek().equals("white")) {
+    public  void showMoveColor(ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
+        if (whiteOrBlackMove.peek().equals(FigureColor.Group.WHITE)) {
             System.out.println("Move black");
             textUserDialogs.setText("Move black");
         } else {
@@ -33,8 +33,8 @@ public class UserDialogs {
         }
     }
 
-     void showMoveColorWhenStillBeating(ArrayDeque<String> whiteOrBlackMove) {
-        if (whiteOrBlackMove.peek().equals("white")) {
+     void showMoveColorWhenStillBeating(ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
+        if (whiteOrBlackMove.peek().equals(FigureColor.Group.WHITE)) {
             System.out.println("Move white");
             textUserDialogs.setText("Move white");
         } else {
@@ -43,8 +43,8 @@ public class UserDialogs {
         }
     }
 
-     void showInfoWhenWrongColorStarts(ArrayDeque<String> whiteOrBlackMove) {
-        if (whiteOrBlackMove.peek().equals("white")) {
+     void showInfoWhenWrongColorStarts(ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
+        if (whiteOrBlackMove.peek().equals(FigureColor.Group.WHITE)) {
             System.out.println("Move not allowed, try again WHITE.");
             textUserDialogs.setText("Move not allowed, try again WHITE.");
         } else {
@@ -63,12 +63,12 @@ public class UserDialogs {
         textUserDialogs.setText("Beating not allowed, try again.");
     }
 
-     void showBeating(ArrayList<String> checkBeatingBlack, ArrayList<String> checkBeatingWhite, ArrayDeque<String> whiteOrBlackMove) {
-        if (whiteOrBlackMove.peek().equals("white") && checkBeatingWhite.size() > 0) {
+     void showBeating(ArrayList<String> checkBeatingBlack, ArrayList<String> checkBeatingWhite, ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
+        if (whiteOrBlackMove.peek().equals(FigureColor.Group.WHITE) && checkBeatingWhite.size() > 0) {
             System.out.println("Beating: " + checkBeatingWhite.stream()
                     .distinct()
                     .collect(Collectors.toList()));
-        } else if (whiteOrBlackMove.peek().equals("black") && checkBeatingBlack.size() > 0) {
+        } else if (whiteOrBlackMove.peek().equals(FigureColor.Group.BLACK) && checkBeatingBlack.size() > 0) {
             System.out.println("Beating: " + checkBeatingBlack.stream()
                     .distinct()
                     .collect(Collectors.toList()));

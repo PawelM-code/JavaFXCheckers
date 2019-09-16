@@ -3,13 +3,13 @@ package main.java.logic;
 import javafx.scene.image.ImageView;
 
 public class Pawn extends Figure {
-    public Pawn(String color) {
+    public Pawn(FigureColor color) {
         super(color);
     }
 
     @Override
     public ImageView getImageView() {
-        if(getColor().equals("w")){
+        if(getColor().equals(FigureColor.WHITE_PAWN)){
             ImageView whitePawn = new ImageView("/main/resources/pawn/whitePawn2.png");
             whitePawn.setFitWidth(40);
             whitePawn.setFitHeight(40);

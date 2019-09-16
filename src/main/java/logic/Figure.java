@@ -1,17 +1,16 @@
 package main.java.logic;
 
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 
 public abstract class Figure {
-    private String color;
+    private FigureColor color;
 
-    public Figure(String color){
+    public Figure(FigureColor color){
         this.color = color;
     }
 
-    public String getColor(){
-        return this.color;
+    public FigureColor getColor() {
+        return color;
     }
 
     public abstract ImageView getImageView();

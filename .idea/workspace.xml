@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="refactor Display of computer move">
-      <change afterPath="$PROJECT_DIR$/src/main/java/logic/FigureColor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/logic/FigurePointScore.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/logic/NodeOne.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/logic/NodeThree.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/logic/NodeTwo.java" afterDir="false" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="gui working version befor refactor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/gui/BoardGui.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/gui/BoardGui.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/gui/ConfirmBox.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/logic/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/logic/Board.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/logic/NodeScore.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/logic/Figure.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/logic/Figure.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/logic/None.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/logic/None.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/logic/Pawn.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/logic/Pawn.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/logic/Queen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/logic/Queen.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/logic/UserDialogs.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CheckersJavaFX/main/java/logic/UserDialogs.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CheckersJavaFX/test/ApplicationTestSuite.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CheckersJavaFX/test/ApplicationTestSuite.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/BoardGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/BoardGui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/ConfirmBox.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/logic/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/logic/Node.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/logic/NodeScore.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logic/Figure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/Figure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logic/FigureColor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/FigureColor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logic/None.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/None.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logic/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/Pawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/logic/Queen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/Queen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/logic/UserDialogs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/logic/UserDialogs.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/ApplicationTestSuite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/ApplicationTestSuite.java" afterDir="false" />
     </list>
@@ -92,6 +96,38 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/logic/Queen.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="11" column="52" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/logic/Figure.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+              <folding>
+                <element signature="e#163#164#0" expanded="true" />
+                <element signature="e#197#198#0" expanded="true" />
+                <element signature="e#262#263#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/logic/Pawn.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="11" column="51" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/logic/FigurePointScore.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="221">
@@ -110,8 +146,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/logic/FigureColor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
+            <state relative-caret-position="238">
+              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -119,8 +155,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/logic/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="250" column="28" lean-forward="true" selection-start-line="250" selection-start-column="28" selection-end-line="250" selection-end-column="28" />
+            <state relative-caret-position="17">
+              <caret line="380" selection-start-line="380" selection-end-line="380" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -131,8 +167,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/logic/Move.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+            <state relative-caret-position="391">
+              <caret line="31" selection-start-line="31" selection-end-line="31" />
             </state>
           </provider>
         </entry>
@@ -140,12 +176,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/ApplicationTestSuite.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6443">
-              <caret line="389" column="56" selection-start-line="389" selection-start-column="56" selection-end-line="389" selection-end-column="56" />
+            <state relative-caret-position="85">
+              <caret line="13" column="67" selection-start-line="13" selection-start-column="67" selection-end-line="13" selection-end-column="67" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#967#968#0" expanded="true" />
-                <element signature="e#999#1000#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -154,8 +188,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/gui/BoardGui.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1989">
-              <caret line="130" column="45" selection-start-line="107" selection-start-column="7" selection-end-line="130" selection-end-column="45" />
+            <state relative-caret-position="17">
+              <caret line="34" selection-start-line="34" selection-end-line="34" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -164,40 +198,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_221/javafx-src.zip!/javafx/event/Event.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/gui/NewGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2737">
-              <caret line="198" selection-start-line="198" selection-end-line="198" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_221/javafx-src.zip!/javafx/scene/Scene.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38539">
-              <caret line="2494" selection-start-line="2494" selection-end-line="2494" />
-              <folding>
-                <element signature="e#39846#39847#0" expanded="true" />
-                <element signature="e#39901#39902#0" expanded="true" />
-                <element signature="e#66572#66573#0" expanded="true" />
-                <element signature="e#66618#66619#0" expanded="true" />
-                <element signature="e#74731#74732#0" expanded="true" />
-                <element signature="e#74764#74765#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/logic/FigurePoint.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
-              <folding>
-                <element signature="e#134#135#0" expanded="true" />
-                <element signature="e#162#163#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="85">
+              <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -216,12 +220,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>UserDialogs</find>
-      <find>static</find>
-      <find>board</find>
-      <find>boar</find>
-      <find>setTop</find>
-      <find>StackPane</find>
       <find>color</find>
       <find>AI</find>
       <find>plyw</find>
@@ -246,9 +244,19 @@
       <find>simulate</find>
       <find>compute</find>
       <find>minima</find>
+      <find>move(mo</find>
+      <find>&quot; &quot;</find>
+      <find>&quot;w&quot;</find>
+      <find>&quot;b&quot;</find>
+      <find>&quot;</find>
+      <find>black</find>
     </findStrings>
     <replaceStrings>
       <replace>userDialogs</replace>
+      <replace>FigureColor</replace>
+      <replace>FigureColor.EMPTY_FIELD</replace>
+      <replace>FigureColor.WHITE_PAWN</replace>
+      <replace>FigureColor.BLACK_PAWN</replace>
     </replaceStrings>
   </component>
   <component name="FindManager">
@@ -287,7 +295,6 @@
         <option value="$PROJECT_DIR$/src/main/java/Application.java" />
         <option value="$PROJECT_DIR$/src/main/java/gui/Board.java" />
         <option value="$PROJECT_DIR$/src/main/java/gui/Field.java" />
-        <option value="$PROJECT_DIR$/src/main/java/logic/None.java" />
         <option value="$PROJECT_DIR$/src/test/main/java/logic/Assert.java" />
         <option value="$PROJECT_DIR$/src/test/main/java/logic/ApplicationTestSuite.java" />
         <option value="$PROJECT_DIR$/src/main/java/logic/ComputerMove.java" />
@@ -299,18 +306,19 @@
         <option value="$PROJECT_DIR$/src/main/java/gui/style.css" />
         <option value="$PROJECT_DIR$/src/main/java/logic/NodeScore.java" />
         <option value="$PROJECT_DIR$/src/main/java/logic/FigurePointScore.java" />
-        <option value="$PROJECT_DIR$/src/main/java/logic/UserDialogs.java" />
-        <option value="$PROJECT_DIR$/src/main/java/logic/Queen.java" />
-        <option value="$PROJECT_DIR$/src/main/java/logic/Pawn.java" />
-        <option value="$PROJECT_DIR$/src/main/java/logic/Figure.java" />
         <option value="$PROJECT_DIR$/src/main/java/logic/Node.java" />
         <option value="$PROJECT_DIR$/src/main/java/logic/NewNodeThree.java" />
         <option value="$PROJECT_DIR$/src/main/java/logic/NewNodeTwo.java" />
         <option value="$PROJECT_DIR$/src/main/java/logic/NewNode.java" />
-        <option value="$PROJECT_DIR$/src/test/ApplicationTestSuite.java" />
-        <option value="$PROJECT_DIR$/src/main/java/gui/BoardGui.java" />
         <option value="$PROJECT_DIR$/src/main/java/logic/Move.java" />
+        <option value="$PROJECT_DIR$/src/main/java/logic/Queen.java" />
+        <option value="$PROJECT_DIR$/src/main/java/logic/Pawn.java" />
+        <option value="$PROJECT_DIR$/src/main/java/logic/Figure.java" />
         <option value="$PROJECT_DIR$/src/main/java/logic/FigureColor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/logic/UserDialogs.java" />
+        <option value="$PROJECT_DIR$/src/main/java/gui/BoardGui.java" />
+        <option value="$PROJECT_DIR$/src/test/ApplicationTestSuite.java" />
+        <option value="$PROJECT_DIR$/src/main/java/logic/None.java" />
         <option value="$PROJECT_DIR$/src/main/java/logic/Board.java" />
       </list>
     </option>
@@ -682,7 +690,7 @@
       <workItem from="1567604530152" duration="20532000" />
       <workItem from="1567662277695" duration="645000" />
       <workItem from="1567924777989" duration="91321000" />
-      <workItem from="1568222173403" duration="70592000" />
+      <workItem from="1568222173403" duration="77401000" />
     </task>
     <task id="LOCAL-00001" summary="refactor Display of computer move">
       <created>1567630620146</created>
@@ -691,7 +699,14 @@
       <option name="project" value="LOCAL" />
       <updated>1567630620146</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="gui working version befor refactor">
+      <created>1568653801458</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1568653801458</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -727,7 +742,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="341935000" />
+    <option name="totallyTimeSpent" value="348744000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -739,23 +754,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Image Layers" order="0" />
       <window_info id="Capture Tool" order="1" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Designer" order="3" />
-      <window_info active="true" content_ui="combo" id="Project" order="4" sideWeight="0.6703755" visible="true" weight="0.408472" />
+      <window_info active="true" content_ui="combo" id="Project" order="4" sideWeight="0.6703755" visible="true" weight="0.29727685" />
       <window_info id="Structure" order="5" weight="0.24962178" />
       <window_info id="Favorites" order="6" weight="0.32980332" />
       <window_info anchor="bottom" id="Terminal" order="0" weight="0.3666121" />
       <window_info anchor="bottom" id="Docker" order="1" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="2" />
-      <window_info anchor="bottom" id="Find" order="3" weight="0.32733223" />
+      <window_info anchor="bottom" id="Find" order="3" weight="0.32650074" />
       <window_info anchor="bottom" id="Database Changes" order="4" />
-      <window_info anchor="bottom" id="Run" order="5" weight="0.47463176" />
-      <window_info anchor="bottom" id="Debug" order="6" weight="0.27168575" />
+      <window_info anchor="bottom" id="Run" order="5" visible="true" weight="0.48608837" />
+      <window_info anchor="bottom" id="Debug" order="6" weight="0.3764321" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="9" weight="0.3289689" />
@@ -765,7 +780,7 @@
       <window_info anchor="bottom" id="Changes" order="13" />
       <window_info anchor="bottom" id="Profiler" order="14" />
       <window_info anchor="bottom" id="Event Log" order="15" weight="0.3289689" />
-      <window_info anchor="bottom" id="Messages" order="16" weight="0.36497545" />
+      <window_info anchor="bottom" id="Messages" order="16" weight="0.40752864" />
       <window_info anchor="right" id="Capture Analysis" order="0" />
       <window_info anchor="right" id="Palette&#9;" order="1" />
       <window_info anchor="right" id="Theme Preview" order="2" />
@@ -783,16 +798,16 @@
       <window_info id="Capture Tool" order="1" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="4" sideWeight="0.6703755" visible="true" weight="0.39561272" />
+      <window_info active="true" content_ui="combo" id="Project" order="4" sideWeight="0.6703755" visible="true" weight="0.2881997" />
       <window_info id="Structure" order="5" weight="0.24962178" />
       <window_info id="Favorites" order="6" weight="0.32980332" />
       <window_info anchor="bottom" id="Terminal" order="0" weight="0.3666121" />
       <window_info anchor="bottom" id="Docker" order="1" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="2" />
-      <window_info anchor="bottom" id="Find" order="3" weight="0.3289689" />
+      <window_info anchor="bottom" id="Find" order="3" weight="0.32650074" />
       <window_info anchor="bottom" id="Database Changes" order="4" />
-      <window_info active="true" anchor="bottom" id="Run" order="5" visible="true" weight="0.42553192" />
-      <window_info anchor="bottom" id="Debug" order="6" weight="0.27168575" />
+      <window_info anchor="bottom" id="Run" order="5" visible="true" weight="0.43535188" />
+      <window_info anchor="bottom" id="Debug" order="6" weight="0.3764321" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="9" weight="0.3289689" />
@@ -802,7 +817,7 @@
       <window_info anchor="bottom" id="Changes" order="13" />
       <window_info anchor="bottom" id="Profiler" order="14" />
       <window_info anchor="bottom" id="Event Log" order="15" weight="0.3289689" />
-      <window_info anchor="bottom" id="Messages" order="16" weight="0.36497545" />
+      <window_info anchor="bottom" id="Messages" order="16" weight="0.40752864" />
       <window_info anchor="right" id="Capture Analysis" order="0" />
       <window_info anchor="right" id="Palette&#9;" order="1" />
       <window_info anchor="right" id="Theme Preview" order="2" />
@@ -863,7 +878,8 @@
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <MESSAGE value="refactor Display of computer move" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor Display of computer move" />
+    <MESSAGE value="gui working version befor refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="gui working version befor refactor" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -947,16 +963,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/logic/MoveBeating.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/logic/None.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
-          <folding>
-            <element signature="e#117#118#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_221/javafx-src.zip!/javafx/scene/text/Font.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="82">
@@ -1111,31 +1117,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_221/src.zip!/java/lang/String.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="988" selection-start-line="988" selection-end-line="988" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_221/src.zip!/java/util/ArrayList.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="313">
           <caret line="564" selection-start-line="564" selection-end-line="564" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gui/ConfirmBox.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gui/NewGame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -1173,13 +1158,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/logic/Figure.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="6" column="18" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_221/javafx-src.zip!/com/sun/javafx/event/EventHandlerManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="93">
@@ -1191,13 +1169,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="113" selection-start-line="113" selection-end-line="113" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/logic/Pawn.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -1240,20 +1211,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/logic/Queen.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="11" column="21" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/logic/UserDialogs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="23" column="5" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/logic/NodeOne.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -1264,78 +1221,6 @@
             <element signature="e#528#529#0" expanded="true" />
             <element signature="e#567#568#0" expanded="true" />
             <element signature="e#601#602#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_221/javafx-src.zip!/javafx/scene/Scene.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38539">
-          <caret line="2494" selection-start-line="2494" selection-end-line="2494" />
-          <folding>
-            <element signature="e#39846#39847#0" expanded="true" />
-            <element signature="e#39901#39902#0" expanded="true" />
-            <element signature="e#66572#66573#0" expanded="true" />
-            <element signature="e#66618#66619#0" expanded="true" />
-            <element signature="e#74731#74732#0" expanded="true" />
-            <element signature="e#74764#74765#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_221/javafx-src.zip!/javafx/event/Event.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2737">
-          <caret line="198" selection-start-line="198" selection-end-line="198" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gui/BoardGui.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1989">
-          <caret line="130" column="45" selection-start-line="107" selection-start-column="7" selection-end-line="130" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/ApplicationTestSuite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6443">
-          <caret line="389" column="56" selection-start-line="389" selection-start-column="56" selection-end-line="389" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#967#968#0" expanded="true" />
-            <element signature="e#999#1000#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/logic/Move.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/logic/FigureColor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/logic/FigurePointScore.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="25" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
-          <folding>
-            <element signature="e#316#317#0" expanded="true" />
-            <element signature="e#343#344#0" expanded="true" />
-            <element signature="e#369#370#0" expanded="true" />
-            <element signature="e#398#399#0" expanded="true" />
-            <element signature="e#426#427#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1361,10 +1246,151 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/logic/Board.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_221/javafx-src.zip!/javafx/scene/Scene.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="2494" selection-start-line="2494" selection-end-line="2494" />
+          <folding>
+            <element signature="e#39846#39847#0" expanded="true" />
+            <element signature="e#39901#39902#0" expanded="true" />
+            <element signature="e#66572#66573#0" expanded="true" />
+            <element signature="e#66618#66619#0" expanded="true" />
+            <element signature="e#74731#74732#0" expanded="true" />
+            <element signature="e#74764#74765#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_221/src.zip!/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="110" column="19" selection-start-line="110" selection-start-column="19" selection-end-line="110" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/logic/UserDialogs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="18" column="5" lean-forward="true" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+          <folding>
+            <element signature="e#298#299#0" expanded="true" />
+            <element signature="e#359#360#0" expanded="true" />
+            <element signature="e#399#400#0" expanded="true" />
+            <element signature="e#437#438#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_221/javafx-src.zip!/javafx/event/Event.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="198" selection-start-line="198" selection-end-line="198" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/logic/None.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="37" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
+          <folding>
+            <element signature="e#117#118#0" expanded="true" />
+            <element signature="e#163#164#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/ConfirmBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/NewGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/gui/BoardGui.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/ApplicationTestSuite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="13" column="67" selection-start-line="13" selection-start-column="67" selection-end-line="13" selection-end-column="67" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/logic/Move.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/logic/FigureColor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/logic/FigurePointScore.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="25" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
+          <folding>
+            <element signature="e#316#317#0" expanded="true" />
+            <element signature="e#343#344#0" expanded="true" />
+            <element signature="e#369#370#0" expanded="true" />
+            <element signature="e#398#399#0" expanded="true" />
+            <element signature="e#426#427#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/logic/Pawn.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="250" column="28" lean-forward="true" selection-start-line="250" selection-start-column="28" selection-end-line="250" selection-end-column="28" />
+          <caret line="11" column="51" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/logic/Figure.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+          <folding>
+            <element signature="e#163#164#0" expanded="true" />
+            <element signature="e#197#198#0" expanded="true" />
+            <element signature="e#262#263#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/logic/Queen.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="11" column="52" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/logic/Board.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="380" selection-start-line="380" selection-end-line="380" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

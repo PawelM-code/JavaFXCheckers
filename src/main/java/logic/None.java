@@ -4,7 +4,7 @@ import javafx.scene.image.ImageView;
 
 public class None extends Figure {
     public None() {
-        super(" ");
+        super(FigureColor.EMPTY_FIELD);
     }
 
     @Override

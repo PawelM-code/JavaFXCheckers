@@ -11,7 +11,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.java.logic.*;
@@ -25,11 +24,6 @@ public class BoardGui extends Application implements NewGame {
 
     @Override
     public void newGame(Stage stage) {
-        /*primaryStage.setOnCloseRequest(e -> {
-            e.consume();
-            ConfirmBox.closeProgram(primaryStage);
-        });*/
-
         BorderPane borderPane = new BorderPane();
 
         StackPane stackPaneTop = new StackPane();
@@ -102,7 +96,15 @@ public class BoardGui extends Application implements NewGame {
         Board board = new Board(grid, userDialogs);
         Scene scene = new Scene(borderPane);
         scene.getStylesheets().add("/main/java/gui/style.css");
+//        board.setFigure(8, 7, new Pawn("w"));
+//        board.setFigure(7, 8, new Pawn("w"));
+//        board.setFigure(6, 7, new Pawn("w"));
+//        board.setFigure(4, 7, new Pawn("b"));
+//        board.setFigure(1, 6, new Queen("d"));
 
+//        board.setFigure(2, 1, new Queen("e"));
+//        board.setFigure(1, 2, new Queen("e"));
+//
         board.setFigure(8, 7, new Pawn("w"));
         board.setFigure(8, 5, new Pawn("w"));
         board.setFigure(8, 3, new Pawn("w"));
@@ -142,7 +144,12 @@ public class BoardGui extends Application implements NewGame {
                     board.displayOnGrid();
                 }
                 if (!board.isTheEndOfGame()) {
-                    board.computerMove();
+                    try {
+                        board.computerMove();
+                        board.displayOnGrid();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
                 board.isTheEndOfGame();
             });

@@ -370,8 +370,24 @@ public class ApplicationTestSuite {
     }
 
     @Test
-    public void testUserDialog() {
+    public void testExceptionCatchMove() throws Exception {
+        board.initWhiteOrBlackMove();
+        Move move1 = new Move(8, 7, 7, 6);
 
+        board.setFigure(1, 6, figure3);
+        board.setFigure(6, 7, figure2);
+        board.setFigure(7, 8, figure2);
+        board.setFigure(8, 7, figure2);
+        board.setFigure(4, 7, figure1);
+
+        testMove(move1);
+        board.computerMove();
+
+        String result1 = board.getFigure(5, 6).getColor();
+        String result2 = board.getFigure(5, 8).getColor();
+
+        Assert.assertTrue(result1.equals(" ") || result1.equals("b"));
+        Assert.assertTrue(result2.equals(" ") || result2.equals("b"));
     }
 
 

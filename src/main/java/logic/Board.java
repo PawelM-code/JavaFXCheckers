@@ -5,11 +5,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
+import static java.util.stream.Collectors.toList;
 import static main.java.gui.BoardGui.FIELD_SIZE;
 
 public class Board {
@@ -95,9 +93,28 @@ public class Board {
         if (isPlayerPresent(WHITE_COLORS) != isPlayerPresent(BLACK_COLORS)) {
             userDialogs.showEndInfo();
             return true;
-        } else {
+        } else if(!isPossibleMove()){
+            userDialogs.showEndInfo();
+            return true;
+        }else {
             return false;
         }
+    }
+
+    private boolean isPossibleMove(){
+        clearAvailableMoves();
+        getAvailableMove();
+        checkIfFigureIsBeatingAllBoard();
+        if(whiteOrBlackMove.peek().equals("white")){
+            if(checkBeatingWhite.size() == 0 && availableMovesWhite.size() == 0){
+                return false;
+            }
+        }else {
+            if(checkBeatingBlack.size() == 0 && availableMovesBlack.size() == 0){
+                return false;
+            }
+        }
+        return true;
     }
 
     private void getFiguresPoint() {
@@ -224,40 +241,27 @@ public class Board {
             int col2 = Integer.valueOf(s.substring(3, 4));
             temp.add(new Move(row, col, row2, col2));
         }
-        return (ArrayList<Move>) temp.stream().distinct().collect(Collectors.toList());
+        return (ArrayList<Move>) temp.stream().distinct().collect(toList());
     }
 
-    private Node getTree(ArrayList<Move> availableMovesWhite, ArrayList<String> checkBeatingWhite, ArrayList<String> checkBeatingBlack, ArrayList<Move> availableMovesBlack) {
-        clearAvailableMoves();
-        getAvailableMove();
-        clearBeatingList();
-        checkIfFigureIsBeatingAllBoard();
-        ArrayList<FigurePoint> boardState = new ArrayList<>(saveBoardFigurePoints());
-        Map<Move, ArrayList<Move>> treeMap = new HashMap<>();
-        List<Move> copyAvailableMovesWhite = new ArrayList<>(availableMovesWhite);
-        List<Move> copyCheckBeatingWhite = new ArrayList<>(convertStringListToMove(checkBeatingWhite));
-        if (copyCheckBeatingWhite.size() == 0) {
-            return getNode(boardState, treeMap, copyAvailableMovesWhite, checkBeatingBlack, availableMovesBlack);
-        } else {
-            return getNode(boardState, treeMap, copyCheckBeatingWhite, checkBeatingBlack, availableMovesBlack);
-        }
-    }
-
-    private Node getNode(ArrayList<FigurePoint> boardState, Map<Move, ArrayList<Move>> treeMap, List<Move> movesOrBeatingList, ArrayList<String> checkBeatingBlackOrWhite, ArrayList<Move> availableMovesBlackOrWhite) {
-        for (Move move : movesOrBeatingList) {
-            simulateMove(move);
-            clearBeatingList();
+    private void simulateBeating(String whiteOrBlack, Move move) {
+        Move startMove = move;
+        ArrayDeque<String> whiteOrBlackMoveCopy = new ArrayDeque<>(whiteOrBlackMove);
+        while (areColorsEqual(nextFigureColor(), whiteOrBlack)) {
+            move(startMove);
             checkIfFigureIsBeatingAllBoard();
-            if (checkBeatingBlackOrWhite.size() == 0) {
-                clearAvailableMoves();
-                getAvailableMove();
-                treeMap.put(move, availableMovesBlackOrWhite);
+            if (whiteOrBlack.equals("black")) {
+                if (checkBeatingBlack.size() > 0) {
+                    startMove = convertStringListToMove(checkBeatingBlack).get(0);
+                }
             } else {
-                treeMap.put(move, convertStringListToMove(checkBeatingBlackOrWhite));
+                if (checkBeatingWhite.size() > 0) {
+                    startMove = convertStringListToMove(checkBeatingWhite).get(0);
+                }
             }
-            setBoard(boardState);
+
         }
-        return new Node(boardState, treeMap);
+        whiteOrBlackMove = whiteOrBlackMoveCopy;
     }
 
     private void clearAvailableMoves() {
@@ -265,179 +269,248 @@ public class Board {
         availableMovesBlack.clear();
     }
 
-    private Move minimax() {
-       /* Node tree = getTree(availableMovesBlack, checkBeatingBlack, checkBeatingWhite, availableMovesWhite);
-        Map<Move, ArrayList<MoveScore>> scoresMap = new HashMap<>();
-        ArrayList<MoveScore> minimizing = new ArrayList<>();
-        Move maximizingMove;
-        for (Map.Entry<Move, ArrayList<Move>> entry : tree.getTreeMoves().entrySet()) {
-            scoresMap.put(entry.getKey(), getAIScoreList(entry.getValue()));
-        }
-        for (Map.Entry<Move, ArrayList<MoveScore>> entry : scoresMap.entrySet()) {
-            Random rand = new Random();
-            int min = Integer.MAX_VALUE;
-            for (int i = 0; i < entry.getValue().size(); i++) {
-                if (entry.getValue().get(i).getScore() <= min) {
-                    min = entry.getValue().get(i).getScore();
-                }
+    private Move minimax() throws Exception{
+        clearBeatingList();
+        clearAvailableMoves();
+        checkIfFigureIsBeatingAllBoard();
+        getAvailableMove();
+        ArrayList<Move> blackFirstSimulateMoveList;
+        ArrayList<Move> whiteFirstSimulateMoveList;
+        ArrayList<NodeOne> nodeOne = new ArrayList<>();
+        ArrayList<NodeTwo> nodeTwo = new ArrayList<>();
+        ArrayList<NodeThree> nodeThree = new ArrayList<>();
+        ArrayList<FigurePoint> boardStart = new ArrayList<>(saveBoardFigurePoints());
+
+        ArrayList<FigurePointScore> boardScore = new ArrayList<>();
+
+        boardScore.add(new FigurePointScore(1, 2, 4));
+        boardScore.add(new FigurePointScore(1, 4, 4));
+        boardScore.add(new FigurePointScore(1, 6, 4));
+        boardScore.add(new FigurePointScore(1, 8, 4));
+        boardScore.add(new FigurePointScore(2, 1, 4));
+        boardScore.add(new FigurePointScore(2, 3, 3));
+        boardScore.add(new FigurePointScore(2, 5, 3));
+        boardScore.add(new FigurePointScore(2, 7, 3));
+        boardScore.add(new FigurePointScore(3, 2, 3));
+        boardScore.add(new FigurePointScore(3, 4, 2));
+        boardScore.add(new FigurePointScore(3, 6, 2));
+        boardScore.add(new FigurePointScore(3, 8, 4));
+        boardScore.add(new FigurePointScore(4, 1, 4));
+        boardScore.add(new FigurePointScore(4, 3, 2));
+        boardScore.add(new FigurePointScore(4, 5, 1));
+        boardScore.add(new FigurePointScore(4, 7, 3));
+        boardScore.add(new FigurePointScore(5, 2, 3));
+        boardScore.add(new FigurePointScore(5, 4, 1));
+        boardScore.add(new FigurePointScore(5, 6, 2));
+        boardScore.add(new FigurePointScore(5, 8, 4));
+        boardScore.add(new FigurePointScore(6, 1, 4));
+        boardScore.add(new FigurePointScore(6, 3, 2));
+        boardScore.add(new FigurePointScore(6, 5, 2));
+        boardScore.add(new FigurePointScore(6, 7, 3));
+        boardScore.add(new FigurePointScore(7, 2, 3));
+        boardScore.add(new FigurePointScore(7, 4, 3));
+        boardScore.add(new FigurePointScore(7, 6, 3));
+        boardScore.add(new FigurePointScore(7, 8, 4));
+        boardScore.add(new FigurePointScore(8, 1, 4));
+        boardScore.add(new FigurePointScore(8, 3, 4));
+        boardScore.add(new FigurePointScore(8, 5, 4));
+        boardScore.add(new FigurePointScore(8, 7, 4));
+
+        if (checkBeatingBlack.size() > 0) {
+            blackFirstSimulateMoveList = convertStringListToMove(checkBeatingBlack);
+            for (Move move : blackFirstSimulateMoveList) {
+                simulateBeating("black", move);
+                nodeOne.add(new NodeOne(move, new ArrayList<>(saveBoardFigurePoints()), 0));
+                setBoard(boardStart);
             }
-            for (int i = 0; i < entry.getValue().size(); i++) {
-                if (entry.getValue().get(i).getScore() != min) {
-                    entry.getValue().remove(i);
-                }
-            }
-            if(entry.getValue().size() > 1){
-                int random = rand.nextInt(entry.getValue().size());
-                minimizing.add(new MoveScore(entry.getKey(), entry.getValue().get(random).getScore()));
-            }else if(entry.getValue().size() == 1){
-                minimizing.add(new MoveScore(entry.getKey(), entry.getValue().get(0).getScore()));
-            }else{
-                return entry.getKey();
-            }
-        }
-
-        Random rand = new Random();
-        int max = Integer.MIN_VALUE;
-        for(int i=0; i<minimizing.size();i++){
-            if(minimizing.get(i).getScore() >= max){
-                max = minimizing.get(i).getScore();
-            }
-        }
-        if(minimizing.size() > 1){
-            for(int i=0;i<minimizing.size();i++){
-                if(minimizing.get(i).getScore() != max){
-                    minimizing.remove(i);
-                }
-            }
-            int random = rand.nextInt(minimizing.size());
-            maximizingMove = minimizing.get(random).getMove();
-        }else {
-            maximizingMove = minimizing.get(0).getMove();
-        }
-        return maximizingMove;*/
-
-        //komentarz
-
-        Node tree = getTree(availableMovesBlack, checkBeatingBlack, checkBeatingWhite, availableMovesWhite);
-        Map<Move, Node> tree2 = new HashMap<>();
-        for (Map.Entry<Move, ArrayList<Move>> entry : tree.getTreeMoves().entrySet()) {
-            simulateMove(entry.getKey());
-            tree2.put(entry.getKey(), getTree(availableMovesWhite, checkBeatingWhite, checkBeatingBlack, availableMovesBlack));
-            setBoard(tree.getSaveBoard());
-        }
-
-        Map<Move, ArrayList<MoveScore>> scoresMap = new HashMap<>();
-        Map<Move, MoveScore> maximizing = new HashMap<>();
-        ArrayList<MoveScore> minimizing = new ArrayList<>();
-        Move maximizingMove = null;
-
-
-        for (Map.Entry<Move, Node> entry : tree2.entrySet()) {
-            for (Map.Entry<Move, ArrayList<Move>> entry1 : entry.getValue().getTreeMoves().entrySet()) {
-                scoresMap.put(entry1.getKey(), getAIScoreList(entry1.getValue()));
+        } else {
+            blackFirstSimulateMoveList = availableMovesBlack;
+            for (Move move : blackFirstSimulateMoveList) {
+                simulateMove(move);
+                nodeOne.add(new NodeOne(move, new ArrayList<>(saveBoardFigurePoints()), 0));
+                setBoard(boardStart);
             }
         }
-
-        for (Map.Entry<Move, ArrayList<MoveScore>> entry : scoresMap.entrySet()) {
-            Random rand = new Random();
-            int max = Integer.MIN_VALUE;
-            for (int i = 0; i < entry.getValue().size(); i++) {
-                if (entry.getValue().get(i).getScore() >= max) {
-                    max = entry.getValue().get(i).getScore();
+        for (NodeOne node : nodeOne) {
+            setBoard(node.getBoardState());
+            clearBeatingList();
+            clearAvailableMoves();
+            checkIfFigureIsBeatingAllBoard();
+            getAvailableMove();
+            ArrayList<NodeOne> temp = new ArrayList<>();
+            if (checkBeatingWhite.size() > 0) {
+                whiteFirstSimulateMoveList = convertStringListToMove(checkBeatingWhite);
+                for (Move move : whiteFirstSimulateMoveList) {
+                    simulateBeating("white", move);
+                    temp.add(new NodeOne(move, new ArrayList<>(saveBoardFigurePoints()), 0));
+                    setBoard(node.getBoardState());
                 }
-            }
-            for (int i = 0; i < entry.getValue().size(); i++) {
-                if (entry.getValue().get(i).getScore() < max) {
-                    entry.getValue().remove(i);
-                }
-            }
-            if (entry.getValue().size() > 1) {
-                int random = rand.nextInt(entry.getValue().size());
-                maximizing.put(entry.getKey(), new MoveScore(entry.getKey(), entry.getValue().get(random).getScore()));
-            } else if (entry.getValue().size() == 1) {
-                maximizing.put(entry.getKey(), new MoveScore(entry.getKey(), entry.getValue().get(0).getScore()));
-            }
-        }
-
-        if (maximizing.size() > 0) {
-            Map<Move, ArrayList<MoveScore>> minTree = new HashMap<>();
-            for (Map.Entry<Move, ArrayList<Move>> move2 : tree.getTreeMoves().entrySet()) {
-                for (Move move2value : move2.getValue()) {
-                    ArrayList<MoveScore> temp = new ArrayList<>();
-                    for (Map.Entry<Move, MoveScore> move3 : maximizing.entrySet()) {
-                        if (move2value.getRow1() == move3.getKey().getRow1() && move2value.getCol1() == move3.getKey().getCol1() &&
-                                move2value.getRow2() == move3.getKey().getRow2() && move2value.getCol2() == move3.getKey().getCol2()) {
-                            temp.add(new MoveScore(move3.getKey(), move3.getValue().getScore()));
-                        }
-                    }
-                    minTree.put(move2.getKey(), temp);
-                }
-            }
-
-            for (Map.Entry<Move, ArrayList<MoveScore>> entry : minTree.entrySet()) {
-                Random rand = new Random();
-                int min = Integer.MAX_VALUE;
-
-                for (int i = 0; i < entry.getValue().size(); i++) {
-                    if (entry.getValue().get(i).getScore() <= min) {
-                        min = entry.getValue().get(i).getScore();
-                    }
-                }
-                for (int i = 0; i < entry.getValue().size(); i++) {
-                    if (entry.getValue().get(i).getScore() > min) {
-                        entry.getValue().remove(i);
-                    }
-                }
-
-                if (entry.getValue().size() > 1) {
-                    int random = rand.nextInt(entry.getValue().size());
-                    minimizing.add(new MoveScore(entry.getKey(), entry.getValue().get(random).getScore()));
-                } else if (entry.getValue().size() == 1) {
-                    minimizing.add(new MoveScore(entry.getKey(), entry.getValue().get(0).getScore()));
-                }
-            }
-        }
-
-        Random rand = new Random();
-        int max = Integer.MIN_VALUE;
-        for (int i = 0; i < minimizing.size(); i++) {
-            if (minimizing.get(i).getScore() >= max) {
-                max = minimizing.get(i).getScore();
-            }
-        }
-        if (minimizing.size() > 1) {
-            for (int i = 0; i < minimizing.size(); i++) {
-                if (minimizing.get(i).getScore() < max) {
-                    minimizing.remove(i);
-                }
-            }
-            int random = rand.nextInt(minimizing.size());
-            maximizingMove = minimizing.get(random).getMove();
-        } else if(minimizing.size() == 1) {
-            maximizingMove = minimizing.get(0).getMove();
-        }else {
-            return tree.getTreeMoves().entrySet().stream().findFirst().map(Map.Entry::getKey).orElse(maximizingMove);
-        }
-
-        return maximizingMove;
-    }
-
-    private ArrayList<MoveScore> getAIScoreList(ArrayList<Move> availableMoves) {
-        ArrayList<MoveScore> moveScores = new ArrayList<>();
-        for (Move move : availableMoves) {
-            int row1 = move.getRow1();
-            int col1 = move.getCol1();
-            int row2 = move.getRow2();
-            if (isFigurePawn(getFigure(row1, col1))) {
-                moveScores.add(new MoveScore(move, 5 + row2));
             } else {
-                moveScores.add(new MoveScore(move, 7 + row2));
+                whiteFirstSimulateMoveList = availableMovesWhite;
+                for (Move move : whiteFirstSimulateMoveList) {
+                    simulateMove(move);
+                    temp.add(new NodeOne(move, new ArrayList<>(saveBoardFigurePoints()), 0));
+                    setBoard(node.getBoardState());
+                }
+            }
+            nodeTwo.add(new NodeTwo(node.getMove(),temp));
+        }
+        for(NodeTwo nodeTwo1: nodeTwo){
+            for (NodeOne nodeOneList : nodeTwo1.getNodeOneList()){
+                setBoard(nodeOneList.getBoardState());
+                clearBeatingList();
+                clearAvailableMoves();
+                checkIfFigureIsBeatingAllBoard();
+                getAvailableMove();
+                ArrayList<NodeOne> temp = new ArrayList<>();
+                if (checkBeatingBlack.size() > 0) {
+                    blackFirstSimulateMoveList = convertStringListToMove(checkBeatingBlack);
+                    for (Move move : blackFirstSimulateMoveList) {
+                        simulateBeating("black", move);
+                        saveBoardFigurePoints();
+
+                        int countBlackFigure = 0;
+                        int countWhiteFigure = 0;
+
+                        for(FigurePoint countFigures: saveBoard){
+                            if(isFigureBlack(countFigures.getPoint().getRow(),countFigures.getPoint().getCol())){
+                                if(isFigurePawn(countFigures.getFigure())) {
+                                    countBlackFigure++;
+                                }
+                                if(isFigureQueen(countFigures.getFigure())) {
+                                    countBlackFigure += 2;
+                                }
+                            }
+                            if(isFigureWhite(countFigures.getPoint().getRow(),countFigures.getPoint().getCol())){
+                                if(isFigurePawn(countFigures.getFigure())) {
+                                    countWhiteFigure++;
+                                }
+                                if(isFigureQueen(countFigures.getFigure())) {
+                                    countWhiteFigure += 2;
+                                }
+                            }
+
+                            for (FigurePointScore figurePointScore : boardScore) {
+                                if (figurePointScore.getRow() == countFigures.getPoint().getRow() && figurePointScore.getCol() == countFigures.getPoint().getCol()) {
+                                    if(isFigureBlack(countFigures.getPoint().getRow(),countFigures.getPoint().getCol())) {
+                                        countBlackFigure += figurePointScore.getScore();
+                                        break;
+                                    }
+                                    if(isFigureWhite(countFigures.getPoint().getRow(),countFigures.getPoint().getCol())) {
+                                        countWhiteFigure += figurePointScore.getScore();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        int score = countBlackFigure - countWhiteFigure;
+
+                        temp.add(new NodeOne(move, new ArrayList<>(saveBoardFigurePoints()), score));
+                        setBoard(nodeOneList.getBoardState());
+                    }
+                } else {
+                    blackFirstSimulateMoveList = availableMovesBlack;
+                    for (Move move : blackFirstSimulateMoveList) {
+                        simulateMove(move);
+                        saveBoardFigurePoints();
+
+                        int countBlackFigure = 0;
+                        int countWhiteFigure = 0;
+
+                        for(FigurePoint countFigures: saveBoard){
+                            if(isFigureBlack(countFigures.getPoint().getRow(),countFigures.getPoint().getCol())){
+                                if(isFigurePawn(countFigures.getFigure())) {
+                                    countBlackFigure++;
+                                }
+                                if(isFigureQueen(countFigures.getFigure())) {
+                                    countBlackFigure += 2;
+                                }
+                            }
+                            if(isFigureWhite(countFigures.getPoint().getRow(),countFigures.getPoint().getCol())){
+                                if(isFigurePawn(countFigures.getFigure())) {
+                                    countWhiteFigure++;
+                                }
+                                if(isFigureQueen(countFigures.getFigure())) {
+                                    countWhiteFigure += 2;
+                                }
+                            }
+
+                            for (FigurePointScore figurePointScore : boardScore) {
+                                if (figurePointScore.getRow() == countFigures.getPoint().getRow() && figurePointScore.getCol() == countFigures.getPoint().getCol()) {
+                                    if(isFigureBlack(countFigures.getPoint().getRow(),countFigures.getPoint().getCol())) {
+                                        countBlackFigure += figurePointScore.getScore();
+                                        break;
+                                    }
+                                    if(isFigureWhite(countFigures.getPoint().getRow(),countFigures.getPoint().getCol())) {
+                                        countWhiteFigure += figurePointScore.getScore();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        int score = countBlackFigure - countWhiteFigure;
+
+                        temp.add(new NodeOne(move, new ArrayList<>(saveBoardFigurePoints()), score));
+                        setBoard(nodeOneList.getBoardState());
+                    }
+                }
+                nodeThree.add(new NodeThree(nodeTwo1.getMove(), nodeOneList.getMove(), temp));
             }
         }
-        return moveScores;
+        setBoard(boardStart);
+
+//
+
+            try{
+                for (NodeThree newNodeThree: nodeThree) {
+                    NodeOne maxElement = Collections.max(newNodeThree.getMovesThree(), Comparator.comparingInt(NodeOne::getScore));
+                    int maxScore = maxElement.getScore();
+
+                    OptionalInt indexOne = IntStream.range(0,nodeTwo.size())
+                            .filter(e -> nodeTwo.get(e).getMove().equals(newNodeThree.getMoveOne())).findFirst();
+
+                    OptionalInt indexTwo = IntStream.range(0,nodeTwo.get(indexOne.getAsInt()).getNodeOneList().size())
+                            .filter(e -> nodeTwo.get(indexOne.getAsInt()).getNodeOneList().get(e).getMove().equals(newNodeThree.getMoveTwo())).findFirst();
+
+                    nodeTwo.get(indexOne.getAsInt()).getNodeOneList().get(indexTwo.getAsInt()).setScore(maxScore);
+                }
+
+                for(NodeTwo newNodeTwo: nodeTwo){
+                    NodeOne minElement = Collections.min(newNodeTwo.getNodeOneList(), Comparator.comparingInt(NodeOne::getScore));
+                    int minScore = minElement.getScore();
+
+                    OptionalInt indexOne = IntStream.range(0,nodeOne.size())
+                            .filter(e -> nodeOne.get(e).getMove().equals(newNodeTwo.getMove())).findFirst();
+
+                    nodeOne.get(indexOne.getAsInt()).setScore(minScore);
+                }
+
+                NodeOne maxElement = Collections.max(nodeOne, Comparator.comparingInt(NodeOne::getScore));
+                int maxScore = maxElement.getScore();
+
+                ArrayList<NodeOne> maxScoreList = (ArrayList<NodeOne>) nodeOne.stream().filter(e -> e.getScore() == maxScore).collect(toList());
+                Random rand = new Random();
+                int randInt = rand.nextInt(maxScoreList.size());
+
+                return maxScoreList.get(randInt).getMove();
+            }
+            catch (NoSuchElementException e){
+                checkIfFigureIsBeatingAllBoard();
+                clearAvailableMoves();
+                getAvailableMove();
+                if (checkBeatingBlack.size() > 0) {
+                    Random rand = new Random();
+                    int randInt = rand.nextInt(checkBeatingBlack.size());
+
+                    return convertStringListToMove(checkBeatingBlack).get(randInt);
+                }else {
+                    Random rand = new Random();
+                    int randInt = rand.nextInt(availableMovesBlack.size());
+
+                    return availableMovesBlack.get(randInt);
+                }
+            }
     }
-
-
 
     private boolean isPlayerPresent(String colors) {
         return IntStream
@@ -479,11 +552,10 @@ public class Board {
         return firstColor.equals(secondColor);
     }
 
-    public void computerMove() {
+    public void computerMove() throws Exception {
         while (areColorsEqual(nextFigureColor(), "black")) {
             move(minimax());
         }
-        displayOnGrid();
     }
 
     private void tryMoveAndSetNextColorMove(Move move, ArrayList<String> checkBeatingWhiteOrBlack, String whiteOrBlack) {
@@ -685,8 +757,6 @@ public class Board {
                                                                            int row2, int col2, ArrayList<String> checkBeatingWhiteOrBlack) {
         if (areColorsEqual(figureFrom.getColor(), queenColor) && checkBeatingWhiteOrBlack.size() > 0 && getFigure(row2, col2).getColor().equals(" ")) {
             String lastBeating = checkBeatingWhiteOrBlack.get(checkBeatingWhiteOrBlack.size() - 1);
-//            int rowOdd = (Integer.valueOf(lastBeating.substring(0,1)) - Integer.valueOf(lastBeating.substring(2,3)))/2;
-//            int colOdd = (Integer.valueOf(lastBeating.substring(1,2)) - Integer.valueOf(lastBeating.substring(3,4)))/2;
             checkBeatingWhiteOrBlack.add(lastBeating.substring(0, 2) + "" + row2 + "" + col2);
 
         }

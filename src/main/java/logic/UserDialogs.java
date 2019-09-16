@@ -22,21 +22,6 @@ public class UserDialogs {
         System.out.println("End of the game.");
         textUserDialogs.setText("End of the game.");
     }
-/*
-    public  String getNextMove() {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println("Enter your move: ");
-            String input = scanner.nextLine();
-            if ("ABCDEFGH".contains(input.substring(0, 1).toUpperCase()) &&
-                    "12345678".contains(input.substring(1, 2)) &&
-                    "ABCDEFGH".contains(input.substring(2, 3).toUpperCase()) &&
-                    "12345678".contains(input.substring(3, 4)) &&
-                    input.length() == 4)
-                return input;
-            System.out.println("Wrong move try again");
-        }
-    }*/
 
     public  void showMoveColor(ArrayDeque<String> whiteOrBlackMove) {
         if (whiteOrBlackMove.peek().equals("white")) {

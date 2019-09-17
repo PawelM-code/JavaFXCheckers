@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 public abstract class Figure {
     private FigureColor color;
 
-    public Figure(FigureColor color){
+    public Figure(FigureColor color) {
         this.color = color;
     }
 

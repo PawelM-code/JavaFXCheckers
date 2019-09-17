@@ -47,14 +47,14 @@ public class BoardGui extends Application implements NewGame {
         Image gridPaneBackground = new Image("/main/resources/board/plywood3.jpg");
         ImagePattern gridPaneBackgroundImagePattern = new ImagePattern(gridPaneBackground);
 
-        Rectangle rectangle = new Rectangle(560,560);
+        Rectangle rectangle = new Rectangle(560, 560);
         rectangle.setFill(gridPaneBackgroundImagePattern);
         rectangle.setStrokeWidth(1);
         rectangle.setStroke(Color.BLACK);
         rectangle.setArcWidth(30.0);
         rectangle.setArcHeight(30.0);
 
-        stackPaneCenter.getChildren().addAll(rectangle,grid);
+        stackPaneCenter.getChildren().addAll(rectangle, grid);
 
         UserDialogs userDialogs = new UserDialogs(new Text());
 
@@ -83,9 +83,9 @@ public class BoardGui extends Application implements NewGame {
         GridPane.setMargin(userDialogs.getTextUserDialogs(), new Insets(10, 10, 10, 10));
 
         StackPane stackPaneLeft = new StackPane();
-        stackPaneLeft.setPrefSize(50,560);
+        stackPaneLeft.setPrefSize(50, 560);
         StackPane stackPaneRight = new StackPane();
-        stackPaneRight.setPrefSize(50,560);
+        stackPaneRight.setPrefSize(50, 560);
 
         borderPane.setCenter(stackPaneCenter);
         borderPane.setTop(titleGame);

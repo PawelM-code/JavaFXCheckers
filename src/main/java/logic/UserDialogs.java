@@ -18,12 +18,12 @@ public class UserDialogs {
         return textUserDialogs;
     }
 
-    public  void showEndInfo() {
+    public void showEndInfo() {
         System.out.println("End of the game.");
         textUserDialogs.setText("End of the game.");
     }
 
-    public  void showMoveColor(ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
+    public void showMoveColor(ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
         if (whiteOrBlackMove.peek().equals(FigureColor.Group.WHITE)) {
             System.out.println("Move black");
             textUserDialogs.setText("Move black");
@@ -33,7 +33,7 @@ public class UserDialogs {
         }
     }
 
-     void showMoveColorWhenStillBeating(ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
+    void showMoveColorWhenStillBeating(ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
         if (whiteOrBlackMove.peek().equals(FigureColor.Group.WHITE)) {
             System.out.println("Move white");
             textUserDialogs.setText("Move white");
@@ -43,7 +43,7 @@ public class UserDialogs {
         }
     }
 
-     void showInfoWhenWrongColorStarts(ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
+    void showInfoWhenWrongColorStarts(ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
         if (whiteOrBlackMove.peek().equals(FigureColor.Group.WHITE)) {
             System.out.println("Move not allowed, try again WHITE.");
             textUserDialogs.setText("Move not allowed, try again WHITE.");
@@ -53,29 +53,35 @@ public class UserDialogs {
         }
     }
 
-     void showInfoMoveNotAllowed() {
+    void showInfoMoveNotAllowed() {
         System.out.println("Move not allowed, try again.");
         textUserDialogs.setText("Move not allowed, try again.");
     }
 
-     void showInfoBeatingNotAllowed() {
+    void showInfoBeatingNotAllowed() {
         System.out.println("Beating not allowed, try again.");
         textUserDialogs.setText("Beating not allowed, try again.");
     }
 
-     void showBeating(ArrayList<String> checkBeatingBlack, ArrayList<String> checkBeatingWhite, ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
+    void showBeating(ArrayList<Move> checkBeatingBlack, ArrayList<Move> checkBeatingWhite, ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
         if (whiteOrBlackMove.peek().equals(FigureColor.Group.WHITE) && checkBeatingWhite.size() > 0) {
-            System.out.println("Beating: " + checkBeatingWhite.stream()
-                    .distinct()
-                    .collect(Collectors.toList()));
+            convertBeatingToStringAndShow(checkBeatingWhite);
         } else if (whiteOrBlackMove.peek().equals(FigureColor.Group.BLACK) && checkBeatingBlack.size() > 0) {
-            System.out.println("Beating: " + checkBeatingBlack.stream()
-                    .distinct()
-                    .collect(Collectors.toList()));
+            convertBeatingToStringAndShow(checkBeatingBlack);
         }
     }
 
-    public  void showStartGameInfo() {
+    private void convertBeatingToStringAndShow(ArrayList<Move> checkBeatingWhite) {
+        ArrayList<String> white = new ArrayList<>();
+        for (Move move : checkBeatingWhite) {
+            white.add("" + move.getRow1() + move.getCol1() + move.getRow2() + move.getCol2());
+        }
+        System.out.println("Beating: " + white.stream()
+                .distinct()
+                .collect(Collectors.toList()));
+    }
+
+    public void showStartGameInfo() {
         System.out.println("Start Game. [e.g. A1B2] \nMove white.");
         textUserDialogs.setText("Start Game. Move white!");
     }

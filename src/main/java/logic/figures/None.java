@@ -1,6 +1,8 @@
-package main.java.logic;
+package main.java.logic.figures;
 
 import javafx.scene.image.ImageView;
+import main.java.logic.figures.Figure;
+import main.java.logic.figures.FigureColor;
 
 public class None extends Figure {
     public None() {

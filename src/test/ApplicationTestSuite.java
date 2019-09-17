@@ -4,6 +4,10 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import main.java.logic.*;
+import main.java.logic.figures.Figure;
+import main.java.logic.figures.FigureColor;
+import main.java.logic.figures.Pawn;
+import main.java.logic.figures.Queen;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +31,7 @@ public class ApplicationTestSuite {
     }
 
     private void testMove(Move move) {
-        board.gameMoves.move(move, board);
+        board.gameMove.move(move, board);
     }
 
     @Test
@@ -40,7 +44,7 @@ public class ApplicationTestSuite {
 
     @Test
     public void testGetFigure() {
-        board.initWhiteOrBlackMove();
+        board.gameMove.initWhiteOrBlackMove();
         board.setFigure(1, 2, figure1);
 
         FigureColor result1 = board.getFigure(1, 2).getColor();
@@ -50,7 +54,7 @@ public class ApplicationTestSuite {
 
     @Test
     public void testMovePawn() {
-        board.initWhiteOrBlackMove();
+        board.gameMove.initWhiteOrBlackMove();
         Move move1 = new Move(8, 1, 7, 2);
         Move move2 = new Move(1, 1, 2, 2);
 
@@ -77,7 +81,7 @@ public class ApplicationTestSuite {
         Move move2 = new Move(1, 1, 8, 8);
         Move move3 = new Move(8, 8, 8, 1);
 
-        board.initWhiteOrBlackMove();
+        board.gameMove.initWhiteOrBlackMove();
         board.setFigure(8, 1, figure3);
         board.setFigure(1, 1, figure4);
 
@@ -106,7 +110,7 @@ public class ApplicationTestSuite {
         Move move1 = new Move(2, 3, 1, 4);
         Move move2 = new Move(7, 2, 8, 1);
 
-        board.initWhiteOrBlackMove();
+        board.gameMove.initWhiteOrBlackMove();
         board.setFigure(2, 3, figure2);
         board.setFigure(7, 2, figure1);
 
@@ -131,7 +135,7 @@ public class ApplicationTestSuite {
         Move move3 = new Move(8, 7, 6, 5);
         Move move4 = new Move(1, 6, 3, 8);
 
-        board.initWhiteOrBlackMove();
+        board.gameMove.initWhiteOrBlackMove();
         board.setFigure(8, 1, figure2);
         board.setFigure(7, 2, figure1);
         board.setFigure(2, 2, figure2);
@@ -181,7 +185,7 @@ public class ApplicationTestSuite {
         Move move3 = new Move(1, 6, 3, 8);
         Move move4 = new Move(3, 8, 5, 6);
 
-        board.initWhiteOrBlackMove();
+        board.gameMove.initWhiteOrBlackMove();
         board.setFigure(8, 1, figure2);
         board.setFigure(7, 2, figure1);
         board.setFigure(7, 4, figure1);
@@ -223,7 +227,7 @@ public class ApplicationTestSuite {
         Move move2 = new Move(1, 2, 6, 7);
         Move move3 = new Move(3, 3, 5, 5);
 
-        board.initWhiteOrBlackMove();
+        board.gameMove.initWhiteOrBlackMove();
         board.setFigure(8, 1, figure3);
         board.setFigure(1, 2, figure4);
         board.setFigure(3, 3, figure3);
@@ -261,7 +265,7 @@ public class ApplicationTestSuite {
         Move move1 = new Move(8, 1, 1, 8);
         Move move2 = new Move(3, 3, 8, 8);
 
-        board.initWhiteOrBlackMove();
+        board.gameMove.initWhiteOrBlackMove();
         board.setFigure(8, 1, figure3);
         board.setFigure(7, 2, figure1);
         board.setFigure(5, 4, figure1);
@@ -299,7 +303,7 @@ public class ApplicationTestSuite {
         Move move1 = new Move(8, 1, 5, 4);
         Move move2 = new Move(5, 4, 2, 1);
 
-        board.initWhiteOrBlackMove();
+        board.gameMove.initWhiteOrBlackMove();
         board.setFigure(8, 1, figure3);
         board.setFigure(7, 2, figure1);
         board.setFigure(3, 2, figure4);
@@ -326,7 +330,7 @@ public class ApplicationTestSuite {
     public void test1BeatingQueenNotAllowed() {
         Move move1 = new Move(5, 4, 8, 1);
 
-        board.initWhiteOrBlackMove();
+        board.gameMove.initWhiteOrBlackMove();
         board.setFigure(5, 4, figure3);
         board.setFigure(7, 2, figure1);
         board.setFigure(6, 3, figure1);
@@ -348,7 +352,7 @@ public class ApplicationTestSuite {
     public void test2BeatingQueenNotAllowed() {
         Move move2 = new Move(3, 3, 8, 8);
 
-        board.initWhiteOrBlackMove();
+        board.gameMove.initWhiteOrBlackMove();
         board.setFigure(3, 3, figure4);
         board.setFigure(4, 4, figure2);
         board.setFigure(5, 5, figure2);
@@ -371,7 +375,7 @@ public class ApplicationTestSuite {
 
     @Test
     public void testExceptionCatchMove() throws Exception {
-        board.initWhiteOrBlackMove();
+        board.gameMove.initWhiteOrBlackMove();
         Move move1 = new Move(8, 7, 7, 6);
 
         board.setFigure(1, 6, figure3);
@@ -381,7 +385,7 @@ public class ApplicationTestSuite {
         board.setFigure(4, 7, figure1);
 
         testMove(move1);
-        board.gameMoves.computerMove(board);
+        board.gameMove.computerMove(board);
 
         FigureColor result1 = board.getFigure(5, 6).getColor();
         FigureColor result2 = board.getFigure(5, 8).getColor();

@@ -14,6 +14,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.java.logic.*;
+import main.java.logic.figures.FigureColor;
+import main.java.logic.figures.Pawn;
 
 public class BoardGui extends Application implements NewGame {
     public static final int FIELD_SIZE = 60;
@@ -121,7 +123,7 @@ public class BoardGui extends Application implements NewGame {
         board.setFigure(3, 4, new Pawn(FigureColor.BLACK_PAWN));
         board.setFigure(3, 6, new Pawn(FigureColor.BLACK_PAWN));
         board.setFigure(3, 8, new Pawn(FigureColor.BLACK_PAWN));
-        board.initWhiteOrBlackMove();
+        board.gameMove.initWhiteOrBlackMove();
         userDialogs.showStartGameInfo();
         board.displayOnGrid();
 
@@ -131,19 +133,19 @@ public class BoardGui extends Application implements NewGame {
             grid.setOnMouseClicked(event -> {
                 int x = 1 + (int) event.getX() / FIELD_SIZE;
                 int y = 1 + (int) event.getY() / FIELD_SIZE;
-                if (!board.isTheEndOfGame()) {
-                    board.gameMoves.move(new Move(oldY, oldX, y, x), board);
+                if (!board.gameValidators.isTheEndOfGame(board)) {
+                    board.gameMove.move(new Move(oldY, oldX, y, x), board);
                     board.displayOnGrid();
                 }
-                if (!board.isTheEndOfGame()) {
+                if (!board.gameValidators.isTheEndOfGame(board)) {
                     try {
-                        board.gameMoves.computerMove(board);
+                        board.gameMove.computerMove(board);
                         board.displayOnGrid();
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
-                board.isTheEndOfGame();
+                board.gameValidators.isTheEndOfGame(board);
             });
 
         });

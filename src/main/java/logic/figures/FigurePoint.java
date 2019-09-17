@@ -1,4 +1,4 @@
-package main.java.logic;
+package main.java.logic.figures;
 
 public class FigurePoint {
     private Point point;

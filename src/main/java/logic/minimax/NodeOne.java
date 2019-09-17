@@ -1,4 +1,7 @@
-package main.java.logic;
+package main.java.logic.minimax;
+
+import main.java.logic.Move;
+import main.java.logic.figures.FigurePoint;
 
 import java.util.ArrayList;
 

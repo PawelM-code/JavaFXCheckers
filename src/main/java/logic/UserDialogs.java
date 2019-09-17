@@ -1,7 +1,7 @@
 package main.java.logic;
 
 import javafx.scene.text.Text;
-import org.junit.Ignore;
+import main.java.logic.figures.FigureColor;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

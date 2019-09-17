@@ -137,7 +137,7 @@ public class BoardGui extends Application implements NewGame {
                 }
                 if (!board.isTheEndOfGame()) {
                     try {
-                        board.computerMove();
+                        board.gameMoves.computerMove(board);
                         board.displayOnGrid();
                     } catch (Exception ex) {
                         ex.printStackTrace();

@@ -12,7 +12,7 @@ import static main.java.gui.BoardGui.FIELD_SIZE;
 
 public class Board {
     final UserDialogs userDialogs;
-    private Minimax minimax = new Minimax(this);
+    Minimax minimax = new Minimax(this);
     public GameMoves gameMoves= new GameMoves(this);
     LinkedList<LinkedList<Figure>> boardRow;
     ArrayList<Move> checkBeatingWhite = new ArrayList<>();
@@ -119,7 +119,7 @@ public class Board {
             }
     }
 
-    public void getAvailableMove() {
+    private void getAvailableMove() {
         clearAvailableMoves();
         getFiguresPoint();
         for (Point currentWhiteFigurePoint : currentWhiteFigures) {
@@ -218,7 +218,7 @@ public class Board {
         currentWhiteFigures.clear();
     }
 
-    public void setBoard(ArrayList<FigurePoint> boardState) {
+    void setBoard(ArrayList<FigurePoint> boardState) {
         initBoard();
         for (FigurePoint figurePoint : boardState) {
             int row = figurePoint.getPoint().getRow();
@@ -228,32 +228,12 @@ public class Board {
         }
     }
 
-    public void simulateBeating(FigureColor.Group whiteOrBlack, Move move) {
-        Move startMove = move;
-        ArrayDeque<FigureColor.Group> whiteOrBlackMoveCopy = new ArrayDeque<>(whiteOrBlackMove);
-        while (nextFigureColor().equals(whiteOrBlack)) {
-            gameMoves.move(startMove, this);
-            checkIfFigureIsBeatingAllBoard();
-            if (whiteOrBlack.equals(FigureColor.Group.BLACK)) {
-                if (checkBeatingBlack.size() > 0) {
-                    startMove = checkBeatingBlack.get(0);
-                }
-            } else {
-                if (checkBeatingWhite.size() > 0) {
-                    startMove = checkBeatingWhite.get(0);
-                }
-            }
-
-        }
-        whiteOrBlackMove = whiteOrBlackMoveCopy;
-    }
-
     private void clearAvailableMoves() {
         availableMovesWhite.clear();
         availableMovesBlack.clear();
     }
 
-    public void getAvailableMovesAndBeating() {
+    void getAvailableMovesAndBeating() {
         checkIfFigureIsBeatingAllBoard();
         getAvailableMove();
     }
@@ -266,22 +246,12 @@ public class Board {
                         .anyMatch(col -> getFigure(row, col).getColor().isInGroup(colors)));
     }
 
-    public void simulateMove(Move move) {
-        checkIfMoveIsOnTheBoardIfTrueTryMove(move);
-    }
-
-    public FigureColor.Group nextFigureColor() {
+    FigureColor.Group nextFigureColor() {
         return whiteOrBlackMove.peek();
     }
 
-    public boolean areColorsEqual(FigureColor firstColor, FigureColor secondColor) {
+    boolean areColorsEqual(FigureColor firstColor, FigureColor secondColor) {
         return firstColor.equals(secondColor);
-    }
-
-    public void computerMove() throws Exception {
-        while (nextFigureColor().equals(FigureColor.Group.BLACK)) {
-            gameMoves.move(minimax.minimax(), this);
-        }
     }
 
     public void initWhiteOrBlackMove() {
@@ -291,7 +261,7 @@ public class Board {
         }
     }
 
-    public void checkIfFigureIsBeatingAllBoard() {
+    void checkIfFigureIsBeatingAllBoard() {
         clearBeatingList();
         for (int i = 1; i < 9; i++) {
             for (int j = 1; j < 9; j++) {
@@ -310,7 +280,7 @@ public class Board {
         }
     }
 
-    public void clearBeatingList() {
+    void clearBeatingList() {
         checkBeatingWhite.clear();
         checkBeatingBlack.clear();
     }
@@ -500,15 +470,7 @@ public class Board {
         }
     }
 
-    public void checkIfMoveIsOnTheBoardIfTrueTryMove(Move move) {
-        Figure figureTo = getFigure(move.getRow2(), move.getCol2());
-        if (areColorsEqual(figureTo.getColor(), FigureColor.EMPTY_FIELD) && move.getRow2() <= GameMoves.SIZE_OF_THE_BOARD && move.getRow2() >= 1 &&
-                move.getCol2() <= GameMoves.SIZE_OF_THE_BOARD && move.getCol2() >= 1) {
-            checkWhatFigure(move);
-        }
-    }
-
-    private void checkWhatFigure(Move move) {
+    void checkWhatFigure(Move move) {
         Figure figureFrom = getFigure(move.getRow1(), move.getCol1());
 
         if (isFigurePawn(figureFrom)) {
@@ -519,19 +481,19 @@ public class Board {
         }
     }
 
-    public boolean isFigureQueen(Figure figureFrom) {
+    boolean isFigureQueen(Figure figureFrom) {
         return areColorsEqual(figureFrom.getColor(), FigureColor.WHITE_QUEEN) || areColorsEqual(figureFrom.getColor(), FigureColor.BLACK_QUEEN);
     }
 
-    public boolean isFigurePawn(Figure figureFrom) {
+    boolean isFigurePawn(Figure figureFrom) {
         return areColorsEqual(figureFrom.getColor(), FigureColor.BLACK_PAWN) || areColorsEqual(figureFrom.getColor(), FigureColor.WHITE_PAWN);
     }
 
-    public boolean isFigureBlack(int row, int col) {
+    boolean isFigureBlack(int row, int col) {
         return getFigure(row, col).getColor().isInGroup(FigureColor.Group.BLACK);
     }
 
-    public boolean isFigureWhite(int row, int col) {
+    boolean isFigureWhite(int row, int col) {
         return getFigure(row, col).getColor().isInGroup(FigureColor.Group.WHITE);
     }
 

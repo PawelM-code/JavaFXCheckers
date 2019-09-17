@@ -381,7 +381,7 @@ public class ApplicationTestSuite {
         board.setFigure(4, 7, figure1);
 
         testMove(move1);
-        board.computerMove();
+        board.gameMoves.computerMove(board);
 
         FigureColor result1 = board.getFigure(5, 6).getColor();
         FigureColor result2 = board.getFigure(5, 8).getColor();

@@ -79,13 +79,13 @@ class Minimax {
                 if (board.checkBeatingBlack.size() > 0) {
                     blackFirstSimulateMoveList = new ArrayList<>(board.checkBeatingBlack);
                     for (Move move : blackFirstSimulateMoveList) {
-                        board.simulateBeating(FigureColor.Group.BLACK, move);
+                        board.gameMoves.simulateBeating(FigureColor.Group.BLACK, move, board);
                         scoringAlgorithm(boardScore, nodeOneList, temp, move, board);
                     }
                 } else {
                     blackFirstSimulateMoveList = new ArrayList<>(board.availableMovesBlack);
                     for (Move move : blackFirstSimulateMoveList) {
-                        board.simulateMove(move);
+                        board.gameMoves.simulateMove(move, board);
                         scoringAlgorithm(boardScore, nodeOneList, temp, move, board);
                     }
                 }
@@ -146,7 +146,7 @@ class Minimax {
         ArrayList<Move> blackFirstSimulateMoveList;
         blackFirstSimulateMoveList = new ArrayList<>(availableMovesBlack);
         for (Move move : blackFirstSimulateMoveList) {
-            board.simulateMove(move);
+            board.gameMoves.simulateMove(move, board);
             nodeOne.add(new NodeOne(move, new ArrayList<>(board.saveBoardFigurePoints()), 0));
             board.setBoard(boardStart);
         }
@@ -156,7 +156,7 @@ class Minimax {
         ArrayList<Move> blackFirstSimulateMoveList;
         blackFirstSimulateMoveList = new ArrayList<>(checkBeatingBlack);
         for (Move move : blackFirstSimulateMoveList) {
-            board.simulateBeating(black, move);
+            board.gameMoves.simulateBeating(black, move, board);
             nodeOne.add(new NodeOne(move, new ArrayList<>(board.saveBoardFigurePoints()), 0));
             board.setBoard(boardStart);
         }

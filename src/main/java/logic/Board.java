@@ -11,20 +11,19 @@ import java.util.stream.IntStream;
 import static main.java.gui.BoardGui.FIELD_SIZE;
 
 public class Board {
-    private static final int SIZE_OF_THE_BOARD = 8;
-    private final UserDialogs userDialogs;
+    final UserDialogs userDialogs;
     private Minimax minimax = new Minimax(this);
-    private GameMoves gameMoves= new GameMoves(this);
-    private LinkedList<LinkedList<Figure>> boardRow;
+    public GameMoves gameMoves= new GameMoves(this);
+    LinkedList<LinkedList<Figure>> boardRow;
     ArrayList<Move> checkBeatingWhite = new ArrayList<>();
     ArrayList<Move> checkBeatingBlack = new ArrayList<>();
-    private ArrayDeque<FigureColor.Group> whiteOrBlackMove = new ArrayDeque<>();
+    ArrayDeque<FigureColor.Group> whiteOrBlackMove = new ArrayDeque<>();
     private ArrayList<Point> currentWhiteFigures = new ArrayList<>();
     private ArrayList<Point> currentBlackFigures = new ArrayList<>();
     ArrayList<Move> availableMovesWhite = new ArrayList<>();
     ArrayList<Move> availableMovesBlack = new ArrayList<>();
     ArrayList<FigurePoint> saveBoard = new ArrayList<>();
-    private Move saveLastMove;
+    Move saveLastMove;
     private boolean addStatus = false;
     private GridPane grid;
 
@@ -36,8 +35,8 @@ public class Board {
 
     public void displayOnGrid() {
         grid.getChildren().clear();
-        for (int row = 0; row < SIZE_OF_THE_BOARD; row++)
-            for (int col = 0; col < SIZE_OF_THE_BOARD; col++) {
+        for (int row = 0; row < GameMoves.SIZE_OF_THE_BOARD; row++)
+            for (int col = 0; col < GameMoves.SIZE_OF_THE_BOARD; col++) {
                 createGridColorFields(row, col);
 
                 Figure figure = getFigure(row + 1, col + 1);
@@ -67,13 +66,13 @@ public class Board {
 
     private void initBoard() {
         this.boardRow = new LinkedList<>();
-        for (int row = 0; row < SIZE_OF_THE_BOARD; row++)
+        for (int row = 0; row < GameMoves.SIZE_OF_THE_BOARD; row++)
             initRow(row);
     }
 
     private void initRow(int row) {
         boardRow.add(row, new LinkedList<>());
-        for (int col = 0; col < SIZE_OF_THE_BOARD; col++)
+        for (int col = 0; col < GameMoves.SIZE_OF_THE_BOARD; col++)
             boardRow.get(row).add(col, new None());
     }
 
@@ -109,8 +108,8 @@ public class Board {
     }
 
     private void getFiguresPoint() {
-        for (int row = 1; row < SIZE_OF_THE_BOARD + 1; row++)
-            for (int col = 1; col < SIZE_OF_THE_BOARD + 1; col++) {
+        for (int row = 1; row < GameMoves.SIZE_OF_THE_BOARD + 1; row++)
+            for (int col = 1; col < GameMoves.SIZE_OF_THE_BOARD + 1; col++) {
                 if (isFigureWhite(row, col)) {
                     currentWhiteFigures.add(new Point(row, col));
                 }
@@ -181,7 +180,7 @@ public class Board {
     private void addAvailableQueenMoveDownRight(Point point, List<Move> availableMovesBlack) {
         int row2 = point.getRow();
         int col2 = point.getCol();
-        while (row2 > 1 && col2 < SIZE_OF_THE_BOARD) {
+        while (row2 > 1 && col2 < GameMoves.SIZE_OF_THE_BOARD) {
             row2--;
             col2++;
             if (getFigure(row2, col2).getColor().equals(FigureColor.EMPTY_FIELD)) {
@@ -193,7 +192,7 @@ public class Board {
     private void addAvailableQueenMoveUpLeft(Point point, List<Move> availableMovesBlack) {
         int row2 = point.getRow();
         int col2 = point.getCol();
-        while (row2 < SIZE_OF_THE_BOARD && col2 > 1) {
+        while (row2 < GameMoves.SIZE_OF_THE_BOARD && col2 > 1) {
             row2++;
             col2--;
             if (getFigure(row2, col2).getColor().equals(FigureColor.EMPTY_FIELD)) {
@@ -205,7 +204,7 @@ public class Board {
     private void addAvailableQueenMoveUpRight(Point point, List<Move> availableMovesBlack) {
         int row2 = point.getRow();
         int col2 = point.getCol();
-        while (row2 < SIZE_OF_THE_BOARD && col2 < SIZE_OF_THE_BOARD) {
+        while (row2 < GameMoves.SIZE_OF_THE_BOARD && col2 < GameMoves.SIZE_OF_THE_BOARD) {
             row2++;
             col2++;
             if (getFigure(row2, col2).getColor().equals(FigureColor.EMPTY_FIELD)) {
@@ -233,7 +232,7 @@ public class Board {
         Move startMove = move;
         ArrayDeque<FigureColor.Group> whiteOrBlackMoveCopy = new ArrayDeque<>(whiteOrBlackMove);
         while (nextFigureColor().equals(whiteOrBlack)) {
-            move(startMove);
+            gameMoves.move(startMove, this);
             checkIfFigureIsBeatingAllBoard();
             if (whiteOrBlack.equals(FigureColor.Group.BLACK)) {
                 if (checkBeatingBlack.size() > 0) {
@@ -271,79 +270,17 @@ public class Board {
         checkIfMoveIsOnTheBoardIfTrueTryMove(move);
     }
 
-    public void move(Move move) {
-        Figure figureFrom = getFigure(move.getRow1(), move.getCol1());
-        checkIfFigureIsBeatingAllBoard();
-
-        if (nextFigureColor().equals(FigureColor.Group.WHITE)) {
-            moveFigureIfOfColor(move, figureFrom, checkBeatingWhite, FigureColor.Group.WHITE);
-        } else {
-            moveFigureIfOfColor(move, figureFrom, checkBeatingBlack, FigureColor.Group.BLACK);
-        }
-    }
-
-    private FigureColor.Group nextFigureColor() {
+    public FigureColor.Group nextFigureColor() {
         return whiteOrBlackMove.peek();
     }
 
-    private void moveFigureIfOfColor(Move move, Figure figureFrom, ArrayList<Move> checkBeatingWhite, FigureColor.Group whiteOrBlack) {
-        if (figureFrom.getColor().isInGroup(whiteOrBlack)) {
-            tryMoveAndSetNextColorMove(move, checkBeatingWhite, whiteOrBlack);
-        } else {
-            userDialogs.showInfoWhenWrongColorStarts(whiteOrBlackMove);
-        }
-    }
-
-    private boolean areColorsEqual(FigureColor firstColor, FigureColor secondColor) {
+    public boolean areColorsEqual(FigureColor firstColor, FigureColor secondColor) {
         return firstColor.equals(secondColor);
     }
 
     public void computerMove() throws Exception {
         while (nextFigureColor().equals(FigureColor.Group.BLACK)) {
-            move(minimax.minimax());
-        }
-    }
-
-    private void tryMoveAndSetNextColorMove(Move move, ArrayList<Move> checkBeatingWhiteOrBlack, FigureColor.Group whiteOrBlack) {
-        Figure figureFrom = getFigure(move.getRow1(), move.getCol1());
-
-        if (checkBeatingWhiteOrBlack.size() == 0) {
-            checkIfMoveIsOnTheBoardIfTrueTryMove(move);
-            if (!figureFrom.getColor().equals(getFigure(move.getRow1(), move.getCol1()).getColor())) {
-                userDialogs.showMoveColor(whiteOrBlackMove);
-                setNextColorMove(whiteOrBlack);
-            } else {
-                userDialogs.showInfoMoveNotAllowed();
-            }
-        } else {
-            if (isBeatingCorrect(move, checkBeatingWhiteOrBlack)) {
-                doBeating(move, checkBeatingWhiteOrBlack, whiteOrBlack, figureFrom);
-            } else {
-                userDialogs.showInfoBeatingNotAllowed();
-            }
-        }
-    }
-
-    private void setNextColorMove(FigureColor.Group whiteOrBlack) {
-        whiteOrBlackMove.poll();
-        whiteOrBlackMove.offer(whiteOrBlack);
-    }
-
-    private void doBeating(Move move, ArrayList<Move> checkBeatingWhiteOrBlack, FigureColor.Group setWhiteOrBlackInQueue, Figure figureFrom) {
-        checkIfMoveIsOnTheBoardIfTrueTryMove(move);
-        if (figureFrom.getColor().equals(getFigure(move.getRow1(), move.getCol1()).getColor())) {
-            userDialogs.showInfoMoveNotAllowed();
-        } else {
-            clearBeatingList();
-            saveLastMove = move;
-            checkIfFigureIsBeatingAllBoard();
-            if (checkBeatingWhiteOrBlack.size() > 0) {
-                userDialogs.showMoveColorWhenStillBeating(whiteOrBlackMove);
-            } else {
-                saveLastMove = null;
-                userDialogs.showMoveColor(whiteOrBlackMove);
-                setNextColorMove(setWhiteOrBlackInQueue);
-            }
+            gameMoves.move(minimax.minimax(), this);
         }
     }
 
@@ -352,22 +289,6 @@ public class Board {
             whiteOrBlackMove.offer(FigureColor.Group.WHITE);
             whiteOrBlackMove.offer(FigureColor.Group.BLACK);
         }
-    }
-
-    private boolean isBeatingCorrect(Move move, ArrayList<Move> checkBeating) {
-        boolean beating = false;
-        if (checkBeating.size() > 0) {
-            for (Move beatingMove : checkBeating) {
-                if (move.getRow1() == beatingMove.getRow1() && move.getCol1() == beatingMove.getCol1() &&
-                        move.getRow2() == beatingMove.getRow2() && move.getCol2() == beatingMove.getCol2()) {
-                    beating = true;
-                    break;
-                } else {
-                    beating = false;
-                }
-            }
-        }
-        return beating;
     }
 
     public void checkIfFigureIsBeatingAllBoard() {
@@ -579,10 +500,10 @@ public class Board {
         }
     }
 
-    private void checkIfMoveIsOnTheBoardIfTrueTryMove(Move move) {
+    public void checkIfMoveIsOnTheBoardIfTrueTryMove(Move move) {
         Figure figureTo = getFigure(move.getRow2(), move.getCol2());
-        if (areColorsEqual(figureTo.getColor(), FigureColor.EMPTY_FIELD) && move.getRow2() <= SIZE_OF_THE_BOARD && move.getRow2() >= 1 &&
-                move.getCol2() <= SIZE_OF_THE_BOARD && move.getCol2() >= 1) {
+        if (areColorsEqual(figureTo.getColor(), FigureColor.EMPTY_FIELD) && move.getRow2() <= GameMoves.SIZE_OF_THE_BOARD && move.getRow2() >= 1 &&
+                move.getCol2() <= GameMoves.SIZE_OF_THE_BOARD && move.getCol2() >= 1) {
             checkWhatFigure(move);
         }
     }
@@ -591,10 +512,10 @@ public class Board {
         Figure figureFrom = getFigure(move.getRow1(), move.getCol1());
 
         if (isFigurePawn(figureFrom)) {
-            movePawn(move);
+            gameMoves.movePawn(move, this);
         }
         if (isFigureQueen(figureFrom)) {
-            moveQueen(move);
+            gameMoves.moveQueen(move, this);
         }
     }
 
@@ -606,321 +527,12 @@ public class Board {
         return areColorsEqual(figureFrom.getColor(), FigureColor.BLACK_PAWN) || areColorsEqual(figureFrom.getColor(), FigureColor.WHITE_PAWN);
     }
 
-    private void moveQueen(Move move) {
-        int count = 0;
-        checkQueenMoveIsDiagonal(move, count);
-    }
-
-    private void checkQueenMoveIsDiagonal(Move move, int count) {
-        if (Math.abs(move.getRow2() - move.getRow1()) == Math.abs(move.getCol2() - move.getCol1())) {
-            count = beatingQueenRightDown(move, count);
-            count = beatingQueenLeftDown(move, count);
-            count = beatingQueenLeftUp(move, count);
-            count = beatingQueenRightUp(move, count);
-        }
-        if (count == Math.abs(move.getRow2() - move.getRow1())) {
-            setFigureToANewField(move);
-        }
-    }
-
-    private int beatingQueenRightUp(Move move, int count) {
-        if (move.getRow2() < move.getRow1() && move.getCol2() > move.getCol1()) {
-            Figure figureFrom = getFigure(move.getRow1(), move.getCol1());
-
-            if (areColorsEqual(figureFrom.getColor(), FigureColor.WHITE_QUEEN)) {
-                int row1 = move.getRow1();
-                int col1 = move.getCol1();
-
-                while (row1 != move.getRow2() && col1 != move.getCol2()) {
-                    count++;
-                    row1--;
-                    col1++;
-                    if (doQueenBeating(isFigureBlack(row1, col1), clearBeatingFigureByQueenRightUp(row1, col1), isFigureWhite(row1, col1)))
-                        break;
-                }
-            }
-            if (areColorsEqual(figureFrom.getColor(), FigureColor.BLACK_QUEEN)) {
-                int row1 = move.getRow1();
-                int col1 = move.getCol1();
-
-                while (row1 != move.getRow2() && col1 != move.getCol2()) {
-                    count++;
-                    row1--;
-                    col1++;
-                    if (doQueenBeating(isFigureWhite(row1, col1), clearBeatingFigureByQueenRightUp(row1, col1), isFigureBlack(row1, col1)))
-                        break;
-                }
-            }
-        }
-        return count;
-    }
-
-    private boolean clearBeatingFigureByQueenRightUp(int row, int col) {
-        if (row - 1 > 0 && col + 1 <= 8) {
-            if (getFigure(row - 1, col + 1).getColor().equals(FigureColor.EMPTY_FIELD)) {
-                boardRow.get(row - 1).set(col - 1, new None());
-            } else {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private int beatingQueenLeftUp(Move move, int count) {
-        Figure figureFrom = getFigure(move.getRow1(), move.getCol1());
-        if (move.getRow2() < move.getRow1() && move.getCol2() < move.getCol1()) {
-            int row1 = move.getRow1();
-            int col1 = move.getCol1();
-
-            if (areColorsEqual(figureFrom.getColor(), FigureColor.WHITE_QUEEN)) {
-                while (row1 != move.getRow2() && col1 != move.getCol2()) {
-                    count++;
-                    row1--;
-                    col1--;
-                    if (doQueenBeating(isFigureBlack(row1, col1), clearBeatingFigureByQueenLeftUp(row1, col1), isFigureWhite(row1, col1)))
-                        break;
-                }
-            }
-            if (areColorsEqual(figureFrom.getColor(), FigureColor.BLACK_QUEEN)) {
-                while (row1 != move.getRow2() && col1 != move.getCol2()) {
-                    count++;
-                    row1--;
-                    col1--;
-                    if (doQueenBeating(isFigureWhite(row1, col1), clearBeatingFigureByQueenLeftUp(row1, col1), isFigureBlack(row1, col1)))
-                        break;
-                }
-            }
-        }
-        return count;
-    }
-
-    private boolean clearBeatingFigureByQueenLeftUp(int row, int col) {
-        if (row - 1 > 0 && col - 1 > 0) {
-            if (getFigure(row - 1, col - 1).getColor().equals(FigureColor.EMPTY_FIELD)) {
-                boardRow.get(row - 1).set(col - 1, new None());
-            } else {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean isFigureBlack(int row, int col) {
         return getFigure(row, col).getColor().isInGroup(FigureColor.Group.BLACK);
     }
 
-    private int beatingQueenLeftDown(Move move, int count) {
-        Figure figureFrom = getFigure(move.getRow1(), move.getCol1());
-        if (move.getRow2() > move.getRow1() && move.getCol2() < move.getCol1()) {
-            int row = move.getRow1();
-            int col = move.getCol1();
-
-            if (areColorsEqual(figureFrom.getColor(), FigureColor.WHITE_QUEEN)) {
-                while (row != move.getRow2() && col != move.getCol2()) {
-                    count++;
-                    row++;
-                    col--;
-                    if (doQueenBeating(isFigureBlack(row, col), clearBeatingFigureByQueenLeftDown(row, col), isFigureWhite(row, col)))
-                        break;
-                }
-            }
-            if (areColorsEqual(figureFrom.getColor(), FigureColor.BLACK_QUEEN)) {
-                while (row != move.getRow2() && col != move.getCol2()) {
-                    count++;
-                    row++;
-                    col--;
-                    if (doQueenBeating(isFigureWhite(row, col), clearBeatingFigureByQueenLeftDown(row, col), isFigureBlack(row, col)))
-                        break;
-                }
-            }
-        }
-        return count;
-    }
-
-    private boolean clearBeatingFigureByQueenLeftDown(int row, int col) {
-        if (row + 1 <= 8 && col - 1 > 0) {
-            if (getFigure(row + 1, col - 1).getColor().equals(FigureColor.EMPTY_FIELD)) {
-                boardRow.get(row - 1).set(col - 1, new None());
-            } else {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private int beatingQueenRightDown(Move move, int count) {
-        Figure figureFrom = getFigure(move.getRow1(), move.getCol1());
-        if (move.getRow2() > move.getRow1() && move.getCol2() > move.getCol1()) {
-            int row1 = move.getRow1();
-            int col1 = move.getCol1();
-
-            if (areColorsEqual(figureFrom.getColor(), FigureColor.WHITE_QUEEN)) {
-                while (row1 != move.getRow2() && col1 != move.getCol2()) {
-                    count++;
-                    row1++;
-                    col1++;
-                    if (doQueenBeating(isFigureBlack(row1, col1), clearBeatingFigureByQueenRightDown(row1, col1), isFigureWhite(row1, col1)))
-                        break;
-                }
-            }
-            if (areColorsEqual(figureFrom.getColor(), FigureColor.BLACK_QUEEN)) {
-                while (row1 != move.getRow2() && col1 != move.getCol2()) {
-                    count++;
-                    row1++;
-                    col1++;
-                    if (doQueenBeating(isFigureWhite(row1, col1), clearBeatingFigureByQueenRightDown(row1, col1), isFigureBlack(row1, col1)))
-                        break;
-                }
-            }
-        }
-        return count;
-    }
-
-    private boolean doQueenBeating(boolean figureBlackOrWhite, boolean clearBeatingFigureByQueen, boolean figureWhiteOrBlack) {
-        if (figureBlackOrWhite) {
-            if (clearBeatingFigureByQueen) return true;
-        }
-        return figureWhiteOrBlack;
-    }
-
-    private boolean clearBeatingFigureByQueenRightDown(int row, int col) {
-        if (row + 1 <= 8 && col + 1 <= 8) {
-            if (getFigure(row + 1, col + 1).getColor().equals(FigureColor.EMPTY_FIELD)) {
-                boardRow.get(row - 1).set(col - 1, new None());
-            } else {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean isFigureWhite(int row, int col) {
         return getFigure(row, col).getColor().isInGroup(FigureColor.Group.WHITE);
-    }
-
-    private void movePawn(Move move) {
-        moveBlackPawn(move);
-        moveWhitePawn(move);
-    }
-
-    private void moveWhitePawn(Move move) {
-        Figure figureFrom = getFigure(move.getRow1(), move.getCol1());
-        if (areColorsEqual(figureFrom.getColor(), FigureColor.WHITE_PAWN)) {
-            if (isPawnMoveDiagonal(move.getRow1() - 1, move.getRow2(), move.getCol1(), move.getCol2())) {
-                setFigureToANewField(move);
-                changePawnToQueen(move);
-            }
-            beatingAPawnDownRight(move);
-            beatingAPawnDownLeft(move);
-            beatingAPawnUpRight(move);
-            beatingAPawnUpLeft(move);
-        }
-    }
-
-    private static boolean isPawnMoveDiagonal(int i, int row2, int col1, int col2) {
-        return (i == row2) && (col1 + 1 == col2 || col1 - 1 == col2);
-    }
-
-    private void changePawnToQueen(Move move) {
-        if (move.getRow2() == 1 && getFigure(move.getRow2(), move.getCol2()).getColor().equals(FigureColor.WHITE_PAWN)) {
-            boardRow.get(move.getRow2() - 1).set(move.getCol2() - 1, new Queen(FigureColor.WHITE_QUEEN));
-        }
-        if (move.getRow2() == 8 && getFigure(move.getRow2(), move.getCol2()).getColor().equals(FigureColor.BLACK_PAWN)) {
-            boardRow.get(move.getRow2() - 1).set(move.getCol2() - 1, new Queen(FigureColor.BLACK_QUEEN));
-        }
-    }
-
-    private void moveBlackPawn(Move move) {
-        Figure figureFrom = getFigure(move.getRow1(), move.getCol1());
-        if (areColorsEqual(figureFrom.getColor(), FigureColor.BLACK_PAWN)) {
-            if (isPawnMoveDiagonal(move.getRow1() + 1, move.getRow2(), move.getCol1(), move.getCol2())) {
-                setFigureToANewField(move);
-                changePawnToQueen(move);
-            }
-            beatingAPawnDownRight(move);
-            beatingAPawnDownLeft(move);
-            beatingAPawnUpRight(move);
-            beatingAPawnUpLeft(move);
-        }
-    }
-
-    private void beatingAPawnUpLeft(Move move) {
-        if (getFigure(move.getRow1(), move.getCol1()).getColor().equals(FigureColor.BLACK_PAWN)) {
-            beatingAPawnUpLeftChooseColor(move, FigureColor.Group.WHITE);
-        }
-        if (getFigure(move.getRow1(), move.getCol1()).getColor().equals(FigureColor.WHITE_PAWN)) {
-            beatingAPawnUpLeftChooseColor(move, FigureColor.Group.BLACK);
-        }
-    }
-
-    private void beatingAPawnUpLeftChooseColor(Move move, FigureColor.Group colors) {
-        if ((move.getRow1() - 2 == move.getRow2()) && move.getCol1() - 2 == move.getCol2()) {
-            if (getFigure(move.getRow2() + 1, move.getCol2() + 1).getColor().isInGroup(colors)) {
-                setFigureToANewField(move);
-                boardRow.get(move.getRow2()).set(move.getCol2(), new None());
-                changePawnToQueen(move);
-            }
-        }
-    }
-
-    private void beatingAPawnUpRight(Move move) {
-        if (getFigure(move.getRow1(), move.getCol1()).getColor().equals(FigureColor.BLACK_PAWN)) {
-            beatingAPawnUpRightChooseColor(move, FigureColor.Group.WHITE);
-        } else if (getFigure(move.getRow1(), move.getCol1()).getColor().equals(FigureColor.WHITE_PAWN)) {
-            beatingAPawnUpRightChooseColor(move, FigureColor.Group.BLACK);
-        }
-    }
-
-    private void beatingAPawnUpRightChooseColor(Move move, FigureColor.Group colors) {
-        if ((move.getRow1() - 2 == move.getRow2()) && move.getCol1() + 2 == move.getCol2()) {
-            if (getFigure(move.getRow2() + 1, move.getCol2() - 1).getColor().isInGroup(colors)) {
-                setFigureToANewField(move);
-                boardRow.get(move.getRow2()).set(move.getCol2() - 2, new None());
-                changePawnToQueen(move);
-            }
-        }
-    }
-
-    private void beatingAPawnDownLeft(Move move) {
-        if (getFigure(move.getRow1(), move.getCol1()).getColor().equals(FigureColor.BLACK_PAWN)) {
-            beatingAPawnDownLeftChooseColor(move, FigureColor.Group.WHITE);
-        } else if (getFigure(move.getRow1(), move.getCol1()).getColor().equals(FigureColor.WHITE_PAWN)) {
-            beatingAPawnDownLeftChooseColor(move, FigureColor.Group.BLACK);
-        }
-    }
-
-    private void beatingAPawnDownLeftChooseColor(Move move, FigureColor.Group colors) {
-        if (move.getRow1() + 2 == move.getRow2() && move.getCol1() - 2 == move.getCol2()) {
-            if (getFigure(move.getRow2() - 1, move.getCol2() + 1).getColor().isInGroup(colors)) {
-                setFigureToANewField(move);
-                boardRow.get(move.getRow2() - 2).set(move.getCol2(), new None());
-                changePawnToQueen(move);
-            }
-        }
-    }
-
-    private void beatingAPawnDownRight(Move move) {
-        if (getFigure(move.getRow1(), move.getCol1()).getColor().equals(FigureColor.BLACK_PAWN)) {
-            beatingAPawnDownRightChooseColor(move, FigureColor.Group.WHITE);
-        } else if (getFigure(move.getRow1(), move.getCol1()).getColor().equals(FigureColor.WHITE_PAWN)) {
-            beatingAPawnDownRightChooseColor(move, FigureColor.Group.BLACK);
-        }
-    }
-
-    private void beatingAPawnDownRightChooseColor(Move move, FigureColor.Group colors) {
-        if (move.getRow1() + 2 == move.getRow2() && move.getCol1() + 2 == move.getCol2()) {
-            if (getFigure(move.getRow2() - 1, move.getCol2() - 1).getColor().isInGroup(colors)) {
-                setFigureToANewField(move);
-                boardRow.get(move.getRow2() - 2).set(move.getCol2() - 2, new None());
-                changePawnToQueen(move);
-            }
-        }
-    }
-
-    private void setFigureToANewField(Move move) {
-        Figure figureFrom = getFigure(move.getRow1(), move.getCol1());
-        boardRow.get(move.getRow1() - 1).set(move.getCol1() - 1, new None());
-        boardRow.get(move.getRow2() - 1).set(move.getCol2() - 1, figureFrom);
     }
 
     @Override
@@ -968,8 +580,8 @@ public class Board {
 
     ArrayList<FigurePoint> saveBoardFigurePoints() {
         saveBoard.clear();
-        for (int row = 1; row < SIZE_OF_THE_BOARD + 1; row++)
-            for (int col = 1; col < SIZE_OF_THE_BOARD + 1; col++) {
+        for (int row = 1; row < GameMoves.SIZE_OF_THE_BOARD + 1; row++)
+            for (int col = 1; col < GameMoves.SIZE_OF_THE_BOARD + 1; col++) {
                 saveBoard.add(new FigurePoint(new Point(row, col), getFigure(row, col)));
             }
         return saveBoard;

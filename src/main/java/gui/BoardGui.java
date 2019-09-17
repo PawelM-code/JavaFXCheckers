@@ -132,7 +132,7 @@ public class BoardGui extends Application implements NewGame {
                 int x = 1 + (int) event.getX() / FIELD_SIZE;
                 int y = 1 + (int) event.getY() / FIELD_SIZE;
                 if (!board.isTheEndOfGame()) {
-                    board.move(new Move(oldY, oldX, y, x));
+                    board.gameMoves.move(new Move(oldY, oldX, y, x), board);
                     board.displayOnGrid();
                 }
                 if (!board.isTheEndOfGame()) {

@@ -27,7 +27,7 @@ public class ApplicationTestSuite {
     }
 
     private void testMove(Move move) {
-        board.move(move);
+        board.gameMoves.move(move, board);
     }
 
     @Test

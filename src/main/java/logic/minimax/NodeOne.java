@@ -10,7 +10,7 @@ public class NodeOne {
     private ArrayList<FigurePoint> boardState;
     private int score;
 
-    public NodeOne(Move move, ArrayList<FigurePoint> boardState, int score) {
+    NodeOne(Move move, ArrayList<FigurePoint> boardState, int score) {
         this.move = move;
         this.boardState = boardState;
         this.score = score;
@@ -20,11 +20,7 @@ public class NodeOne {
         this.move = move;
     }
 
-    public void setBoardState(ArrayList<FigurePoint> boardState) {
-        this.boardState = boardState;
-    }
-
-    public void setScore(int score) {
+    void setScore(int score) {
         this.score = score;
     }
 
@@ -32,11 +28,11 @@ public class NodeOne {
         return move;
     }
 
-    public ArrayList<FigurePoint> getBoardState() {
+    ArrayList<FigurePoint> getBoardState() {
         return boardState;
     }
 
-    public int getScore() {
+    int getScore() {
         return score;
     }
 }

@@ -23,11 +23,8 @@ public class Board {
     public ArrayList<Move> checkBeatingBlack = new ArrayList<>();
     ArrayList<Point> currentWhiteFigures = new ArrayList<>();
     ArrayList<Point> currentBlackFigures = new ArrayList<>();
-    public ArrayList<Move> availableMovesWhite = new ArrayList<>();
-    public ArrayList<Move> availableMovesBlack = new ArrayList<>();
     public ArrayList<FigurePoint> saveBoard = new ArrayList<>();
     Move saveLastMove;
-    boolean addStatus = false;
     private GridPane grid;
 
     public Board(GridPane grid, UserDialogs userDialogs) {

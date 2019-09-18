@@ -12,11 +12,11 @@ public class NodeTwo {
         return move;
     }
 
-    public ArrayList<NodeOne> getNodeOneList() {
+    ArrayList<NodeOne> getNodeOneList() {
         return nodeOneList;
     }
 
-    public NodeTwo(Move move, ArrayList<NodeOne> nodeOneList) {
+    NodeTwo(Move move, ArrayList<NodeOne> nodeOneList) {
         this.move = move;
         this.nodeOneList = nodeOneList;
     }

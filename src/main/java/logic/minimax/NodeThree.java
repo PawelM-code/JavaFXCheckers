@@ -9,19 +9,19 @@ public class NodeThree {
     private Move moveTwo;
     private ArrayList<NodeOne> movesThree;
 
-    public Move getMoveOne() {
+    Move getMoveOne() {
         return moveOne;
     }
 
-    public Move getMoveTwo() {
+    Move getMoveTwo() {
         return moveTwo;
     }
 
-    public ArrayList<NodeOne> getMovesThree() {
+    ArrayList<NodeOne> getMovesThree() {
         return movesThree;
     }
 
-    public NodeThree(Move moveOne, Move moveTwo, ArrayList<NodeOne> movesThree) {
+    NodeThree(Move moveOne, Move moveTwo, ArrayList<NodeOne> movesThree) {
         this.moveOne = moveOne;
         this.moveTwo = moveTwo;
         this.movesThree = movesThree;

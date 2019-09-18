@@ -26,9 +26,9 @@ public class GameValidators {
         board.gameNextMoves.getAvailableMove(board);
         board.gameNextMoves.checkIfFigureIsBeatingAllBoard(board);
         if (board.gameMove.whiteOrBlackMove.peek().equals(FigureColor.Group.WHITE)) {
-            return board.checkBeatingWhite.size() != 0 || board.availableMovesWhite.size() != 0;
+            return board.checkBeatingWhite.size() != 0 || board.gameNextMoves.availableMovesWhite.size() != 0;
         } else {
-            return board.checkBeatingBlack.size() != 0 || board.availableMovesBlack.size() != 0;
+            return board.checkBeatingBlack.size() != 0 || board.gameNextMoves.availableMovesBlack.size() != 0;
         }
     }
 

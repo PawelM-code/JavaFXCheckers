@@ -349,6 +349,44 @@ public class ApplicationTestSuite {
     }
 
     @Test
+    public void test1BeatingQueenNotAllowedOwnColorBeatingWhite() {
+        Move move1 = new Move(5, 4, 8, 1);
+
+        board.gameMove.initWhiteOrBlackMove();
+        board.setFigure(5, 4, figure3);
+        board.setFigure(7, 2, figure2);
+
+        testMove(move1);
+
+        FigureColor result1 = board.getFigure(5, 4).getColor();
+        FigureColor result2 = board.getFigure(7, 2).getColor();
+        FigureColor result5 = board.getFigure(8, 1).getColor();
+
+        Assert.assertEquals(result1, FigureColor.WHITE_QUEEN);
+        Assert.assertEquals(result2, FigureColor.WHITE_PAWN);
+        Assert.assertEquals(result5, FigureColor.EMPTY_FIELD);
+    }
+
+    @Test
+    public void test1BeatingQueenNotAllowedOwnColorBeatingBlack() {
+        Move move1 = new Move(5, 4, 8, 1);
+
+        board.gameMove.initWhiteOrBlackMove();
+        board.setFigure(5, 4, figure4);
+        board.setFigure(7, 2, figure1);
+
+        testMove(move1);
+
+        FigureColor result1 = board.getFigure(5, 4).getColor();
+        FigureColor result2 = board.getFigure(7, 2).getColor();
+        FigureColor result5 = board.getFigure(8, 1).getColor();
+
+        Assert.assertEquals(result1, FigureColor.BLACK_QUEEN);
+        Assert.assertEquals(result2, FigureColor.BLACK_PAWN);
+        Assert.assertEquals(result5, FigureColor.EMPTY_FIELD);
+    }
+
+    @Test
     public void test2BeatingQueenNotAllowed() {
         Move move2 = new Move(3, 3, 8, 8);
 

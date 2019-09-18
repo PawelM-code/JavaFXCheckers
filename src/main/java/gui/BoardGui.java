@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import main.java.logic.*;
 import main.java.logic.figures.FigureColor;
 import main.java.logic.figures.Pawn;
+import main.java.logic.figures.Queen;
 
 public class BoardGui extends Application implements NewGame {
     public static final int FIELD_SIZE = 60;
@@ -98,7 +99,8 @@ public class BoardGui extends Application implements NewGame {
         Board board = new Board(grid, userDialogs);
         Scene scene = new Scene(borderPane);
         scene.getStylesheets().add("/main/java/gui/style.css");
-
+        board.setFigure(8, 5, new Pawn(FigureColor.WHITE_PAWN));
+        board.setFigure(8, 3, new Pawn(FigureColor.WHITE_PAWN));
         board.setFigure(8, 7, new Pawn(FigureColor.WHITE_PAWN));
         board.setFigure(8, 5, new Pawn(FigureColor.WHITE_PAWN));
         board.setFigure(8, 3, new Pawn(FigureColor.WHITE_PAWN));

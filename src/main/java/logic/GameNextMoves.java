@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameNextMoves {
+    private boolean addStatus = false;
+    public ArrayList<Move> availableMovesWhite = new ArrayList<>();
+    public ArrayList<Move> availableMovesBlack = new ArrayList<>();
+
+
     public GameNextMoves(Board board) {
     }
 
@@ -21,9 +26,9 @@ public class GameNextMoves {
             if (board.getFigure(row, col).getColor().equals(FigureColor.WHITE_PAWN)) {
                 Point pointOne = new Point(row - 1, col - 1);
                 Point pointTwo = new Point(row - 1, col + 1);
-                addAvailablePawnMove(currentWhiteFigurePoint, pointOne, pointTwo, pointOne.getRow() > 0, board.availableMovesWhite, board);
+                addAvailablePawnMove(currentWhiteFigurePoint, pointOne, pointTwo, pointOne.getRow() > 0, availableMovesWhite, board);
             } else {
-                addAvailableQueenMove(currentWhiteFigurePoint, board.availableMovesWhite, board);
+                addAvailableQueenMove(currentWhiteFigurePoint, availableMovesWhite, board);
             }
         }
         for (Point currentBlackFigurePoint : board.currentBlackFigures) {
@@ -32,9 +37,9 @@ public class GameNextMoves {
             if (board.getFigure(row, col).getColor().equals(FigureColor.BLACK_PAWN)) {
                 Point pointOne = new Point(row + 1, col - 1);
                 Point pointTwo = new Point(row + 1, col + 1);
-                addAvailablePawnMove(currentBlackFigurePoint, pointOne, pointTwo, pointOne.getRow() < 9, board.availableMovesBlack, board);
+                addAvailablePawnMove(currentBlackFigurePoint, pointOne, pointTwo, pointOne.getRow() < 9, availableMovesBlack, board);
             } else {
-                addAvailableQueenMove(currentBlackFigurePoint, board.availableMovesBlack, board);
+                addAvailableQueenMove(currentBlackFigurePoint, availableMovesBlack, board);
             }
         }
         clearListOfCurrentFigures(board);
@@ -50,10 +55,10 @@ public class GameNextMoves {
     }
 
     private void addAvailableQueenMove(Point point, List<Move> availableMovesBlack, Board board) {
-        addAvailableQueenMoveUpRight(point, availableMovesBlack,board);
-        addAvailableQueenMoveUpLeft(point, availableMovesBlack,board);
-        addAvailableQueenMoveDownRight(point, availableMovesBlack,board);
-        addAvailableQueenMoveDownLeft(point, availableMovesBlack,board);
+        addAvailableQueenMoveUpRight(point, availableMovesBlack, board);
+        addAvailableQueenMoveUpLeft(point, availableMovesBlack, board);
+        addAvailableQueenMoveDownRight(point, availableMovesBlack, board);
+        addAvailableQueenMoveDownLeft(point, availableMovesBlack, board);
     }
 
     private void addAvailableQueenMoveDownLeft(Point point, List<Move> availableMovesBlack, Board board) {
@@ -112,16 +117,16 @@ public class GameNextMoves {
     }
 
     private void clearAvailableMoves(Board board) {
-        board.availableMovesWhite.clear();
-        board.availableMovesBlack.clear();
+        availableMovesWhite.clear();
+        availableMovesBlack.clear();
     }
 
     public void checkIfFigureIsBeatingAllBoard(Board board) {
         board.gameNextMoves.clearBeatingList(board);
         for (int i = 1; i < 9; i++) {
             for (int j = 1; j < 9; j++) {
-                checkPawnIsBeating(i, j,board);
-                checkQueenIsBeating(i, j,board);
+                checkPawnIsBeating(i, j, board);
+                checkQueenIsBeating(i, j, board);
             }
         }
         removeMovesThatCannotByMade(board);
@@ -142,19 +147,19 @@ public class GameNextMoves {
 
     private void checkPawnIsBeating(int row, int col, Board board) {
         if (board.gameValidators.isFigurePawn(board.getFigure(row, col), board)) {
-            checkBeatingPawnUpLeft(row, col,board);
-            checkBeatingPawnUpRight(row, col,board);
-            checkBeatingPawnDownLeft(row, col,board);
-            checkBeatingPawnDownRight(row, col,board);
+            checkBeatingPawnUpLeft(row, col, board);
+            checkBeatingPawnUpRight(row, col, board);
+            checkBeatingPawnDownLeft(row, col, board);
+            checkBeatingPawnDownRight(row, col, board);
         }
     }
 
     private void checkQueenIsBeating(int row, int col, Board board) {
         if (board.gameValidators.isFigureQueen(board.getFigure(row, col), board)) {
-            checkBeatingQueenUpLeft(row, col,board);
-            checkBeatingQueenUpRight(row, col,board);
-            checkBeatingQueenDownLeft(row, col,board);
-            checkBeatingQueenDownRight(row, col,board);
+            checkBeatingQueenUpLeft(row, col, board);
+            checkBeatingQueenUpRight(row, col, board);
+            checkBeatingQueenDownLeft(row, col, board);
+            checkBeatingQueenDownRight(row, col, board);
         }
     }
 
@@ -162,7 +167,7 @@ public class GameNextMoves {
         Figure figureFrom = board.getFigure(row, col);
         int row1 = row;
         int col1 = col;
-        board.addStatus = false;
+        addStatus = false;
 
         while (true) {
             row1--;
@@ -170,8 +175,8 @@ public class GameNextMoves {
             int row2 = row1 - 1;
             int col2 = col1 - 1;
 
-            if (breakVerifyQueenBeating(figureFrom, row1, col1, row2, col2, row2 <= 0, col2 <= 0,board)) break;
-            addingQueenBeats(row, col, figureFrom, row1, col1, row2, col2,board);
+            if (breakVerifyQueenBeating(figureFrom, row1, col1, row2, col2, row2 <= 0, col2 <= 0, board)) break;
+            addingQueenBeats(row, col, figureFrom, row1, col1, row2, col2, board);
         }
     }
 
@@ -179,7 +184,7 @@ public class GameNextMoves {
         Figure figureFrom = board.getFigure(row, col);
         int row1 = row;
         int col1 = col;
-        board.addStatus = false;
+        addStatus = false;
 
         while (true) {
             row1++;
@@ -187,8 +192,8 @@ public class GameNextMoves {
             int row2 = row1 + 1;
             int col2 = col1 - 1;
 
-            if (breakVerifyQueenBeating(figureFrom, row1, col1, row2, col2, row2 >= 9, col2 <= 0,board)) break;
-            addingQueenBeats(row, col, figureFrom, row1, col1, row2, col2,board);
+            if (breakVerifyQueenBeating(figureFrom, row1, col1, row2, col2, row2 >= 9, col2 <= 0, board)) break;
+            addingQueenBeats(row, col, figureFrom, row1, col1, row2, col2, board);
         }
     }
 
@@ -196,7 +201,7 @@ public class GameNextMoves {
         Figure figureFrom = board.getFigure(row, col);
         int row1 = row;
         int col1 = col;
-        board.addStatus = false;
+        addStatus = false;
 
         while (true) {
             row1--;
@@ -204,8 +209,8 @@ public class GameNextMoves {
             int row2 = row1 - 1;
             int col2 = col1 + 1;
 
-            if (breakVerifyQueenBeating(figureFrom, row1, col1, row2, col2, row2 <= 0, col2 >= 9,board)) break;
-            addingQueenBeats(row, col, figureFrom, row1, col1, row2, col2,board);
+            if (breakVerifyQueenBeating(figureFrom, row1, col1, row2, col2, row2 <= 0, col2 >= 9, board)) break;
+            addingQueenBeats(row, col, figureFrom, row1, col1, row2, col2, board);
         }
     }
 
@@ -213,7 +218,7 @@ public class GameNextMoves {
         Figure figureFrom = board.getFigure(row, col);
         int row1 = row;
         int col1 = col;
-        board.addStatus = false;
+        addStatus = false;
 
         while (true) {
             row1++;
@@ -221,19 +226,19 @@ public class GameNextMoves {
             int row2 = row1 + 1;
             int col2 = col1 + 1;
 
-            if (breakVerifyQueenBeating(figureFrom, row1, col1, row2, col2, row2 >= 9, col2 >= 9,board)) break;
-            addingQueenBeats(row, col, figureFrom, row1, col1, row2, col2,board);
+            if (breakVerifyQueenBeating(figureFrom, row1, col1, row2, col2, row2 >= 9, col2 >= 9, board)) break;
+            addingQueenBeats(row, col, figureFrom, row1, col1, row2, col2, board);
         }
     }
 
     private void addingQueenBeats(int row, int col, Figure figureFrom, int row1, int col1, int row2, int col2, Board board) {
         addQueenBeating(row, col, figureFrom, FigureColor.WHITE_QUEEN, board.gameValidators.isFigureBlack(row1, col1, board), row2, col2, board.checkBeatingWhite, board);
-        if (board.addStatus) {
-            addAdditionalPossibilitiesToPositionTheFigureAfterBeating(figureFrom, FigureColor.WHITE_QUEEN, row2, col2, board.checkBeatingWhite,board);
+        if (addStatus) {
+            addAdditionalPossibilitiesToPositionTheFigureAfterBeating(figureFrom, FigureColor.WHITE_QUEEN, row2, col2, board.checkBeatingWhite, board);
         }
-        addQueenBeating(row, col, figureFrom, FigureColor.BLACK_QUEEN, board.gameValidators.isFigureWhite(row1, col1, board), row2, col2, board.checkBeatingBlack,board);
-        if (board.addStatus) {
-            addAdditionalPossibilitiesToPositionTheFigureAfterBeating(figureFrom, FigureColor.BLACK_QUEEN, row2, col2, board.checkBeatingBlack,board);
+        addQueenBeating(row, col, figureFrom, FigureColor.BLACK_QUEEN, board.gameValidators.isFigureWhite(row1, col1, board), row2, col2, board.checkBeatingBlack, board);
+        if (addStatus) {
+            addAdditionalPossibilitiesToPositionTheFigureAfterBeating(figureFrom, FigureColor.BLACK_QUEEN, row2, col2, board.checkBeatingBlack, board);
 
         }
     }
@@ -248,10 +253,10 @@ public class GameNextMoves {
 
     private boolean breakVerifyQueenBeating(Figure figureFrom, int row1, int col1, int row2, int col2, boolean rowBoundary, boolean colBoundary, Board board) {
         if (rowBoundary || colBoundary) return true;
-        if (checkIfQueenBeatsTwoNextFigures(row1, col1, row2, col2,board)) return true;
-        if (checkIfQueenBeatsFigureOfHerColor(figureFrom, FigureColor.WHITE_QUEEN, board.gameValidators.isFigureWhite(row1, col1, board),board))
+        if (checkIfQueenBeatsTwoNextFigures(row1, col1, row2, col2, board)) return true;
+        if (checkIfQueenBeatsFigureOfHerColor(figureFrom, FigureColor.WHITE_QUEEN, board.gameValidators.isFigureWhite(row1, col1, board), board))
             return true;
-        if (checkIfQueenBeatsFigureOfHerColor(figureFrom, FigureColor.BLACK_QUEEN, board.gameValidators.isFigureBlack(row1, col1, board),board))
+        if (checkIfQueenBeatsFigureOfHerColor(figureFrom, FigureColor.BLACK_QUEEN, board.gameValidators.isFigureBlack(row1, col1, board), board))
             return true;
         return false;
     }
@@ -260,7 +265,7 @@ public class GameNextMoves {
                                  boolean figureBlackOrWhite, int row2, int col2, ArrayList<Move> checkBeatingWhiteOrBlack, Board board) {
         if (board.gameValidators.areColorsEqual(figureFrom.getColor(), queenColor) && figureBlackOrWhite && board.getFigure(row2, col2).getColor().equals(FigureColor.EMPTY_FIELD)) {
             checkBeatingWhiteOrBlack.add(new Move(row, col, row2, col2));
-            board.addStatus = true;
+            addStatus = true;
         }
     }
 
@@ -277,7 +282,7 @@ public class GameNextMoves {
             if (board.getFigure(row + 2, col + 2).getColor().equals(FigureColor.EMPTY_FIELD)) {
                 Point emptyPoint = new Point(row + 2, col + 2);
                 Point beatingFigurePoint = new Point(row + 1, col + 1);
-                addPawnBeating(row, col, emptyPoint, beatingFigurePoint,board);
+                addPawnBeating(row, col, emptyPoint, beatingFigurePoint, board);
             }
         }
     }

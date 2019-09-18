@@ -27,7 +27,6 @@ public class Minimax {
         ArrayList<FigurePoint> boardStart = new ArrayList<>(board.saveBoardFigurePoints());
 
         ArrayList<FigurePointScore> boardScore = new ArrayList<>();
-
         boardScore.add(new FigurePointScore(1, 2, 4));
         boardScore.add(new FigurePointScore(1, 4, 4));
         boardScore.add(new FigurePointScore(1, 6, 4));
@@ -62,18 +61,18 @@ public class Minimax {
         boardScore.add(new FigurePointScore(8, 7, 4));
 
         if (board.checkBeatingBlack.size() > 0) {
-            createNodeListWhenOnlyMove(nodeOne, boardStart, board.checkBeatingBlack, FigureColor.Group.BLACK, board);
+            createNodeListWhenBeating(nodeOne, boardStart, board.checkBeatingBlack, FigureColor.Group.BLACK, board);
         } else {
-            createNodeListWhenBeating(nodeOne, boardStart, board.availableMovesBlack, board);
+            createNodeListWhenOnlyMove(nodeOne, boardStart, gameNextMoves.availableMovesBlack, board);
         }
         for (NodeOne node : nodeOne) {
             board.setBoard(node.getBoardState());
             board.minimax.getAvailableMovesAndBeating();
             ArrayList<NodeOne> temp = new ArrayList<>();
             if (board.checkBeatingWhite.size() > 0) {
-                createNodeListWhenOnlyMove(temp, node.getBoardState(), board.checkBeatingWhite, FigureColor.Group.WHITE, board);
+                createNodeListWhenBeating(temp, node.getBoardState(), board.checkBeatingWhite, FigureColor.Group.WHITE, board);
             } else {
-                createNodeListWhenBeating(temp, node.getBoardState(), board.availableMovesWhite, board);
+                createNodeListWhenOnlyMove(temp, node.getBoardState(), gameNextMoves.availableMovesWhite, board);
             }
             nodeTwo.add(new NodeTwo(node.getMove(), temp));
         }
@@ -86,13 +85,17 @@ public class Minimax {
                     blackFirstSimulateMoveList = new ArrayList<>(board.checkBeatingBlack);
                     for (Move move : blackFirstSimulateMoveList) {
                         board.gameMove.simulateBeating(FigureColor.Group.BLACK, move, board);
-                        scoringAlgorithm(boardScore, nodeOneList, temp, move, board);
+                        int score = scoringAlgorithm(boardScore, nodeOneList, temp, move, board) + nodeOneList.getScore();
+                        temp.add(new NodeOne(move, new ArrayList<>(board.saveBoardFigurePoints()), score));
+                        board.setBoard(nodeOneList.getBoardState());
                     }
                 } else {
-                    blackFirstSimulateMoveList = new ArrayList<>(board.availableMovesBlack);
+                    blackFirstSimulateMoveList = new ArrayList<>(gameNextMoves.availableMovesBlack);
                     for (Move move : blackFirstSimulateMoveList) {
                         board.gameMove.simulateMove(move, board);
-                        scoringAlgorithm(boardScore, nodeOneList, temp, move, board);
+                        int score = scoringAlgorithm(boardScore, nodeOneList, temp, move, board);
+                        temp.add(new NodeOne(move, new ArrayList<>(board.saveBoardFigurePoints()), score));
+                        board.setBoard(nodeOneList.getBoardState());
                     }
                 }
                 nodeThree.add(new NodeThree(nodeTwo1.getMove(), nodeOneList.getMove(), temp));
@@ -141,16 +144,16 @@ public class Minimax {
                 return board.checkBeatingBlack.get(randInt);
             } else {
                 Random rand = new Random();
-                int randInt = rand.nextInt(board.availableMovesBlack.size());
+                int randInt = rand.nextInt(gameNextMoves.availableMovesBlack.size());
 
-                return board.availableMovesBlack.get(randInt);
+                return gameNextMoves.availableMovesBlack.get(randInt);
             }
         }
     }
 
-    private void createNodeListWhenBeating(ArrayList<NodeOne> nodeOne, ArrayList<FigurePoint> boardStart, ArrayList<Move> availableMovesBlack, Board board) {
+    private void createNodeListWhenOnlyMove(ArrayList<NodeOne> nodeOne, ArrayList<FigurePoint> boardStart, ArrayList<Move> availableMovesBlackOrWhite, Board board) {
         ArrayList<Move> blackFirstSimulateMoveList;
-        blackFirstSimulateMoveList = new ArrayList<>(availableMovesBlack);
+        blackFirstSimulateMoveList = new ArrayList<>(availableMovesBlackOrWhite);
         for (Move move : blackFirstSimulateMoveList) {
             board.gameMove.simulateMove(move, board);
             nodeOne.add(new NodeOne(move, new ArrayList<>(board.saveBoardFigurePoints()), 0));
@@ -158,17 +161,21 @@ public class Minimax {
         }
     }
 
-    private void createNodeListWhenOnlyMove(ArrayList<NodeOne> nodeOne, ArrayList<FigurePoint> boardStart, ArrayList<Move> checkBeatingBlack, FigureColor.Group black, Board board) {
+    private void createNodeListWhenBeating(ArrayList<NodeOne> nodeOne, ArrayList<FigurePoint> boardStart, ArrayList<Move> checkBeatingBlackOrWhite, FigureColor.Group blackOrWhite, Board board) {
         ArrayList<Move> blackFirstSimulateMoveList;
-        blackFirstSimulateMoveList = new ArrayList<>(checkBeatingBlack);
+        blackFirstSimulateMoveList = new ArrayList<>(checkBeatingBlackOrWhite);
         for (Move move : blackFirstSimulateMoveList) {
-            board.gameMove.simulateBeating(black, move, board);
-            nodeOne.add(new NodeOne(move, new ArrayList<>(board.saveBoardFigurePoints()), 0));
+            board.gameMove.simulateBeating(blackOrWhite, move, board);
+            if (blackOrWhite.equals(FigureColor.Group.WHITE)) {
+                nodeOne.add(new NodeOne(move, new ArrayList<>(board.saveBoardFigurePoints()), -10));
+            } else {
+                nodeOne.add(new NodeOne(move, new ArrayList<>(board.saveBoardFigurePoints()), 0));
+            }
             board.setBoard(boardStart);
         }
     }
 
-    private void scoringAlgorithm(ArrayList<FigurePointScore> boardScore, NodeOne nodeOneList, ArrayList<NodeOne> temp, Move move, Board board) {
+    private int scoringAlgorithm(ArrayList<FigurePointScore> boardScore, NodeOne nodeOneList, ArrayList<NodeOne> temp, Move move, Board board) {
         board.saveBoardFigurePoints();
 
         int countBlackFigure = 0;
@@ -195,10 +202,7 @@ public class Minimax {
                 }
             }
         }
-        int score = countBlackFigure - countWhiteFigure;
-
-        temp.add(new NodeOne(move, new ArrayList<>(board.saveBoardFigurePoints()), score));
-        board.setBoard(nodeOneList.getBoardState());
+        return (countBlackFigure - countWhiteFigure);
     }
 
     private int getCountFigureOnTheBoard(int countFigure, FigurePoint figurePoint, Board board) {
@@ -211,7 +215,7 @@ public class Minimax {
         return countFigure;
     }
 
-    public void getAvailableMovesAndBeating() {
+    private void getAvailableMovesAndBeating() {
         gameNextMoves.checkIfFigureIsBeatingAllBoard(board);
         gameNextMoves.getAvailableMove(board);
     }

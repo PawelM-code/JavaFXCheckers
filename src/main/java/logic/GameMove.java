@@ -60,7 +60,7 @@ public class GameMove {
             checkIfMoveIsOnTheBoardIfTrueTryMove(move, board);
             if (!figureFrom.getColor().equals(board.getFigure(move.getRow1(), move.getCol1()).getColor())) {
                 board.userDialogs.showMoveColor(whiteOrBlackMove);
-                setNextColorMove(whiteOrBlack, board);
+                setNextColorMove(whiteOrBlack);
             } else {
                 board.userDialogs.showInfoMoveNotAllowed();
             }
@@ -73,7 +73,7 @@ public class GameMove {
         }
     }
 
-    private void setNextColorMove(FigureColor.Group whiteOrBlack, Board board) {
+    private void setNextColorMove(FigureColor.Group whiteOrBlack) {
         whiteOrBlackMove.poll();
         whiteOrBlackMove.offer(whiteOrBlack);
     }
@@ -91,7 +91,7 @@ public class GameMove {
             } else {
                 board.saveLastMove = null;
                 board.userDialogs.showMoveColor(whiteOrBlackMove);
-                setNextColorMove(setWhiteOrBlackInQueue, board);
+                setNextColorMove(setWhiteOrBlackInQueue);
             }
         }
     }
@@ -112,7 +112,7 @@ public class GameMove {
         return beating;
     }
 
-    void moveQueen(Move move, Board board) {
+    private void moveQueen(Move move, Board board) {
         int count = 0;
         checkQueenMoveIsDiagonal(move, count, board);
     }
@@ -141,8 +141,14 @@ public class GameMove {
                     count++;
                     row1--;
                     col1++;
-                    if (doQueenBeating(board.gameValidators.isFigureBlack(row1, col1, board), clearBeatingFigureByQueenRightUp(row1, col1, board), board.gameValidators.isFigureWhite(row1, col1, board)))
+                    if(board.gameValidators.isFigureBlack(row1, col1, board)){
+                        if(clearBeatingFigureByQueenRightUp(row1, col1, board)){
+                            break;
+                        }
+                    }
+                    if(board.gameValidators.isFigureWhite(row1, col1, board)){
                         break;
+                    }
                 }
             }
             if (board.gameValidators.areColorsEqual(figureFrom.getColor(), FigureColor.BLACK_QUEEN)) {
@@ -153,8 +159,14 @@ public class GameMove {
                     count++;
                     row1--;
                     col1++;
-                    if (doQueenBeating(board.gameValidators.isFigureWhite(row1, col1, board), clearBeatingFigureByQueenRightUp(row1, col1, board), board.gameValidators.isFigureBlack(row1, col1, board)))
+                    if(board.gameValidators.isFigureWhite(row1, col1, board)){
+                        if(clearBeatingFigureByQueenRightUp(row1, col1, board)){
+                            break;
+                        }
+                    }
+                    if(board.gameValidators.isFigureBlack(row1, col1, board)){
                         break;
+                    }
                 }
             }
         }
@@ -172,8 +184,14 @@ public class GameMove {
                     count++;
                     row1--;
                     col1--;
-                    if (doQueenBeating(board.gameValidators.isFigureBlack(row1, col1, board), clearBeatingFigureByQueenLeftUp(row1, col1, board), board.gameValidators.isFigureWhite(row1, col1, board)))
+                    if(board.gameValidators.isFigureBlack(row1, col1, board)){
+                        if(clearBeatingFigureByQueenLeftUp(row1, col1, board)){
+                            break;
+                        }
+                    }
+                    if(board.gameValidators.isFigureWhite(row1, col1, board)){
                         break;
+                    }
                 }
             }
             if (board.gameValidators.areColorsEqual(figureFrom.getColor(), FigureColor.BLACK_QUEEN)) {
@@ -181,8 +199,14 @@ public class GameMove {
                     count++;
                     row1--;
                     col1--;
-                    if (doQueenBeating(board.gameValidators.isFigureWhite(row1, col1, board), clearBeatingFigureByQueenLeftUp(row1, col1, board), board.gameValidators.isFigureBlack(row1, col1, board)))
+                    if(board.gameValidators.isFigureWhite(row1, col1, board)){
+                        if(clearBeatingFigureByQueenLeftUp(row1, col1, board)){
+                            break;
+                        }
+                    }
+                    if(board.gameValidators.isFigureBlack(row1, col1, board)){
                         break;
+                    }
                 }
             }
         }
@@ -222,8 +246,14 @@ public class GameMove {
                     count++;
                     row++;
                     col--;
-                    if (doQueenBeating(board.gameValidators.isFigureBlack(row, col, board), clearBeatingFigureByQueenLeftDown(row, col, board), board.gameValidators.isFigureWhite(row, col, board)))
+                    if(board.gameValidators.isFigureBlack(row, col, board)){
+                        if(clearBeatingFigureByQueenLeftDown(row, col, board)){
+                            break;
+                        }
+                    }
+                    if(board.gameValidators.isFigureWhite(row, col, board)){
                         break;
+                    }
                 }
             }
             if (board.gameValidators.areColorsEqual(figureFrom.getColor(), FigureColor.BLACK_QUEEN)) {
@@ -231,8 +261,14 @@ public class GameMove {
                     count++;
                     row++;
                     col--;
-                    if (doQueenBeating(board.gameValidators.isFigureWhite(row, col, board), clearBeatingFigureByQueenLeftDown(row, col, board), board.gameValidators.isFigureBlack(row, col, board)))
+                    if(board.gameValidators.isFigureWhite(row, col, board)){
+                        if(clearBeatingFigureByQueenLeftDown(row, col, board)){
+                            break;
+                        }
+                    }
+                    if(board.gameValidators.isFigureBlack(row, col, board)){
                         break;
+                    }
                 }
             }
         }
@@ -250,8 +286,14 @@ public class GameMove {
                     count++;
                     row1++;
                     col1++;
-                    if (doQueenBeating(board.gameValidators.isFigureBlack(row1, col1, board), clearBeatingFigureByQueenRightDown(row1, col1, board), board.gameValidators.isFigureWhite(row1, col1, board)))
+                    if(board.gameValidators.isFigureBlack(row1, col1, board)){
+                        if(clearBeatingFigureByQueenRightDown(row1, col1, board)){
+                            break;
+                        }
+                    }
+                    if(board.gameValidators.isFigureWhite(row1, col1, board)){
                         break;
+                    }
                 }
             }
             if (board.gameValidators.areColorsEqual(figureFrom.getColor(), FigureColor.BLACK_QUEEN)) {
@@ -259,8 +301,14 @@ public class GameMove {
                     count++;
                     row1++;
                     col1++;
-                    if (doQueenBeating(board.gameValidators.isFigureWhite(row1, col1, board), clearBeatingFigureByQueenRightDown(row1, col1, board), board.gameValidators.isFigureBlack(row1, col1, board)))
+                    if(board.gameValidators.isFigureWhite(row1, col1, board)){
+                        if(clearBeatingFigureByQueenRightDown(row1, col1, board)){
+                            break;
+                        }
+                    }
+                    if(board.gameValidators.isFigureBlack(row1, col1, board)){
                         break;
+                    }
                 }
             }
         }
@@ -296,7 +344,7 @@ public class GameMove {
         return false;
     }
 
-    void movePawn(Move move, Board board) {
+    private void movePawn(Move move, Board board) {
         moveBlackPawn(move, board);
         moveWhitePawn(move, board);
     }

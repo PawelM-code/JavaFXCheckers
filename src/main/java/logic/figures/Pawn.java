@@ -12,12 +12,12 @@ public class Pawn extends Figure {
     @Override
     public ImageView getImageView() {
         if (getColor().equals(FigureColor.WHITE_PAWN)) {
-            ImageView whitePawn = new ImageView("/main/resources/pawn/whitePawn2.png");
+            ImageView whitePawn = new ImageView("/main/resources/pawn/whitePawn.png");
             whitePawn.setFitWidth(40);
             whitePawn.setFitHeight(40);
             return whitePawn;
         } else {
-            ImageView blackPawn = new ImageView("/main/resources/pawn/blackPawn2.png");
+            ImageView blackPawn = new ImageView("/main/resources/pawn/blackPawn.png");
             blackPawn.setFitWidth(40);
             blackPawn.setFitHeight(40);
             return blackPawn;

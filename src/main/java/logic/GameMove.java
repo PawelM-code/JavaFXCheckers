@@ -12,9 +12,6 @@ public class GameMove {
     static final int SIZE_OF_THE_BOARD = 8;
     ArrayDeque<FigureColor.Group> whiteOrBlackMove = new ArrayDeque<>();
 
-    GameMove(Board board) {
-    }
-
     public void move(Move move, Board board) {
         Figure figureFrom = board.getFigure(move.getRow1(), move.getCol1());
         board.gameNextMoves.checkIfFigureIsBeatingAllBoard(board);
@@ -84,12 +81,12 @@ public class GameMove {
             board.userDialogs.showInfoMoveNotAllowed();
         } else {
             board.gameNextMoves.clearBeatingList(board);
-            board.saveLastMove = move;
+            board.savedLastMove = move;
             board.gameNextMoves.checkIfFigureIsBeatingAllBoard(board);
             if (checkBeatingWhiteOrBlack.size() > 0) {
                 board.userDialogs.showMoveColorWhenStillBeating(whiteOrBlackMove);
             } else {
-                board.saveLastMove = null;
+                board.savedLastMove = null;
                 board.userDialogs.showMoveColor(whiteOrBlackMove);
                 setNextColorMove(setWhiteOrBlackInQueue);
             }

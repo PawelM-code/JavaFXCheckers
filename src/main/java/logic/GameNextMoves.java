@@ -12,11 +12,6 @@ public class GameNextMoves {
     public ArrayList<Move> availableMovesWhite = new ArrayList<>();
     public ArrayList<Move> availableMovesBlack = new ArrayList<>();
 
-
-    public GameNextMoves(Board board) {
-    }
-
-
     public void getAvailableMove(Board board) {
         clearAvailableMoves(board);
         board.getFiguresPoint();
@@ -134,9 +129,9 @@ public class GameNextMoves {
     }
 
     private void removeMovesThatCannotByMade(Board board) {
-        if (board.saveLastMove != null) {
-            board.checkBeatingBlack.removeIf(x -> !(x.getRow1() == board.saveLastMove.getRow2() && x.getCol1() == board.saveLastMove.getCol2()));
-            board.checkBeatingWhite.removeIf(x -> !(x.getRow1() == board.saveLastMove.getRow2() && x.getCol1() == board.saveLastMove.getCol2()));
+        if (board.savedLastMove != null) {
+            board.checkBeatingBlack.removeIf(x -> !(x.getRow1() == board.savedLastMove.getRow2() && x.getCol1() == board.savedLastMove.getCol2()));
+            board.checkBeatingWhite.removeIf(x -> !(x.getRow1() == board.savedLastMove.getRow2() && x.getCol1() == board.savedLastMove.getCol2()));
         }
     }
 

@@ -1,9 +1,8 @@
 package test;
 
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import javafx.scene.layout.GridPane;
-import main.java.logic.*;
+import main.java.logic.Board;
+import main.java.logic.Move;
+import main.java.logic.UserDialogs;
 import main.java.logic.figures.Figure;
 import main.java.logic.figures.FigureColor;
 import main.java.logic.figures.Pawn;
@@ -11,8 +10,8 @@ import main.java.logic.figures.Queen;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class ApplicationTestSuite {
     private Figure figure1 = new Pawn(FigureColor.BLACK_PAWN); //black
@@ -24,10 +23,7 @@ public class ApplicationTestSuite {
     @Before
     public void setup(){
         UserDialogs mockUserDialogs = mock(UserDialogs.class);
-        GridPane mockGrid = mock(GridPane.class);
-        ObservableList<Node> mockObservableList = mock(ObservableList.class);
-        when(mockGrid.getChildren()).thenReturn(mockObservableList);
-        board = new Board(mockGrid, mockUserDialogs);
+        board = new Board(mockUserDialogs);
     }
 
     private void testMove(Move move) {

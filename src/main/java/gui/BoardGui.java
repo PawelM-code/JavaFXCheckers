@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -14,15 +15,47 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import main.java.logic.*;
+import main.java.logic.figures.Figure;
 import main.java.logic.figures.FigureColor;
 import main.java.logic.figures.Pawn;
-import main.java.logic.figures.Queen;
 
 public class BoardGui extends Application implements NewGame {
     public static final int FIELD_SIZE = 60;
     private static final int SIZE_OF_THE_BOARD = 8;
+    private GridPane grid;
 
     public BoardGui() {
+    }
+
+    public void displayOnGrid(Board board) {
+        grid.getChildren().clear();
+        for (int row = 0; row < SIZE_OF_THE_BOARD; row++)
+            for (int col = 0; col < SIZE_OF_THE_BOARD; col++) {
+                createGridColorFields(row, col,board);
+
+                Figure figure = board.getFigure(row + 1, col + 1);
+                ImageView imageView = figure.getImageView();
+                GridPane.setHalignment(imageView, HPos.CENTER);
+                grid.add(imageView, col, row);
+            }
+    }
+
+    private void createGridColorFields(int row, int col, Board board) {
+        Rectangle rectBlack = new Rectangle(FIELD_SIZE, FIELD_SIZE);
+        Rectangle rectWhite = new Rectangle(FIELD_SIZE, FIELD_SIZE);
+        rectBlack.setFill(Color.color(0.1, 0.1, 0.1));
+        rectBlack.setStroke(Color.BLACK);
+        rectBlack.setStrokeWidth(1);
+        rectWhite.setFill(Color.TRANSPARENT);
+        rectWhite.setStroke(Color.BLACK);
+        rectWhite.setStrokeWidth(1);
+
+        if ((row + col) % 2 == 0) grid.add(rectWhite, col, row);
+        else grid.add(rectBlack, col, row);
+
+        ImageView lightBoard = new ImageView("/main/resources/board/blackMat.jpg");
+        lightBoard.setFitHeight(FIELD_SIZE);
+        lightBoard.setFitWidth(FIELD_SIZE);
     }
 
     @Override
@@ -36,7 +69,7 @@ public class BoardGui extends Application implements NewGame {
         stackPaneTop.getChildren().add(titleGame);
         titleGame.getStyleClass().add("/main/java/gui/style.css");
 
-        GridPane grid = new GridPane();
+        grid = new GridPane();
         GridPane.setColumnIndex(grid, SIZE_OF_THE_BOARD);
         GridPane.setRowIndex(grid, SIZE_OF_THE_BOARD);
         grid.setMaxSize(480, 480);
@@ -96,7 +129,7 @@ public class BoardGui extends Application implements NewGame {
         borderPane.setLeft(stackPaneLeft);
         borderPane.setRight(stackPaneRight);
 
-        Board board = new Board(grid, userDialogs);
+        Board board = new Board(userDialogs);
         Scene scene = new Scene(borderPane);
         scene.getStylesheets().add("/main/java/gui/style.css");
         board.setFigure(8, 5, new Pawn(FigureColor.WHITE_PAWN));
@@ -127,7 +160,7 @@ public class BoardGui extends Application implements NewGame {
         board.setFigure(3, 8, new Pawn(FigureColor.BLACK_PAWN));
         board.gameMove.initWhiteOrBlackMove();
         userDialogs.showStartGameInfo();
-        board.displayOnGrid();
+        displayOnGrid(board);
 
         grid.setOnMousePressed(e -> {
             int oldX = 1 + (int) e.getX() / FIELD_SIZE;
@@ -137,12 +170,12 @@ public class BoardGui extends Application implements NewGame {
                 int y = 1 + (int) event.getY() / FIELD_SIZE;
                 if (!board.gameValidators.isTheEndOfGame(board)) {
                     board.gameMove.move(new Move(oldY, oldX, y, x), board);
-                    board.displayOnGrid();
+                    displayOnGrid(board);
                 }
                 if (!board.gameValidators.isTheEndOfGame(board)) {
                     try {
                         board.gameMove.computerMove(board);
-                        board.displayOnGrid();
+                        displayOnGrid(board);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }

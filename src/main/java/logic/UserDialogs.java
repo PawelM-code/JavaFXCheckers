@@ -18,9 +18,14 @@ public class UserDialogs {
         return textUserDialogs;
     }
 
-    public void showEndInfo() {
-        System.out.println("End of the game.");
-        textUserDialogs.setText("End of the game.");
+    public void showEndInfoWhiteWon() {
+        System.out.println("End of the game. White Won!");
+        textUserDialogs.setText("End of the game. White Won!");
+    }
+
+    public void showEndInfoBlackWon() {
+        System.out.println("End of the game. Black Won!");
+        textUserDialogs.setText("End of the game. Black Won!");
     }
 
     public void showMoveColor(ArrayDeque<FigureColor.Group> whiteOrBlackMove) {

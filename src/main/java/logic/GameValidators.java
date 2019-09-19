@@ -7,15 +7,20 @@ import java.util.stream.IntStream;
 
 public class GameValidators {
 
-    GameValidators(Board board) {
-    }
-
     public boolean isTheEndOfGame(Board board) {
         if (isPlayerPresent(FigureColor.Group.WHITE, board) != isPlayerPresent(FigureColor.Group.BLACK, board)) {
-            board.userDialogs.showEndInfo();
+            if(isPlayerPresent(FigureColor.Group.WHITE, board)){
+                board.userDialogs.showEndInfoWhiteWon();
+            }else {
+                board.userDialogs.showEndInfoBlackWon();
+            }
             return true;
         } else if (!isPossibleMove(board)) {
-            board.userDialogs.showEndInfo();
+            if(board.checkBeatingWhite.size() == 0 && board.gameNextMoves.availableMovesWhite.size() == 0){
+                board.userDialogs.showEndInfoBlackWon();
+            }else{
+                board.userDialogs.showEndInfoWhiteWon();
+            }
             return true;
         } else {
             return false;

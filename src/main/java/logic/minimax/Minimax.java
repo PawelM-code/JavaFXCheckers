@@ -12,7 +12,7 @@ import static java.util.stream.Collectors.toList;
 
 public class Minimax {
     private Board board;
-    private GameNextMoves gameNextMoves = new GameNextMoves(board);
+    private GameNextMoves gameNextMoves = new GameNextMoves();
 
     public Minimax(Board board) {
         this.board = board;
@@ -85,7 +85,7 @@ public class Minimax {
                     blackFirstSimulateMoveList = new ArrayList<>(board.checkBeatingBlack);
                     for (Move move : blackFirstSimulateMoveList) {
                         board.gameMove.simulateBeating(FigureColor.Group.BLACK, move, board);
-                        int score = scoringAlgorithm(boardScore, nodeOneList, temp, move, board) + nodeOneList.getScore();
+                        int score = scoringAlgorithm(boardScore, board) + nodeOneList.getScore();
                         temp.add(new NodeOne(move, new ArrayList<>(board.saveBoardFigurePoints()), score));
                         board.setBoard(nodeOneList.getBoardState());
                     }
@@ -93,7 +93,7 @@ public class Minimax {
                     blackFirstSimulateMoveList = new ArrayList<>(gameNextMoves.availableMovesBlack);
                     for (Move move : blackFirstSimulateMoveList) {
                         board.gameMove.simulateMove(move, board);
-                        int score = scoringAlgorithm(boardScore, nodeOneList, temp, move, board);
+                        int score = scoringAlgorithm(boardScore, board);
                         temp.add(new NodeOne(move, new ArrayList<>(board.saveBoardFigurePoints()), score));
                         board.setBoard(nodeOneList.getBoardState());
                     }
@@ -175,13 +175,13 @@ public class Minimax {
         }
     }
 
-    private int scoringAlgorithm(ArrayList<FigurePointScore> boardScore, NodeOne nodeOneList, ArrayList<NodeOne> temp, Move move, Board board) {
+    private int scoringAlgorithm(ArrayList<FigurePointScore> boardScore, Board board) {
         board.saveBoardFigurePoints();
 
         int countBlackFigure = 0;
         int countWhiteFigure = 0;
 
-        for (FigurePoint figurePoint : board.saveBoard) {
+        for (FigurePoint figurePoint : board.savedBoard) {
             if (board.gameValidators.isFigureBlack(figurePoint.getPoint().getRow(), figurePoint.getPoint().getCol(), board)) {
                 countBlackFigure = getCountFigureOnTheBoard(countBlackFigure, figurePoint, board);
             }
@@ -207,7 +207,7 @@ public class Minimax {
 
     private int getCountFigureOnTheBoard(int countFigure, FigurePoint figurePoint, Board board) {
         if (board.gameValidators.isFigurePawn(figurePoint.getFigure(), board)) {
-            countFigure++;
+            countFigure ++;
         }
         if (board.gameValidators.isFigureQueen(figurePoint.getFigure(), board)) {
             countFigure += 2;

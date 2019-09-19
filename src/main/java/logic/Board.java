@@ -1,67 +1,28 @@
 package main.java.logic;
 
-import javafx.geometry.HPos;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import main.java.logic.figures.*;
 import main.java.logic.minimax.Minimax;
 
-import java.util.*;
-
-import static main.java.gui.BoardGui.FIELD_SIZE;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Board {
     final UserDialogs userDialogs;
     public Minimax minimax = new Minimax(this);
-    public GameMove gameMove = new GameMove(this);
-    public GameValidators gameValidators = new GameValidators(this);
-    GameNextMoves gameNextMoves = new GameNextMoves(this);
+    public GameMove gameMove = new GameMove();
+    public GameValidators gameValidators = new GameValidators();
+    GameNextMoves gameNextMoves = new GameNextMoves();
     LinkedList<LinkedList<Figure>> boardRow;
     public ArrayList<Move> checkBeatingWhite = new ArrayList<>();
     public ArrayList<Move> checkBeatingBlack = new ArrayList<>();
     ArrayList<Point> currentWhiteFigures = new ArrayList<>();
     ArrayList<Point> currentBlackFigures = new ArrayList<>();
-    public ArrayList<FigurePoint> saveBoard = new ArrayList<>();
-    Move saveLastMove;
-    private GridPane grid;
+    public ArrayList<FigurePoint> savedBoard = new ArrayList<>();
+    Move savedLastMove;
 
-    public Board(GridPane grid, UserDialogs userDialogs) {
-        this.grid = grid;
+    public Board(UserDialogs userDialogs) {
         this.userDialogs = userDialogs;
         initBoard();
-    }
-
-    public void displayOnGrid() {
-        grid.getChildren().clear();
-        for (int row = 0; row < GameMove.SIZE_OF_THE_BOARD; row++)
-            for (int col = 0; col < GameMove.SIZE_OF_THE_BOARD; col++) {
-                createGridColorFields(row, col);
-
-                Figure figure = getFigure(row + 1, col + 1);
-                ImageView imageView = figure.getImageView();
-                GridPane.setHalignment(imageView, HPos.CENTER);
-                grid.add(imageView, col, row);
-            }
-    }
-
-    private void createGridColorFields(int row, int col) {
-        Rectangle rectBlack = new Rectangle(FIELD_SIZE, FIELD_SIZE);
-        Rectangle rectWhite = new Rectangle(FIELD_SIZE, FIELD_SIZE);
-        rectBlack.setFill(Color.color(0.1, 0.1, 0.1));
-        rectBlack.setStroke(Color.BLACK);
-        rectBlack.setStrokeWidth(1);
-        rectWhite.setFill(Color.TRANSPARENT);
-        rectWhite.setStroke(Color.BLACK);
-        rectWhite.setStrokeWidth(1);
-
-        if ((row + col) % 2 == 0) grid.add(rectWhite, col, row);
-        else grid.add(rectBlack, col, row);
-
-        ImageView lightBoard = new ImageView("/main/resources/board/blackMat.jpg");
-        lightBoard.setFitHeight(FIELD_SIZE);
-        lightBoard.setFitWidth(FIELD_SIZE);
     }
 
     private void initBoard() {
@@ -151,11 +112,11 @@ public class Board {
     }
 
     public ArrayList<FigurePoint> saveBoardFigurePoints() {
-        saveBoard.clear();
+        savedBoard.clear();
         for (int row = 1; row < GameMove.SIZE_OF_THE_BOARD + 1; row++)
             for (int col = 1; col < GameMove.SIZE_OF_THE_BOARD + 1; col++) {
-                saveBoard.add(new FigurePoint(new Point(row, col), getFigure(row, col)));
+                savedBoard.add(new FigurePoint(new Point(row, col), getFigure(row, col)));
             }
-        return saveBoard;
+        return savedBoard;
     }
 }

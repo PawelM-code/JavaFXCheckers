@@ -1,7 +1,7 @@
-package main.java.logic;
+package com.checkers.logic;
 
-import main.java.logic.figures.*;
-import main.java.logic.minimax.Minimax;
+import com.checkers.logic.figures.*;
+import com.checkers.logic.minimax.Minimax;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

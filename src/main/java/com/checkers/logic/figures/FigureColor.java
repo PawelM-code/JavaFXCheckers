@@ -1,4 +1,4 @@
-package main.java.logic.figures;
+package com.checkers.logic.figures;
 
 public enum FigureColor {
     WHITE_PAWN(Group.WHITE),

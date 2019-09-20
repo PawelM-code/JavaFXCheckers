@@ -1,4 +1,4 @@
-package main.java.logic;
+package com.checkers.logic;
 
 public class Move {
     private final int row1;
@@ -13,19 +13,19 @@ public class Move {
         this.col2 = col2;
     }
 
-    public int getRow1() {
+    int getRow1() {
         return row1;
     }
 
-    public int getCol1() {
+    int getCol1() {
         return col1;
     }
 
-    public int getRow2() {
+    int getRow2() {
         return row2;
     }
 
-    public int getCol2() {
+    int getCol2() {
         return col2;
     }
 }

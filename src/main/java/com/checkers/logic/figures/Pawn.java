@@ -1,8 +1,6 @@
-package main.java.logic.figures;
+package com.checkers.logic.figures;
 
 import javafx.scene.image.ImageView;
-import main.java.logic.figures.Figure;
-import main.java.logic.figures.FigureColor;
 
 public class Pawn extends Figure {
     public Pawn(FigureColor color) {
@@ -12,12 +10,12 @@ public class Pawn extends Figure {
     @Override
     public ImageView getImageView() {
         if (getColor().equals(FigureColor.WHITE_PAWN)) {
-            ImageView whitePawn = new ImageView("/main/resources/pawn/whitePawn.png");
+            ImageView whitePawn = new ImageView("/pawn/whitePawn.png");
             whitePawn.setFitWidth(40);
             whitePawn.setFitHeight(40);
             return whitePawn;
         } else {
-            ImageView blackPawn = new ImageView("/main/resources/pawn/blackPawn.png");
+            ImageView blackPawn = new ImageView("/pawn/blackPawn.png");
             blackPawn.setFitWidth(40);
             blackPawn.setFitHeight(40);
             return blackPawn;

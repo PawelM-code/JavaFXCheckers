@@ -1,9 +1,11 @@
-package main.java.logic.minimax;
+package com.checkers.logic.minimax;
 
-import main.java.logic.*;
-import main.java.logic.figures.FigureColor;
-import main.java.logic.figures.FigurePoint;
-import main.java.logic.figures.FigurePointScore;
+import com.checkers.logic.Board;
+import com.checkers.logic.GameNextMoves;
+import com.checkers.logic.Move;
+import com.checkers.logic.figures.FigureColor;
+import com.checkers.logic.figures.FigurePoint;
+import com.checkers.logic.figures.FigurePointScore;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -18,7 +20,7 @@ public class Minimax {
         this.board = board;
     }
 
-    public Move minimax() throws Exception {
+    public Move minimax() {
         board.minimax.getAvailableMovesAndBeating();
         ArrayList<Move> blackFirstSimulateMoveList;
         ArrayList<NodeOne> nodeOne = new ArrayList<>();

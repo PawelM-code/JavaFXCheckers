@@ -1,7 +1,7 @@
 @font-face
 {
     -fx-font-family: 'Voltage';
-    src: url("/main/resources/font/voltage/Voltage-Regular.otf");
+    src: url("/font/voltage/Voltage-Regular.otf");
 }
 
 .root {
@@ -22,13 +22,7 @@ Text {
 }
 
 .button {
-    /*-fx-background-image: url("/main/resources/board/button.jpg");*/
     -fx-background-color: white;
-    /*linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),*/
-    /*linear-gradient(#20262b, #191d22),*/
-    /*radial-gradient(center 50% 0%, radius 100%, rgba(114, 131, 148, 0.9), rgba(255, 255, 255, 0));*/
-    /*-fx-background-radius: 15px;*/
-    /*-fx-background-insets: 0, 1, 2, 0;*/
     -fx-border-width: 1;
     -fx-border-color: black;
     -fx-border-radius: 5;

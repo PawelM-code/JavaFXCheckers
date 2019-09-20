@@ -1,7 +1,7 @@
-package main.java.logic;
+package com.checkers.logic;
 
-import main.java.logic.figures.Figure;
-import main.java.logic.figures.FigureColor;
+import com.checkers.logic.figures.Figure;
+import com.checkers.logic.figures.FigureColor;
 
 import java.util.stream.IntStream;
 
@@ -30,6 +30,7 @@ public class GameValidators {
     private boolean isPossibleMove(Board board) {
         board.gameNextMoves.getAvailableMove(board);
         board.gameNextMoves.checkIfFigureIsBeatingAllBoard(board);
+        assert board.gameMove.whiteOrBlackMove.peek() != null;
         if (board.gameMove.whiteOrBlackMove.peek().equals(FigureColor.Group.WHITE)) {
             return board.checkBeatingWhite.size() != 0 || board.gameNextMoves.availableMovesWhite.size() != 0;
         } else {

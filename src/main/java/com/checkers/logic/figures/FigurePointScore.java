@@ -1,4 +1,4 @@
-package main.java.logic.figures;
+package com.checkers.logic.figures;
 
 public class FigurePointScore {
     private int row;

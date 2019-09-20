@@ -1,10 +1,10 @@
-package main.java.logic.minimax;
+package com.checkers.logic.minimax;
 
-import main.java.logic.Move;
+import com.checkers.logic.Move;
 
 import java.util.ArrayList;
 
-public class NodeThree {
+class NodeThree {
     private Move moveOne;
     private Move moveTwo;
     private ArrayList<NodeOne> movesThree;

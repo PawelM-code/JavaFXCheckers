@@ -1,6 +1,6 @@
-package main.java.logic.minimax;
+package com.checkers.logic.minimax;
 
-import main.java.logic.Move;
+import com.checkers.logic.Move;
 
 import java.util.ArrayList;
 

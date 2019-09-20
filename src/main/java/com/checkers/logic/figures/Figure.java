@@ -1,4 +1,4 @@
-package main.java.logic.figures;
+package com.checkers.logic.figures;
 
 import javafx.scene.image.ImageView;
 

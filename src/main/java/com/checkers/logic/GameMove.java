@@ -1,9 +1,10 @@
-package main.java.logic;
+package com.checkers.logic;
 
-import main.java.logic.figures.Figure;
-import main.java.logic.figures.FigureColor;
-import main.java.logic.figures.None;
-import main.java.logic.figures.Queen;
+
+import com.checkers.logic.figures.Figure;
+import com.checkers.logic.figures.FigureColor;
+import com.checkers.logic.figures.None;
+import com.checkers.logic.figures.Queen;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -138,12 +139,12 @@ public class GameMove {
                     count++;
                     row1--;
                     col1++;
-                    if(board.gameValidators.isFigureBlack(row1, col1, board)){
-                        if(clearBeatingFigureByQueenRightUp(row1, col1, board)){
+                    if (board.gameValidators.isFigureBlack(row1, col1, board)) {
+                        if (clearBeatingFigureByQueenRightUp(row1, col1, board)) {
                             break;
                         }
                     }
-                    if(board.gameValidators.isFigureWhite(row1, col1, board)){
+                    if (board.gameValidators.isFigureWhite(row1, col1, board)) {
                         break;
                     }
                 }
@@ -156,12 +157,12 @@ public class GameMove {
                     count++;
                     row1--;
                     col1++;
-                    if(board.gameValidators.isFigureWhite(row1, col1, board)){
-                        if(clearBeatingFigureByQueenRightUp(row1, col1, board)){
+                    if (board.gameValidators.isFigureWhite(row1, col1, board)) {
+                        if (clearBeatingFigureByQueenRightUp(row1, col1, board)) {
                             break;
                         }
                     }
-                    if(board.gameValidators.isFigureBlack(row1, col1, board)){
+                    if (board.gameValidators.isFigureBlack(row1, col1, board)) {
                         break;
                     }
                 }
@@ -181,12 +182,12 @@ public class GameMove {
                     count++;
                     row1--;
                     col1--;
-                    if(board.gameValidators.isFigureBlack(row1, col1, board)){
-                        if(clearBeatingFigureByQueenLeftUp(row1, col1, board)){
+                    if (board.gameValidators.isFigureBlack(row1, col1, board)) {
+                        if (clearBeatingFigureByQueenLeftUp(row1, col1, board)) {
                             break;
                         }
                     }
-                    if(board.gameValidators.isFigureWhite(row1, col1, board)){
+                    if (board.gameValidators.isFigureWhite(row1, col1, board)) {
                         break;
                     }
                 }
@@ -196,12 +197,12 @@ public class GameMove {
                     count++;
                     row1--;
                     col1--;
-                    if(board.gameValidators.isFigureWhite(row1, col1, board)){
-                        if(clearBeatingFigureByQueenLeftUp(row1, col1, board)){
+                    if (board.gameValidators.isFigureWhite(row1, col1, board)) {
+                        if (clearBeatingFigureByQueenLeftUp(row1, col1, board)) {
                             break;
                         }
                     }
-                    if(board.gameValidators.isFigureBlack(row1, col1, board)){
+                    if (board.gameValidators.isFigureBlack(row1, col1, board)) {
                         break;
                     }
                 }
@@ -243,12 +244,12 @@ public class GameMove {
                     count++;
                     row++;
                     col--;
-                    if(board.gameValidators.isFigureBlack(row, col, board)){
-                        if(clearBeatingFigureByQueenLeftDown(row, col, board)){
+                    if (board.gameValidators.isFigureBlack(row, col, board)) {
+                        if (clearBeatingFigureByQueenLeftDown(row, col, board)) {
                             break;
                         }
                     }
-                    if(board.gameValidators.isFigureWhite(row, col, board)){
+                    if (board.gameValidators.isFigureWhite(row, col, board)) {
                         break;
                     }
                 }
@@ -258,12 +259,12 @@ public class GameMove {
                     count++;
                     row++;
                     col--;
-                    if(board.gameValidators.isFigureWhite(row, col, board)){
-                        if(clearBeatingFigureByQueenLeftDown(row, col, board)){
+                    if (board.gameValidators.isFigureWhite(row, col, board)) {
+                        if (clearBeatingFigureByQueenLeftDown(row, col, board)) {
                             break;
                         }
                     }
-                    if(board.gameValidators.isFigureBlack(row, col, board)){
+                    if (board.gameValidators.isFigureBlack(row, col, board)) {
                         break;
                     }
                 }
@@ -283,12 +284,12 @@ public class GameMove {
                     count++;
                     row1++;
                     col1++;
-                    if(board.gameValidators.isFigureBlack(row1, col1, board)){
-                        if(clearBeatingFigureByQueenRightDown(row1, col1, board)){
+                    if (board.gameValidators.isFigureBlack(row1, col1, board)) {
+                        if (clearBeatingFigureByQueenRightDown(row1, col1, board)) {
                             break;
                         }
                     }
-                    if(board.gameValidators.isFigureWhite(row1, col1, board)){
+                    if (board.gameValidators.isFigureWhite(row1, col1, board)) {
                         break;
                     }
                 }
@@ -298,25 +299,18 @@ public class GameMove {
                     count++;
                     row1++;
                     col1++;
-                    if(board.gameValidators.isFigureWhite(row1, col1, board)){
-                        if(clearBeatingFigureByQueenRightDown(row1, col1, board)){
+                    if (board.gameValidators.isFigureWhite(row1, col1, board)) {
+                        if (clearBeatingFigureByQueenRightDown(row1, col1, board)) {
                             break;
                         }
                     }
-                    if(board.gameValidators.isFigureBlack(row1, col1, board)){
+                    if (board.gameValidators.isFigureBlack(row1, col1, board)) {
                         break;
                     }
                 }
             }
         }
         return count;
-    }
-
-    private boolean doQueenBeating(boolean figureBlackOrWhite, boolean clearBeatingFigureByQueen, boolean figureWhiteOrBlack) {
-        if (figureBlackOrWhite) {
-            if (clearBeatingFigureByQueen) return true;
-        }
-        return figureWhiteOrBlack;
     }
 
     private boolean clearBeatingFigureByQueenLeftDown(int row, int col, Board board) {

@@ -1,4 +1,4 @@
-package main.java.logic;
+package com.checkers.logic;
 
 public class MoveScore {
     private Move move;

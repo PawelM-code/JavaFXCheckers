@@ -1,4 +1,4 @@
-package main.java.gui;
+package com.checkers.gui;
 
 import javafx.application.Application;
 import javafx.geometry.HPos;
@@ -8,30 +8,36 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import main.java.logic.*;
-import main.java.logic.figures.Figure;
-import main.java.logic.figures.FigureColor;
-import main.java.logic.figures.Pawn;
+import com.checkers.logic.Board;
+import com.checkers.logic.Move;
+import com.checkers.logic.UserDialogs;
+import com.checkers.logic.figures.Figure;
+import com.checkers.logic.figures.FigureColor;
+import com.checkers.logic.figures.Pawn;
+
 
 public class BoardGui extends Application implements NewGame {
-    public static final int FIELD_SIZE = 60;
+    private static final int FIELD_SIZE = 60;
     private static final int SIZE_OF_THE_BOARD = 8;
     private GridPane grid;
 
     public BoardGui() {
     }
 
-    public void displayOnGrid(Board board) {
+    private void displayOnGrid(Board board) {
         grid.getChildren().clear();
         for (int row = 0; row < SIZE_OF_THE_BOARD; row++)
             for (int col = 0; col < SIZE_OF_THE_BOARD; col++) {
-                createGridColorFields(row, col,board);
+                createGridColorFields(row, col);
 
                 Figure figure = board.getFigure(row + 1, col + 1);
                 ImageView imageView = figure.getImageView();
@@ -40,7 +46,7 @@ public class BoardGui extends Application implements NewGame {
             }
     }
 
-    private void createGridColorFields(int row, int col, Board board) {
+    private void createGridColorFields(int row, int col) {
         Rectangle rectBlack = new Rectangle(FIELD_SIZE, FIELD_SIZE);
         Rectangle rectWhite = new Rectangle(FIELD_SIZE, FIELD_SIZE);
         rectBlack.setFill(Color.color(0.1, 0.1, 0.1));
@@ -53,7 +59,7 @@ public class BoardGui extends Application implements NewGame {
         if ((row + col) % 2 == 0) grid.add(rectWhite, col, row);
         else grid.add(rectBlack, col, row);
 
-        ImageView lightBoard = new ImageView("/main/resources/board/blackMat.jpg");
+        ImageView lightBoard = new ImageView("/board/blackMat.jpg");
         lightBoard.setFitHeight(FIELD_SIZE);
         lightBoard.setFitWidth(FIELD_SIZE);
     }
@@ -67,20 +73,20 @@ public class BoardGui extends Application implements NewGame {
         titleGame.setStyle("-fx-font-size: 40");
         BorderPane.setAlignment(titleGame, Pos.CENTER);
         stackPaneTop.getChildren().add(titleGame);
-        titleGame.getStyleClass().add("/main/java/gui/style.css");
+        titleGame.getStyleClass().add("/com/checkers/gui/style.css");
 
         grid = new GridPane();
         GridPane.setColumnIndex(grid, SIZE_OF_THE_BOARD);
         GridPane.setRowIndex(grid, SIZE_OF_THE_BOARD);
         grid.setMaxSize(480, 480);
-        grid.getStylesheets().add("/main/java/gui/style.css");
+        grid.getStylesheets().add("/com/checkers/gui/style.css");
         grid.setStyle("-fx-border-width:3px;-fx-border-color: rgb(10,10,10)");
 
         StackPane stackPaneCenter = new StackPane();
         stackPaneCenter.setMaxWidth(560);
         stackPaneCenter.setMaxHeight(560);
 
-        Image gridPaneBackground = new Image("/main/resources/board/plywood3.jpg");
+        Image gridPaneBackground = new Image("/board/plywood3.jpg");
         ImagePattern gridPaneBackgroundImagePattern = new ImagePattern(gridPaneBackground);
 
         Rectangle rectangle = new Rectangle(560, 560);
@@ -97,10 +103,10 @@ public class BoardGui extends Application implements NewGame {
         Button newGame = new Button();
         newGame.setText("New Game");
         newGame.setOnAction(e -> restart(stage));
-        newGame.getStylesheets().add("/main/java/gui/style.css");
+        newGame.getStylesheets().add("/com/checkers/gui/style.css");
 
         GridPane setBottom = new GridPane();
-        setBottom.getStyleClass().add("/main/java/gui/style.css");
+        setBottom.getStyleClass().add("/com/checkers/gui/style.css");
 
         ColumnConstraints column1 = new ColumnConstraints();
         column1.setPercentWidth(50);
@@ -131,7 +137,7 @@ public class BoardGui extends Application implements NewGame {
 
         Board board = new Board(userDialogs);
         Scene scene = new Scene(borderPane);
-        scene.getStylesheets().add("/main/java/gui/style.css");
+        scene.getStylesheets().add("/com/checkers/gui/style.css");
         board.setFigure(8, 5, new Pawn(FigureColor.WHITE_PAWN));
         board.setFigure(8, 3, new Pawn(FigureColor.WHITE_PAWN));
         board.setFigure(8, 7, new Pawn(FigureColor.WHITE_PAWN));
@@ -198,7 +204,7 @@ public class BoardGui extends Application implements NewGame {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         newGame(primaryStage);
     }
 

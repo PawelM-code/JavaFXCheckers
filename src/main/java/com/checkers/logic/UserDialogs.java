@@ -1,7 +1,7 @@
-package main.java.logic;
+package com.checkers.logic;
 
 import javafx.scene.text.Text;
-import main.java.logic.figures.FigureColor;
+import com.checkers.logic.figures.FigureColor;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -18,17 +18,18 @@ public class UserDialogs {
         return textUserDialogs;
     }
 
-    public void showEndInfoWhiteWon() {
+    void showEndInfoWhiteWon() {
         System.out.println("End of the game. White Won!");
         textUserDialogs.setText("End of the game. White Won!");
     }
 
-    public void showEndInfoBlackWon() {
+    void showEndInfoBlackWon() {
         System.out.println("End of the game. Black Won!");
         textUserDialogs.setText("End of the game. Black Won!");
     }
 
-    public void showMoveColor(ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
+    void showMoveColor(ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
+        assert whiteOrBlackMove.peek() != null;
         if (whiteOrBlackMove.peek().equals(FigureColor.Group.WHITE)) {
             System.out.println("Move black");
             textUserDialogs.setText("Move black");
@@ -39,6 +40,7 @@ public class UserDialogs {
     }
 
     void showMoveColorWhenStillBeating(ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
+        assert whiteOrBlackMove.peek() != null;
         if (whiteOrBlackMove.peek().equals(FigureColor.Group.WHITE)) {
             System.out.println("Move white");
             textUserDialogs.setText("Move white");
@@ -49,6 +51,7 @@ public class UserDialogs {
     }
 
     void showInfoWhenWrongColorStarts(ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
+        assert whiteOrBlackMove.peek() != null;
         if (whiteOrBlackMove.peek().equals(FigureColor.Group.WHITE)) {
             System.out.println("Move not allowed, try again WHITE.");
             textUserDialogs.setText("Move not allowed, try again WHITE.");
@@ -69,6 +72,7 @@ public class UserDialogs {
     }
 
     void showBeating(ArrayList<Move> checkBeatingBlack, ArrayList<Move> checkBeatingWhite, ArrayDeque<FigureColor.Group> whiteOrBlackMove) {
+        assert whiteOrBlackMove.peek() != null;
         if (whiteOrBlackMove.peek().equals(FigureColor.Group.WHITE) && checkBeatingWhite.size() > 0) {
             convertBeatingToStringAndShow(checkBeatingWhite);
         } else if (whiteOrBlackMove.peek().equals(FigureColor.Group.BLACK) && checkBeatingBlack.size() > 0) {

@@ -1,8 +1,8 @@
-package main.java.logic;
+package com.checkers.logic;
 
-import main.java.logic.figures.Figure;
-import main.java.logic.figures.FigureColor;
-import main.java.logic.figures.Point;
+import com.checkers.logic.figures.Figure;
+import com.checkers.logic.figures.FigureColor;
+import com.checkers.logic.figures.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class GameNextMoves {
     public ArrayList<Move> availableMovesBlack = new ArrayList<>();
 
     public void getAvailableMove(Board board) {
-        clearAvailableMoves(board);
+        clearAvailableMoves();
         board.getFiguresPoint();
         for (Point currentWhiteFigurePoint : board.currentWhiteFigures) {
             int row = currentWhiteFigurePoint.getRow();
@@ -111,7 +111,7 @@ public class GameNextMoves {
         board.currentWhiteFigures.clear();
     }
 
-    private void clearAvailableMoves(Board board) {
+    private void clearAvailableMoves() {
         availableMovesWhite.clear();
         availableMovesBlack.clear();
     }

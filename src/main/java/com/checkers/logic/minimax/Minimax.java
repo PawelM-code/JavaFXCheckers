@@ -21,7 +21,7 @@ public class Minimax {
     }
 
     public Move minimax() {
-        board.minimax.getAvailableMovesAndBeating();
+        getAvailableMovesAndBeating();
         ArrayList<Move> blackFirstSimulateMoveList;
         ArrayList<NodeOne> nodeOne = new ArrayList<>();
         ArrayList<NodeTwo> nodeTwo = new ArrayList<>();
@@ -62,39 +62,39 @@ public class Minimax {
         boardScore.add(new FigurePointScore(8, 5, 4));
         boardScore.add(new FigurePointScore(8, 7, 4));
 
-        if (board.checkBeatingBlack.size() > 0) {
-            createNodeListWhenBeating(nodeOne, boardStart, board.checkBeatingBlack, FigureColor.Group.BLACK, board);
+        if (board.getCheckBeatingBlack().size() > 0) {
+            createNodeListWhenBeating(nodeOne, boardStart, board.getCheckBeatingBlack(), FigureColor.Group.BLACK, board);
         } else {
-            createNodeListWhenOnlyMove(nodeOne, boardStart, gameNextMoves.availableMovesBlack, board);
+            createNodeListWhenOnlyMove(nodeOne, boardStart, gameNextMoves.getAvailableMovesBlack(), board);
         }
         for (NodeOne node : nodeOne) {
             board.setBoard(node.getBoardState());
-            board.minimax.getAvailableMovesAndBeating();
+            getAvailableMovesAndBeating();
             ArrayList<NodeOne> temp = new ArrayList<>();
-            if (board.checkBeatingWhite.size() > 0) {
-                createNodeListWhenBeating(temp, node.getBoardState(), board.checkBeatingWhite, FigureColor.Group.WHITE, board);
+            if (board.getCheckBeatingWhite().size() > 0) {
+                createNodeListWhenBeating(temp, node.getBoardState(), board.getCheckBeatingWhite(), FigureColor.Group.WHITE, board);
             } else {
-                createNodeListWhenOnlyMove(temp, node.getBoardState(), gameNextMoves.availableMovesWhite, board);
+                createNodeListWhenOnlyMove(temp, node.getBoardState(), gameNextMoves.getAvailableMovesWhite(), board);
             }
             nodeTwo.add(new NodeTwo(node.getMove(), temp));
         }
         for (NodeTwo nodeTwo1 : nodeTwo) {
             for (NodeOne nodeOneList : nodeTwo1.getNodeOneList()) {
                 board.setBoard(nodeOneList.getBoardState());
-                board.minimax.getAvailableMovesAndBeating();
+                getAvailableMovesAndBeating();
                 ArrayList<NodeOne> temp = new ArrayList<>();
-                if (board.checkBeatingBlack.size() > 0) {
-                    blackFirstSimulateMoveList = new ArrayList<>(board.checkBeatingBlack);
+                if (board.getCheckBeatingBlack().size() > 0) {
+                    blackFirstSimulateMoveList = new ArrayList<>(board.getCheckBeatingBlack());
                     for (Move move : blackFirstSimulateMoveList) {
-                        board.gameMove.simulateBeating(FigureColor.Group.BLACK, move, board);
+                        board.getGameMove().simulateBeating(FigureColor.Group.BLACK, move, board);
                         int score = scoringAlgorithm(boardScore, board) + nodeOneList.getScore();
                         temp.add(new NodeOne(move, new ArrayList<>(board.saveBoardFigurePoints()), score));
                         board.setBoard(nodeOneList.getBoardState());
                     }
                 } else {
-                    blackFirstSimulateMoveList = new ArrayList<>(gameNextMoves.availableMovesBlack);
+                    blackFirstSimulateMoveList = new ArrayList<>(gameNextMoves.getAvailableMovesBlack());
                     for (Move move : blackFirstSimulateMoveList) {
-                        board.gameMove.simulateMove(move, board);
+                        board.getGameMove().simulateMove(move, board);
                         int score = scoringAlgorithm(boardScore, board);
                         temp.add(new NodeOne(move, new ArrayList<>(board.saveBoardFigurePoints()), score));
                         board.setBoard(nodeOneList.getBoardState());
@@ -138,17 +138,17 @@ public class Minimax {
 
             return maxScoreList.get(randInt).getMove();
         } catch (NoSuchElementException e) {
-            board.minimax.getAvailableMovesAndBeating();
-            if (board.checkBeatingBlack.size() > 0) {
+            getAvailableMovesAndBeating();
+            if (board.getCheckBeatingBlack().size() > 0) {
                 Random rand = new Random();
-                int randInt = rand.nextInt(board.checkBeatingBlack.size());
+                int randInt = rand.nextInt(board.getCheckBeatingBlack().size());
 
-                return board.checkBeatingBlack.get(randInt);
+                return board.getCheckBeatingBlack().get(randInt);
             } else {
                 Random rand = new Random();
-                int randInt = rand.nextInt(gameNextMoves.availableMovesBlack.size());
+                int randInt = rand.nextInt(gameNextMoves.getAvailableMovesBlack().size());
 
-                return gameNextMoves.availableMovesBlack.get(randInt);
+                return gameNextMoves.getAvailableMovesBlack().get(randInt);
             }
         }
     }
@@ -157,7 +157,7 @@ public class Minimax {
         ArrayList<Move> blackFirstSimulateMoveList;
         blackFirstSimulateMoveList = new ArrayList<>(availableMovesBlackOrWhite);
         for (Move move : blackFirstSimulateMoveList) {
-            board.gameMove.simulateMove(move, board);
+            board.getGameMove().simulateMove(move, board);
             nodeOne.add(new NodeOne(move, new ArrayList<>(board.saveBoardFigurePoints()), 0));
             board.setBoard(boardStart);
         }
@@ -167,7 +167,7 @@ public class Minimax {
         ArrayList<Move> blackFirstSimulateMoveList;
         blackFirstSimulateMoveList = new ArrayList<>(checkBeatingBlackOrWhite);
         for (Move move : blackFirstSimulateMoveList) {
-            board.gameMove.simulateBeating(blackOrWhite, move, board);
+            board.getGameMove().simulateBeating(blackOrWhite, move, board);
             if (blackOrWhite.equals(FigureColor.Group.WHITE)) {
                 nodeOne.add(new NodeOne(move, new ArrayList<>(board.saveBoardFigurePoints()), -10));
             } else {
@@ -183,21 +183,21 @@ public class Minimax {
         int countBlackFigure = 0;
         int countWhiteFigure = 0;
 
-        for (FigurePoint figurePoint : board.savedBoard) {
-            if (board.gameValidators.isFigureBlack(figurePoint.getPoint().getRow(), figurePoint.getPoint().getCol(), board)) {
+        for (FigurePoint figurePoint : board.getSavedBoard()) {
+            if (board.getGameValidators().isFigureBlack(figurePoint.getPoint().getRow(), figurePoint.getPoint().getCol(), board)) {
                 countBlackFigure = getCountFigureOnTheBoard(countBlackFigure, figurePoint, board);
             }
-            if (board.gameValidators.isFigureWhite(figurePoint.getPoint().getRow(), figurePoint.getPoint().getCol(), board)) {
+            if (board.getGameValidators().isFigureWhite(figurePoint.getPoint().getRow(), figurePoint.getPoint().getCol(), board)) {
                 countWhiteFigure = getCountFigureOnTheBoard(countWhiteFigure, figurePoint, board);
             }
 
             for (FigurePointScore figurePointScore : boardScore) {
                 if (figurePointScore.getRow() == figurePoint.getPoint().getRow() && figurePointScore.getCol() == figurePoint.getPoint().getCol()) {
-                    if (board.gameValidators.isFigureBlack(figurePoint.getPoint().getRow(), figurePoint.getPoint().getCol(), board)) {
+                    if (board.getGameValidators().isFigureBlack(figurePoint.getPoint().getRow(), figurePoint.getPoint().getCol(), board)) {
                         countBlackFigure += figurePointScore.getScore();
                         break;
                     }
-                    if (board.gameValidators.isFigureWhite(figurePoint.getPoint().getRow(), figurePoint.getPoint().getCol(), board)) {
+                    if (board.getGameValidators().isFigureWhite(figurePoint.getPoint().getRow(), figurePoint.getPoint().getCol(), board)) {
                         countWhiteFigure += figurePointScore.getScore();
                         break;
                     }
@@ -208,10 +208,10 @@ public class Minimax {
     }
 
     private int getCountFigureOnTheBoard(int countFigure, FigurePoint figurePoint, Board board) {
-        if (board.gameValidators.isFigurePawn(figurePoint.getFigure(), board)) {
+        if (board.getGameValidators().isFigurePawn(figurePoint.getFigure(), board)) {
             countFigure ++;
         }
-        if (board.gameValidators.isFigureQueen(figurePoint.getFigure(), board)) {
+        if (board.getGameValidators().isFigureQueen(figurePoint.getFigure(), board)) {
             countFigure += 2;
         }
         return countFigure;

@@ -7,18 +7,70 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Board {
-    final UserDialogs userDialogs;
-    public Minimax minimax = new Minimax(this);
-    public GameMove gameMove = new GameMove();
-    public GameValidators gameValidators = new GameValidators();
-    GameNextMoves gameNextMoves = new GameNextMoves();
-    LinkedList<LinkedList<Figure>> boardRow;
-    public ArrayList<Move> checkBeatingWhite = new ArrayList<>();
-    public ArrayList<Move> checkBeatingBlack = new ArrayList<>();
-    ArrayList<Point> currentWhiteFigures = new ArrayList<>();
-    ArrayList<Point> currentBlackFigures = new ArrayList<>();
-    public ArrayList<FigurePoint> savedBoard = new ArrayList<>();
-    Move savedLastMove;
+    private final UserDialogs userDialogs;
+    private Minimax minimax = new Minimax(this);
+    private GameMove gameMove = new GameMove();
+    private GameValidators gameValidators = new GameValidators();
+    private GameNextMoves gameNextMoves = new GameNextMoves();
+    private LinkedList<LinkedList<Figure>> boardRow;
+    private ArrayList<Move> checkBeatingWhite = new ArrayList<>();
+    private ArrayList<Move> checkBeatingBlack = new ArrayList<>();
+    private ArrayList<Point> currentWhiteFigures = new ArrayList<>();
+    private ArrayList<Point> currentBlackFigures = new ArrayList<>();
+    private ArrayList<FigurePoint> savedBoard = new ArrayList<>();
+    private Move savedLastMove;
+
+    UserDialogs getUserDialogs() {
+        return userDialogs;
+    }
+
+    Minimax getMinimax() {
+        return minimax;
+    }
+
+    public GameMove getGameMove() {
+        return gameMove;
+    }
+
+    public GameValidators getGameValidators() {
+        return gameValidators;
+    }
+
+    GameNextMoves getGameNextMoves() {
+        return gameNextMoves;
+    }
+
+    LinkedList<LinkedList<Figure>> getBoardRow() {
+        return boardRow;
+    }
+
+    public ArrayList<Move> getCheckBeatingWhite() {
+        return checkBeatingWhite;
+    }
+
+    public ArrayList<Move> getCheckBeatingBlack() {
+        return checkBeatingBlack;
+    }
+
+    ArrayList<Point> getCurrentWhiteFigures() {
+        return currentWhiteFigures;
+    }
+
+    ArrayList<Point> getCurrentBlackFigures() {
+        return currentBlackFigures;
+    }
+
+    public ArrayList<FigurePoint> getSavedBoard() {
+        return savedBoard;
+    }
+
+    void setSavedLastMove(Move savedLastMove) {
+        this.savedLastMove = savedLastMove;
+    }
+
+    Move getSavedLastMove() {
+        return savedLastMove;
+    }
 
     public Board(UserDialogs userDialogs) {
         this.userDialogs = userDialogs;

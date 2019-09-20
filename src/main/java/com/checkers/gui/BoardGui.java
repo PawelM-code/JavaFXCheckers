@@ -164,7 +164,7 @@ public class BoardGui extends Application implements NewGame {
         board.setFigure(3, 4, new Pawn(FigureColor.BLACK_PAWN));
         board.setFigure(3, 6, new Pawn(FigureColor.BLACK_PAWN));
         board.setFigure(3, 8, new Pawn(FigureColor.BLACK_PAWN));
-        board.gameMove.initWhiteOrBlackMove();
+        board.getGameMove().initWhiteOrBlackMove();
         userDialogs.showStartGameInfo();
         displayOnGrid(board);
 
@@ -174,19 +174,19 @@ public class BoardGui extends Application implements NewGame {
             grid.setOnMouseClicked(event -> {
                 int x = 1 + (int) event.getX() / FIELD_SIZE;
                 int y = 1 + (int) event.getY() / FIELD_SIZE;
-                if (!board.gameValidators.isTheEndOfGame(board)) {
-                    board.gameMove.move(new Move(oldY, oldX, y, x), board);
+                if (!board.getGameValidators().isTheEndOfGame(board)) {
+                    board.getGameMove().move(new Move(oldY, oldX, y, x), board);
                     displayOnGrid(board);
                 }
-                if (!board.gameValidators.isTheEndOfGame(board)) {
+                if (!board.getGameValidators().isTheEndOfGame(board)) {
                     try {
-                        board.gameMove.computerMove(board);
+                        board.getGameMove().computerMove(board);
                         displayOnGrid(board);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
-                board.gameValidators.isTheEndOfGame(board);
+                board.getGameValidators().isTheEndOfGame(board);
             });
 
         });

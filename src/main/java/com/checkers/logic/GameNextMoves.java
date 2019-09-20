@@ -9,13 +9,21 @@ import java.util.List;
 
 public class GameNextMoves {
     private boolean addStatus = false;
-    public ArrayList<Move> availableMovesWhite = new ArrayList<>();
-    public ArrayList<Move> availableMovesBlack = new ArrayList<>();
+    private ArrayList<Move> availableMovesWhite = new ArrayList<>();
+    private ArrayList<Move> availableMovesBlack = new ArrayList<>();
+
+    public ArrayList<Move> getAvailableMovesBlack() {
+        return availableMovesBlack;
+    }
+
+    public ArrayList<Move> getAvailableMovesWhite() {
+        return availableMovesWhite;
+    }
 
     public void getAvailableMove(Board board) {
         clearAvailableMoves();
         board.getFiguresPoint();
-        for (Point currentWhiteFigurePoint : board.currentWhiteFigures) {
+        for (Point currentWhiteFigurePoint : board.getCurrentWhiteFigures()) {
             int row = currentWhiteFigurePoint.getRow();
             int col = currentWhiteFigurePoint.getCol();
             if (board.getFigure(row, col).getColor().equals(FigureColor.WHITE_PAWN)) {
@@ -26,7 +34,7 @@ public class GameNextMoves {
                 addAvailableQueenMove(currentWhiteFigurePoint, availableMovesWhite, board);
             }
         }
-        for (Point currentBlackFigurePoint : board.currentBlackFigures) {
+        for (Point currentBlackFigurePoint : board.getCurrentBlackFigures()) {
             int row = currentBlackFigurePoint.getRow();
             int col = currentBlackFigurePoint.getCol();
             if (board.getFigure(row, col).getColor().equals(FigureColor.BLACK_PAWN)) {
@@ -107,8 +115,8 @@ public class GameNextMoves {
     }
 
     private void clearListOfCurrentFigures(Board board) {
-        board.currentBlackFigures.clear();
-        board.currentWhiteFigures.clear();
+        board.getCurrentBlackFigures().clear();
+        board.getCurrentWhiteFigures().clear();
     }
 
     private void clearAvailableMoves() {
@@ -117,7 +125,7 @@ public class GameNextMoves {
     }
 
     public void checkIfFigureIsBeatingAllBoard(Board board) {
-        board.gameNextMoves.clearBeatingList(board);
+        clearBeatingList(board);
         for (int i = 1; i < 9; i++) {
             for (int j = 1; j < 9; j++) {
                 checkPawnIsBeating(i, j, board);
@@ -125,23 +133,23 @@ public class GameNextMoves {
             }
         }
         removeMovesThatCannotByMade(board);
-        board.userDialogs.showBeating(board.checkBeatingBlack, board.checkBeatingWhite, board.gameMove.whiteOrBlackMove);
+        board.getUserDialogs().showBeating(board.getCheckBeatingBlack(), board.getCheckBeatingWhite(), board.getGameMove().getWhiteOrBlackMove());
     }
 
     private void removeMovesThatCannotByMade(Board board) {
-        if (board.savedLastMove != null) {
-            board.checkBeatingBlack.removeIf(x -> !(x.getRow1() == board.savedLastMove.getRow2() && x.getCol1() == board.savedLastMove.getCol2()));
-            board.checkBeatingWhite.removeIf(x -> !(x.getRow1() == board.savedLastMove.getRow2() && x.getCol1() == board.savedLastMove.getCol2()));
+        if (board.getSavedLastMove() != null) {
+            board.getCheckBeatingBlack().removeIf(x -> !(x.getRow1() == board.getSavedLastMove().getRow2() && x.getCol1() == board.getSavedLastMove().getCol2()));
+            board.getCheckBeatingWhite().removeIf(x -> !(x.getRow1() == board.getSavedLastMove().getRow2() && x.getCol1() == board.getSavedLastMove().getCol2()));
         }
     }
 
     void clearBeatingList(Board board) {
-        board.checkBeatingWhite.clear();
-        board.checkBeatingBlack.clear();
+        board.getCheckBeatingWhite().clear();
+        board.getCheckBeatingBlack().clear();
     }
 
     private void checkPawnIsBeating(int row, int col, Board board) {
-        if (board.gameValidators.isFigurePawn(board.getFigure(row, col), board)) {
+        if (board.getGameValidators().isFigurePawn(board.getFigure(row, col), board)) {
             checkBeatingPawnUpLeft(row, col, board);
             checkBeatingPawnUpRight(row, col, board);
             checkBeatingPawnDownLeft(row, col, board);
@@ -150,7 +158,7 @@ public class GameNextMoves {
     }
 
     private void checkQueenIsBeating(int row, int col, Board board) {
-        if (board.gameValidators.isFigureQueen(board.getFigure(row, col), board)) {
+        if (board.getGameValidators().isFigureQueen(board.getFigure(row, col), board)) {
             checkBeatingQueenUpLeft(row, col, board);
             checkBeatingQueenUpRight(row, col, board);
             checkBeatingQueenDownLeft(row, col, board);
@@ -227,20 +235,20 @@ public class GameNextMoves {
     }
 
     private void addingQueenBeats(int row, int col, Figure figureFrom, int row1, int col1, int row2, int col2, Board board) {
-        addQueenBeating(row, col, figureFrom, FigureColor.WHITE_QUEEN, board.gameValidators.isFigureBlack(row1, col1, board), row2, col2, board.checkBeatingWhite, board);
+        addQueenBeating(row, col, figureFrom, FigureColor.WHITE_QUEEN, board.getGameValidators().isFigureBlack(row1, col1, board), row2, col2, board.getCheckBeatingWhite(), board);
         if (addStatus) {
-            addAdditionalPossibilitiesToPositionTheFigureAfterBeating(figureFrom, FigureColor.WHITE_QUEEN, row2, col2, board.checkBeatingWhite, board);
+            addAdditionalPossibilitiesToPositionTheFigureAfterBeating(figureFrom, FigureColor.WHITE_QUEEN, row2, col2, board.getCheckBeatingWhite(), board);
         }
-        addQueenBeating(row, col, figureFrom, FigureColor.BLACK_QUEEN, board.gameValidators.isFigureWhite(row1, col1, board), row2, col2, board.checkBeatingBlack, board);
+        addQueenBeating(row, col, figureFrom, FigureColor.BLACK_QUEEN, board.getGameValidators().isFigureWhite(row1, col1, board), row2, col2, board.getCheckBeatingBlack(), board);
         if (addStatus) {
-            addAdditionalPossibilitiesToPositionTheFigureAfterBeating(figureFrom, FigureColor.BLACK_QUEEN, row2, col2, board.checkBeatingBlack, board);
+            addAdditionalPossibilitiesToPositionTheFigureAfterBeating(figureFrom, FigureColor.BLACK_QUEEN, row2, col2, board.getCheckBeatingBlack(), board);
 
         }
     }
 
     private void addAdditionalPossibilitiesToPositionTheFigureAfterBeating(Figure figureFrom, FigureColor queenColor,
                                                                            int row2, int col2, ArrayList<Move> checkBeatingWhiteOrBlack, Board board) {
-        if (board.gameValidators.areColorsEqual(figureFrom.getColor(), queenColor) && checkBeatingWhiteOrBlack.size() > 0 && board.getFigure(row2, col2).getColor().equals(FigureColor.EMPTY_FIELD)) {
+        if (board.getGameValidators().areColorsEqual(figureFrom.getColor(), queenColor) && checkBeatingWhiteOrBlack.size() > 0 && board.getFigure(row2, col2).getColor().equals(FigureColor.EMPTY_FIELD)) {
             Move lastBeating = checkBeatingWhiteOrBlack.get(checkBeatingWhiteOrBlack.size() - 1);
             checkBeatingWhiteOrBlack.add(new Move(lastBeating.getRow1(), lastBeating.getCol1(), row2, col2));
         }
@@ -249,23 +257,23 @@ public class GameNextMoves {
     private boolean breakVerifyQueenBeating(Figure figureFrom, int row1, int col1, int row2, int col2, boolean rowBoundary, boolean colBoundary, Board board) {
         if (rowBoundary || colBoundary) return true;
         if (checkIfQueenBeatsTwoNextFigures(row1, col1, row2, col2, board)) return true;
-        if (checkIfQueenBeatsFigureOfHerColor(figureFrom, FigureColor.WHITE_QUEEN, board.gameValidators.isFigureWhite(row1, col1, board), board))
+        if (checkIfQueenBeatsFigureOfHerColor(figureFrom, FigureColor.WHITE_QUEEN, board.getGameValidators().isFigureWhite(row1, col1, board), board))
             return true;
-        if (checkIfQueenBeatsFigureOfHerColor(figureFrom, FigureColor.BLACK_QUEEN, board.gameValidators.isFigureBlack(row1, col1, board), board))
+        if (checkIfQueenBeatsFigureOfHerColor(figureFrom, FigureColor.BLACK_QUEEN, board.getGameValidators().isFigureBlack(row1, col1, board), board))
             return true;
         return false;
     }
 
     private void addQueenBeating(int row, int col, Figure figureFrom, FigureColor queenColor,
                                  boolean figureBlackOrWhite, int row2, int col2, ArrayList<Move> checkBeatingWhiteOrBlack, Board board) {
-        if (board.gameValidators.areColorsEqual(figureFrom.getColor(), queenColor) && figureBlackOrWhite && board.getFigure(row2, col2).getColor().equals(FigureColor.EMPTY_FIELD)) {
+        if (board.getGameValidators().areColorsEqual(figureFrom.getColor(), queenColor) && figureBlackOrWhite && board.getFigure(row2, col2).getColor().equals(FigureColor.EMPTY_FIELD)) {
             checkBeatingWhiteOrBlack.add(new Move(row, col, row2, col2));
             addStatus = true;
         }
     }
 
     private boolean checkIfQueenBeatsFigureOfHerColor(Figure figureFrom, FigureColor queenColor, boolean figureColor, Board board) {
-        return board.gameValidators.areColorsEqual(figureFrom.getColor(), queenColor) && figureColor;
+        return board.getGameValidators().areColorsEqual(figureFrom.getColor(), queenColor) && figureColor;
     }
 
     private boolean checkIfQueenBeatsTwoNextFigures(int row, int col, int row1, int row2, Board board) {
@@ -285,12 +293,12 @@ public class GameNextMoves {
     private void addPawnBeating(int row, int col, Point emptyPoint, Point beatingFigurePoint, Board board) {
         if (board.getFigure(row, col).getColor().equals(FigureColor.BLACK_PAWN)) {
             if (board.getFigure(beatingFigurePoint.getRow(), beatingFigurePoint.getCol()).getColor().isInGroup(FigureColor.Group.WHITE)) {
-                board.checkBeatingBlack.add(new Move(row, col, emptyPoint.getRow(), emptyPoint.getCol()));
+                board.getCheckBeatingBlack().add(new Move(row, col, emptyPoint.getRow(), emptyPoint.getCol()));
             }
         }
         if (board.getFigure(row, col).getColor().equals(FigureColor.WHITE_PAWN)) {
             if (board.getFigure(beatingFigurePoint.getRow(), beatingFigurePoint.getCol()).getColor().isInGroup(FigureColor.Group.BLACK)) {
-                board.checkBeatingWhite.add(new Move(row, col, emptyPoint.getRow(), emptyPoint.getCol()));
+                board.getCheckBeatingWhite().add(new Move(row, col, emptyPoint.getRow(), emptyPoint.getCol()));
             }
         }
     }
